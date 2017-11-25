@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <com.wawakaka.jst.base.view.LoadingView
+        android:id="@+id/progress_bar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/button_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
+        tools:src="@mipmap/ic_launcher"
+        tools:visibility="visible" />
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/button_text"
+        android:layout_toRightOf="@id/button_image"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:text="hahahahah"
+        android:textAllCaps="true"
+        android:textColor="@color/raisin_black" />
+
+</merge>

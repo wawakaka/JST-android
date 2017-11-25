@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">JST</string>
+    <string name="font_default" translatable="false">fonts/Segan-Light.ttf</string>
+</resources>
