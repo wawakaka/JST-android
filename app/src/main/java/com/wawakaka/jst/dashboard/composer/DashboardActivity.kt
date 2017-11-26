@@ -7,9 +7,10 @@ import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
+import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.presenter.DashboardPresenter
-import com.wawakaka.jst.dashboard.view.KelasHolder
+import com.wawakaka.jst.dashboard.view.ClassHolder
 import com.wawakaka.jst.navigation.composer.NavigationFragment
 import com.wawakaka.jst.schedule.composer.ScheduleActivity
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -35,7 +36,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
     init {
         initLayout()
         initNavigationDrawer()
-        initListKelas()
+        initClassList()
     }
 
     private fun initLayout() {
@@ -62,18 +63,19 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
                 )
             }
     }
-
-    private fun initListKelas() {
+//todo add loading view
+    private fun initClassList() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { initLayoutManager() }
             .observeOn(Schedulers.io())
             .flatMap { dashboardPresenter.loadClassObservable() }
+            .doOnNext { LogUtils.debug(TAG, it.toString()) }
             .filter { it != null && it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
-                createKelasHolderList(it)
+                createClassHolderList(it)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
@@ -84,20 +86,19 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
 
     private fun initLayoutManager() {
         val layoutManager = LinearLayoutManager(this)
-        list_kelas_container.layoutManager = layoutManager
-        list_kelas_container.setHasFixedSize(true)
-        list_kelas_container.adapter = adapter
+        class_list_container.layoutManager = layoutManager
+        class_list_container.setHasFixedSize(true)
+        class_list_container.adapter = adapter
     }
 
-    private fun createKelasHolderList(kelas: MutableList<Kelas>) {
+    private fun createClassHolderList(kelas: MutableList<Kelas>) {
         list.clear()
-        kelas.map { list.add(KelasHolder(it)) }
+        kelas.map { list.add(ClassHolder(it)) }
     }
 
     override fun onItemClick(position: Int): Boolean {
-
         val item = adapter.getItem(position)
-        if (item is KelasHolder) {
+        if (item is ClassHolder) {
             launchScheduleActivity(item.model)
             return true
         }
@@ -106,7 +107,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
 
     private fun launchScheduleActivity(kelas: Kelas) {
         val intent = Intent(this, ScheduleActivity::class.java)
-        intent.putExtra(ScheduleActivity.KELAS_INFO, kelas)
+        intent.putExtra(ScheduleActivity.SCHEDULE_INFO, kelas)
         startActivity(intent)
     }
 

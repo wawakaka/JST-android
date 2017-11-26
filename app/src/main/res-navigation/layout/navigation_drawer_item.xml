@@ -6,8 +6,12 @@
 
     <ImageView
         android:id="@+id/drawer_item_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/drawer_icon_size_small"
+        android:layout_height="@dimen/drawer_icon_size_small"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
@@ -17,6 +21,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/small_margin"
+        android:paddingEnd="@dimen/medium_margin"
         android:text="com.wawakaka.jst.base.view.DefaultTextView"
         app:layout_constraintBottom_toBottomOf="@+id/drawer_item_icon"
         app:layout_constraintEnd_toEndOf="parent"

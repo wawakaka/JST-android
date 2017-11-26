@@ -7,6 +7,7 @@ import android.util.Log
 import com.wawakaka.jst.BuildConfig
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.utils.LogUtils
+import net.danlew.android.joda.JodaTimeAndroid
 
 /**
  * Created by wawakaka on 7/25/2017.
@@ -21,6 +22,7 @@ class JstApplication : Application() {
         super.onCreate()
         initLogging()
         initDagger()
+        initJodaTime()
     }
 
     private fun initDagger() {
@@ -34,6 +36,10 @@ class JstApplication : Application() {
             LogUtils.enableLogging(true, getString(R.string.app_name))
         }
         Log.d("init logging", "")
+    }
+
+    private fun initJodaTime() {
+        JodaTimeAndroid.init(this)
     }
 
     override fun attachBaseContext(base: Context?) {

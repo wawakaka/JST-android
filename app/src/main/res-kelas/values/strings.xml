@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="class_title">Kelas</string>
+    <string name="class_attendance">Presensi</string>
+    <string name="class_daily_test">Tes Harian</string>
+</resources>

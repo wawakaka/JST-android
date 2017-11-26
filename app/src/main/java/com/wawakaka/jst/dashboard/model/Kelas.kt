@@ -18,12 +18,8 @@ data class Kelas(val id: Int?,
         val empty = Kelas(null, false, false, null, null, mutableListOf(), mutableListOf())
     }
 
-    override fun isEmpty(): Boolean {
-        return id == null
-    }
+    override fun isEmpty(): Boolean = id == null
 
-    override fun isNotEmpty(): Boolean {
-        return !isEmpty()
-    }
+    override fun isNotEmpty(): Boolean = !isEmpty()
 
 }

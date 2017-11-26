@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.navigation_drawer_item.view.*
 class DrawerItemView : RelativeLayout {
     private var itemTitle: String = ""
     private var itemIconDrawable: Drawable? = null
-    private var itemShowNewIcon: Boolean = false
 
     constructor(context: Context) : super(context) {
         initViews()

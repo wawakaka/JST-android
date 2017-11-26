@@ -23,7 +23,10 @@
         <activity android:name=".dashboard.composer.DashboardActivity" />
         <activity android:name=".onboarding.composer.OnBoardingActivity" />
         <activity android:name=".camera.composer.CameraActivity" />
-        <activity android:name=".schedule.composer.ScheduleActivity"></activity>
+        <activity android:name=".schedule.composer.ScheduleActivity" />
+        <activity android:name=".kelas.composer.ClassActivity" />
+        <activity android:name=".attendace.composer.AttendanceActivity" />
+        <activity android:name=".dailytest.composer.DailyTestActivity"></activity>
     </application>
 
 </manifest>
