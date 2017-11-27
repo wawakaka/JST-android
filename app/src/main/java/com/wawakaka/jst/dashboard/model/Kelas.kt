@@ -12,7 +12,7 @@ data class Kelas(val id: Int?,
                  val bidang: Bidang?,
                  val sekolah: String?,
                  val jadwalKelas: MutableList<JadwalKelas>?,
-                 val presensi: MutableList<Siswa>?) : Serializable, Emptiable {
+                 val listSiswa: MutableList<Siswa>?) : Serializable, Emptiable {
 
     companion object {
         val empty = Kelas(null, false, false, null, null, mutableListOf(), mutableListOf())

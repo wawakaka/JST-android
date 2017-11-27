@@ -38,13 +38,13 @@ android {
         main {
             res.srcDirs = [
                     'src/main/res',
-                    'src/main/res-login/',
+                    'src/main/res-login',
                     'src/main/res-dashboard',
                     'src/main/res-navigation',
                     'src/main/res-camera',
                     'src/main/res-schedule',
                     'src/main/res-kelas',
-                    'src/main/res-attendance',
+                    'src/main/res-presensi',
                     'src/main/res-daily-test'
             ]
         }

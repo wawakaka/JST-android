@@ -3,6 +3,7 @@ package com.wawakaka.jst.datasource.local
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.datasource.local.preference.PreferenceApi
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.presensi.model.Presensi
 
 /**
  * Created by wawakaka on 11/6/2017.
@@ -12,6 +13,7 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
     companion object {
         private const val KEY_USER = "user"
         private const val KEY_KELAS = "kelas"
+        private const val KEY_PRESENSI_CHECKED_LIST = "presensi-checked-list"
     }
 
     fun isLoggedIn(): Boolean {
@@ -40,6 +42,18 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
 
     fun getListKelas(): List<Kelas> {
         return preferenceApi.getListObject(KEY_KELAS, listOf(), Kelas::class.java)
+    }
+
+    fun savePresensiCheckedList(presensi: List<Presensi>) {
+        if (presensi != null) {
+            return preferenceApi.putListObject(KEY_PRESENSI_CHECKED_LIST, presensi)
+        } else {
+            preferenceApi.removePreference(KEY_KELAS)
+        }
+    }
+
+    fun getPresensiCheckedList(): List<Presensi> {
+        return preferenceApi.getListObject(KEY_PRESENSI_CHECKED_LIST, listOf(), Presensi::class.java)
     }
 
 }

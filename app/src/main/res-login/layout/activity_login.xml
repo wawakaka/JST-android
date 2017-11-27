@@ -8,12 +8,9 @@
 
     <com.wawakaka.jst.base.view.ProgressButton
         android:id="@+id/login_button"
+        style="@style/ProgressButtonStyles"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="64dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:elevation="2dp"
+        android:layout_height="wrap_content"
         app:buttonBackground="@drawable/button_background"
         app:buttonImage="@drawable/google_plus"
         app:buttonText="google +"

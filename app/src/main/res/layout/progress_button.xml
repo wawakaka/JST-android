@@ -14,12 +14,11 @@
 
     <ImageView
         android:id="@+id/button_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/icon_size_large"
+        android:layout_height="@dimen/icon_size_large"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:visibility="gone"
-        tools:src="@mipmap/ic_launcher"
         tools:visibility="visible" />
 
     <com.wawakaka.jst.base.view.DefaultTextView

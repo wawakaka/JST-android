@@ -8,7 +8,8 @@ import java.io.Serializable
  */
 data class JadwalKelas(val id: Int?,
                        val tanggal: String?,
-                       val KelaIdKelas: Int) : Serializable, Emptiable {
+                       val KelaIdKelas: Int,
+                       val listSiswa: MutableList<Siswa>?) : Serializable, Emptiable {
 
     override fun isEmpty(): Boolean {
         return id == null

@@ -2,6 +2,7 @@ package com.wawakaka.jst.datasource.server.model
 
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.presensi.model.Presensi
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -23,4 +24,13 @@ interface ServerApi {
     @GET("kelas/{email}")
     fun loadClassObservable(@Header("Content-Type") acceptFormat: String,
                             @Path("email") email: String?): Observable<ServerResponseWrapper<MutableList<Kelas>>>
+
+    @GET("/presensi/{id}")
+    fun loadPresensiCheckedListObservable(@Header("Content-Type") acceptFormat: String,
+                                          @Path("id") id: Int?): Observable<ServerResponseWrapper<MutableList<Presensi>>>
+
+    @POST("/all/{id}")
+    fun savePresensiCheckedListObservable(@Header("Content-Type") acceptFormat: String,
+                                          @Path("id") id: Int?,
+                                          @Body presensi: MutableList<Presensi>): Observable<ServerResponseWrapper<Boolean>>
 }

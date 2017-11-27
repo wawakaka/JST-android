@@ -8,10 +8,15 @@ import java.io.Serializable
  */
 data class Siswa(val id: String?,
                  val nama: String?,
-                 val kelas: String?,
-                 val isActive: String?,
-                 val hasilTesHarian: HasilTesHarian?,
+                 val kela: String?,
+                 val isActive: Boolean?,
+                 val kelaId: String?,
+                 val hasilTesHarian: MutableList<HasilTesHarian>?,
                  val laporanAkhir: LaporanAkhir?) : Serializable, Emptiable {
+
+    companion object {
+        val empty = Siswa(null, null, null, null, null, mutableListOf(), null)
+    }
 
     override fun isEmpty(): Boolean {
         return id.isNullOrBlank()

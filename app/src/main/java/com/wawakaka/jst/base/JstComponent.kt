@@ -12,12 +12,14 @@ import com.wawakaka.jst.datasource.local.preference.PreferenceApiModule
 import com.wawakaka.jst.datasource.server.ServerRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestModule
 import com.wawakaka.jst.datasource.server.retrofit.RetrofitModule
+import com.wawakaka.jst.kelas.PresensiModule
 import com.wawakaka.jst.login.LoginModule
 import com.wawakaka.jst.login.presenter.LoginPresenter
 import com.wawakaka.jst.navigation.NavigationModule
 import com.wawakaka.jst.navigation.presenter.NavigationPresenter
 import com.wawakaka.jst.onboarding.OnBoardingModule
 import com.wawakaka.jst.onboarding.presenter.OnBoardingPresenter
+import com.wawakaka.jst.presensi.presenter.PresensiPresenter
 import dagger.Component
 import javax.inject.Named
 import javax.inject.Singleton
@@ -38,7 +40,8 @@ import javax.inject.Singleton
     OnBoardingModule::class,
     DashboardModule::class,
     NavigationModule::class,
-    JobModule::class
+    JobModule::class,
+    PresensiModule::class
 ))
 interface JstComponent {
 
@@ -49,6 +52,7 @@ interface JstComponent {
     fun provideOnBoardingPresenter(): OnBoardingPresenter
     fun provideDashboardPresenter(): DashboardPresenter
     fun provideNavigationPresenter(): NavigationPresenter
+    fun providePresensiPresenter(): PresensiPresenter
 
     @Named("lower_case_with_underscores_gson")
     fun provideGson(): Gson

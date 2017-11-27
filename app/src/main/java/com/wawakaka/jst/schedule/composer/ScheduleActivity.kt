@@ -9,7 +9,7 @@ import com.wawakaka.jst.R
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.dashboard.model.JadwalKelas
 import com.wawakaka.jst.dashboard.model.Kelas
-import com.wawakaka.jst.kelas.composer.ClassActivity
+import com.wawakaka.jst.kelas.composer.KelasActivity
 import com.wawakaka.jst.schedule.view.ScheduleHolder
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
@@ -99,9 +99,9 @@ class ScheduleActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
     }
 
     private fun launchClassActivity(idJadwalKelas: Int) {
-        val intent = Intent(this, ClassActivity::class.java)
-        intent.putExtra(ClassActivity.EXTRA_KELAS, kelas)
-        intent.putExtra(ClassActivity.EXTRA_ID_JADWAL, idJadwalKelas)
+        val intent = Intent(this, KelasActivity::class.java)
+        intent.putExtra(KelasActivity.EXTRA_KELAS, kelas)
+        intent.putExtra(KelasActivity.EXTRA_ID_JADWAL, idJadwalKelas)
         startActivity(intent)
     }
 }

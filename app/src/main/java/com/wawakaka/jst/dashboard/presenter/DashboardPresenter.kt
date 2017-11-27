@@ -23,9 +23,13 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
             .loadClassObservable(getUser())
             .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }
             .map { it.data!! }
-            .doOnNext { localRequestManager.saveKelas(it) }
+            .doOnNext { saveKelas(it) }
     }
 
     private fun getUser(): User = localRequestManager.getUser()
+
+    private fun saveKelas(listKelas: List<Kelas>) {
+        localRequestManager.saveKelas(listKelas)
+    }
 
 }

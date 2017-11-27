@@ -6,16 +6,18 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
-import com.wawakaka.jst.attendace.composer.AttendanceActivity
 import com.wawakaka.jst.base.composer.BaseActivity
+import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.dailytest.composer.DailyTestActivity
 import com.wawakaka.jst.dashboard.model.Kelas
+import com.wawakaka.jst.presensi.composer.PresensiActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_class.*
 
-class ClassActivity : BaseActivity() {
+class KelasActivity : BaseActivity() {
 
     companion object {
+        private val TAG = KelasActivity::class.java.simpleName
         const val EXTRA_KELAS = "extra_kelas"
         const val EXTRA_ID_JADWAL = "extra_id_jadwal"
     }
@@ -25,7 +27,7 @@ class ClassActivity : BaseActivity() {
 
     init {
         initLayout()
-        initAttendanceButton()
+        initPresensiButton()
         initDailyTestButton()
     }
 
@@ -39,24 +41,25 @@ class ClassActivity : BaseActivity() {
                 idJadwalKelas = intent.getSerializableExtra(EXTRA_ID_JADWAL) as Int
                 setContentView(R.layout.activity_class)
                 initToolbar()
+                LogUtils.debug(TAG, "$kelas")
             }
     }
 
-    private fun initAttendanceButton() {
+    private fun initPresensiButton() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap { RxView.clicks(attendance) }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
-                launchAttendanceActivity()
+                launchPresensiActivity()
             }
     }
 
-    private fun launchAttendanceActivity() {
-        val intent = Intent(this, AttendanceActivity::class.java)
-        intent.putExtra(AttendanceActivity.EXTRA_KELAS, kelas)
-        intent.putExtra(AttendanceActivity.EXTRA_ID_JADWAL, idJadwalKelas)
+    private fun launchPresensiActivity() {
+        val intent = Intent(this, PresensiActivity::class.java)
+        intent.putExtra(PresensiActivity.EXTRA_KELAS, kelas)
+        intent.putExtra(PresensiActivity.EXTRA_ID_JADWAL, idJadwalKelas)
         startActivity(intent)
     }
 
@@ -73,7 +76,7 @@ class ClassActivity : BaseActivity() {
 
     private fun launchDailyTestActivity() {
         val intent = Intent(this, DailyTestActivity::class.java)
-        intent.putExtra(AttendanceActivity.EXTRA_KELAS, kelas)
+        intent.putExtra(PresensiActivity.EXTRA_KELAS, kelas)
         startActivity(intent)
     }
 

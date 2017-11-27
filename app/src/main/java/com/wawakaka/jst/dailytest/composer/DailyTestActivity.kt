@@ -7,7 +7,7 @@ import com.wawakaka.jst.R
 class DailyTestActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_KELAS = "extra-kelas"
+        const val EXTRA_KELAS = "extra_kelas"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

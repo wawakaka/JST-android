@@ -5,6 +5,7 @@ import com.wawakaka.jst.datasource.server.model.*
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorNetwork
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorNoInternet
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.presensi.model.Presensi
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 
@@ -42,6 +43,26 @@ class ServerRequestManager(private val serverApi: ServerApi) {
             serverApi.loadClassObservable(
                 getAcceptApplicationJsonHeader(),
                 user.email
+            )
+        )
+    }
+
+    fun loadPresensiCheckedListOBservable(idJadwalKelas: Int?): Observable<ServerResponseWrapper<MutableList<Presensi>>> {
+        return handleServerRequestError(
+            serverApi.loadPresensiCheckedListObservable(
+                getAcceptApplicationJsonHeader(),
+                idJadwalKelas
+            )
+        )
+    }
+
+    fun savePresensiCheckedListObservable(jadwalKelasId: Int?,
+                                          presensi: MutableList<Presensi>): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.savePresensiCheckedListObservable(
+                getAcceptApplicationJsonHeader(),
+                jadwalKelasId,
+                presensi
             )
         )
     }
