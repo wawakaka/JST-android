@@ -1,5 +1,6 @@
 package com.wawakaka.jst.datasource.server
 
+import com.wawakaka.jst.dailytest.model.TesHarian
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.datasource.server.model.*
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorNetwork
@@ -63,6 +64,25 @@ class ServerRequestManager(private val serverApi: ServerApi) {
                 getAcceptApplicationJsonHeader(),
                 jadwalKelasId,
                 presensi
+            )
+        )
+    }
+
+    fun loadTesHarianOBservable(idJadwalKelas: Int?): Observable<ServerResponseWrapper<TesHarian>> {
+        return handleServerRequestError(
+            serverApi.loadTesHarianObservable(
+                getAcceptApplicationJsonHeader(),
+                idJadwalKelas
+            )
+        )
+    }
+
+    fun updateTesHarianOBservable(tesHarian: TesHarian?): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.updateTesHarianObservable(
+                getAcceptApplicationJsonHeader(),
+                tesHarian!!.id,
+                tesHarian
             )
         )
     }

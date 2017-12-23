@@ -26,12 +26,36 @@
     <style name="DefaultTextStyles">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textSize">@dimen/large_font_size</item>
+        <item name="android:padding">@dimen/small_margin</item>
+    </style>
+
+    <style name="SubTitleTextStyles">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/not_so_huge_font_size</item>
+        <item name="android:padding">@dimen/small_margin</item>
     </style>
 
     <style name="ProgressButtonStyles">
         <item name="android:layout_margin">@dimen/large_margin</item>
         <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_small</item>
         <item name="android:padding">@dimen/small_margin</item>
+    </style>
+
+
+    <style name="NetworkErrorStyle" parent="TextAppearance.AppCompat.Body1">
+        <item name="action">@string/retry_label</item>
+        <item name="description">@string/error_network</item>
+        <item name="imageDrawable">@drawable/ic_no_network</item>
+        <item name="imageHeight">wrap_content</item>
+        <item name="imageWidth">wrap_content</item>
+    </style>
+
+    <style name="UnknownErrorStyle" parent="TextAppearance.AppCompat.Body1">
+        <item name="action">@string/retry_label</item>
+        <item name="description">@string/error_unknown</item>
+        <item name="imageDrawable">@drawable/ic_something_went_wrong</item>
+        <item name="imageHeight">wrap_content</item>
+        <item name="imageWidth">wrap_content</item>
     </style>
 
 </resources>

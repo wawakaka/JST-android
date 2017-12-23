@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="daily_test_title">Tes Harian</string>
+    <string name="daily_test_file_empty">Belum Ada Tes</string>
+    <string name="daily_test_file_size">0 KB</string>
+    <string name="daily_test_upload_button">Upload Tes</string>
+    <string name="daily_test_download_button">Download Tes</string>
+    <string name="daily_test_add_or_view_test_result">Masukan Nilai</string>
+    <string name="daily_delete_dialog_title">Hapus Nilai</string>
+    <string name="daily_delete_dialog_message">Apakah kamu yakin akan menghapus record ini?</string>
+
+    <string name="daily_test_result_title">Tes Harian</string>
+    <string name="daily_test_result_add_title">Tambah Hasil Tes</string>
+    <string name="daily_test_result_edit_title">Edit Hasil Tes</string>
+    <string name="daily_test_result_name_hint">Nama Siswa</string>
+    <string name="daily_test_result_score_hint">Nilai</string>
+
+</resources>

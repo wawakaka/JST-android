@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">JST</string>
-    <string name="font_default" translatable="false">fonts/Segan-Light.ttf</string>
+    <string name="font_light" translatable="false">fonts/Kirvy-Light.otf</string>
+    <string name="font_default" translatable="false">fonts/Kirvy-Regular.otf</string>
+    <string name="font_bold" translatable="false">fonts/Kirvy-Bold.otf</string>
+    <string name="font_thin" translatable="false">fonts/Kirvy-Thin.otf</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+
+    <string name="retry_label">Coba Lagi</string>
+    <string name="error_network">Tidak ada jaringan. Pastikan kamu terhubung ke internet.</string>
+    <string name="error_no_internet">Kamu tidak terhubung ke internet.\nHarap periksa koneksi kamu dan coba lagi.</string>
+    <string name="error_unknown">Terjadi kesalahan pada sistem.\nHarap coba kembali.</string>
+
+    <string name="invalid_data">Data tidak valid</string>
+    <string name="kelas_private">Private</string>
+    <string name="kelas_sekolah">SMAN 1</string>
 </resources>

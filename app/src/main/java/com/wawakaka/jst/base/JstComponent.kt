@@ -4,6 +4,8 @@ import android.content.Context
 import com.google.gson.Gson
 import com.wawakaka.jst.base.utils.GsonModule
 import com.wawakaka.jst.base.utils.LogUtilsModule
+import com.wawakaka.jst.dailytest.DailyTestModule
+import com.wawakaka.jst.dailytest.presenter.DailyTestPresenter
 import com.wawakaka.jst.dashboard.DashboardModule
 import com.wawakaka.jst.dashboard.presenter.DashboardPresenter
 import com.wawakaka.jst.datasource.local.LocalRequestManager
@@ -41,7 +43,8 @@ import javax.inject.Singleton
     DashboardModule::class,
     NavigationModule::class,
     JobModule::class,
-    PresensiModule::class
+    PresensiModule::class,
+    DailyTestModule::class
 ))
 interface JstComponent {
 
@@ -53,6 +56,7 @@ interface JstComponent {
     fun provideDashboardPresenter(): DashboardPresenter
     fun provideNavigationPresenter(): NavigationPresenter
     fun providePresensiPresenter(): PresensiPresenter
+    fun provideDailyTestPresenter(): DailyTestPresenter
 
     @Named("lower_case_with_underscores_gson")
     fun provideGson(): Gson

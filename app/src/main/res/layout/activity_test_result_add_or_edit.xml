@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wawakaka.jst.dailytest.composer.DailyTestActivity">
+    tools:context="com.wawakaka.jst.dailytest.composer.TestResultAddOrEditActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_container"
@@ -33,7 +33,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
                     android:gravity="center_vertical"
-                    android:text="@string/daily_test_title"
+                    android:text="@string/daily_test_result_edit_title"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,57 +45,53 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <ScrollView
-        android:id="@+id/content_container"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="@dimen/medium_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:id="@+id/siswa_list_content"
+        <Spinner
+            android:id="@+id/spinner"
+            style="@style/DailyTestResultItemStyles"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/medium_margin">
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-            <com.wawakaka.jst.base.view.DefaultTextView
-                android:id="@+id/daily_test_file_title"
-                style="@style/SubTitleTextStyles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/small_margin"
-                android:gravity="center"
-                android:text="@string/daily_test_file_empty" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/name_container"
+            style="@style/DailyTestResultItemStyles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/daily_test_result_name_hint"
+            app:layout_constraintTop_toBottomOf="@+id/spinner">
 
-            <com.wawakaka.jst.base.view.DefaultTextView
-                android:id="@+id/daily_test_file_size"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/name"
                 style="@style/DefaultTextStyles"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/medium_margin"
-                android:gravity="end"
-                android:text="@string/daily_test_file_size" />
+                android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/daily_test_download_button"
-                style="@style/DailyTestButtonStyles"
-                android:text="@string/daily_test_download_button"
-                android:visibility="gone"
-                tools:visibility="visible" />
+        </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/daily_test_upload_button"
-                style="@style/DailyTestButtonStyles"
-                android:text="@string/daily_test_upload_button" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/score_container"
+            style="@style/DailyTestResultItemStyles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/daily_test_result_score_hint">
 
-            <Button
-                android:id="@+id/daily_test_view_result_button"
-                style="@style/DailyTestButtonStyles"
-                android:text="@string/daily_test_add_or_view_test_result" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/score"
+                style="@style/DefaultTextStyles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
 
-    </ScrollView>
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

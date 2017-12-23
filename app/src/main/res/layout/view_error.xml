@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/big_margin">
+
+        <com.wawakaka.jst.base.view.AspectRatioImageView
+            android:id="@+id/error_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/small_margin" />
+
+        <com.wawakaka.jst.base.view.DefaultTextView
+            android:id="@+id/error_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="@dimen/big_margin"
+            android:layout_marginLeft="@dimen/big_margin"
+            android:layout_marginRight="@dimen/big_margin"
+            android:layout_marginStart="@dimen/big_margin"
+            android:gravity="center"
+            android:textColor="@color/grey_4a"
+            tools:text="Hello, this is an example of error description!" />
+
+    </LinearLayout>
+
+    <com.wawakaka.jst.base.view.BoldButton
+        android:id="@+id/action_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_error_layout_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_marginLeft="@dimen/huge_margin"
+        android:layout_marginRight="@dimen/huge_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:background="@drawable/rounded_background_primary"
+        android:text="@string/retry_label"
+        android:textAllCaps="true"
+        android:textColor="@color/white" />
+
+</merge>

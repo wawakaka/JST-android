@@ -81,12 +81,12 @@ object ViewUtils {
                 .setCancelable(true)
                 .setTitle(confirmationTitle)
                 .setMessage(confirmationMessage)
-                .setPositiveButton("yes") { dialog, _ ->
+                .setPositiveButton(context.getString(R.string.dialog_yes)) { dialog, _ ->
                     subscriber.onNext(true)
                     subscriber.onComplete()
                     dialog.dismiss()
                 }
-                .setNegativeButton("no") { dialog, _ ->
+                .setNegativeButton(context.getString(R.string.dialog_no)) { dialog, _ ->
                     subscriber.onNext(false)
                     subscriber.onComplete()
                     dialog.dismiss()

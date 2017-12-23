@@ -12,7 +12,7 @@ import com.wawakaka.jst.dailytest.composer.DailyTestActivity
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.presensi.composer.PresensiActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_class.*
+import kotlinx.android.synthetic.main.activity_kelas.*
 
 class KelasActivity : BaseActivity() {
 
@@ -39,7 +39,7 @@ class KelasActivity : BaseActivity() {
             .subscribe {
                 kelas = intent.getSerializableExtra(EXTRA_KELAS) as Kelas
                 idJadwalKelas = intent.getSerializableExtra(EXTRA_ID_JADWAL) as Int
-                setContentView(R.layout.activity_class)
+                setContentView(R.layout.activity_kelas)
                 initToolbar()
                 LogUtils.debug(TAG, "$kelas")
             }
@@ -76,7 +76,8 @@ class KelasActivity : BaseActivity() {
 
     private fun launchDailyTestActivity() {
         val intent = Intent(this, DailyTestActivity::class.java)
-        intent.putExtra(PresensiActivity.EXTRA_KELAS, kelas)
+        intent.putExtra(DailyTestActivity.EXTRA_ID_KELAS, kelas?.id)
+        intent.putExtra(DailyTestActivity.EXTRA_ID_JADWAL, idJadwalKelas)
         startActivity(intent)
     }
 

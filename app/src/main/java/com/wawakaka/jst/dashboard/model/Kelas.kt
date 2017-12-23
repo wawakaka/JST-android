@@ -9,7 +9,7 @@ import java.io.Serializable
 data class Kelas(val id: Int?,
                  val isPrivate: Boolean = false,
                  val isActive: Boolean = true,
-                 val bidang: Bidang?,
+                 val bidangNama: String?,
                  val sekolah: String?,
                  val jadwalKelas: MutableList<JadwalKelas>?,
                  val listSiswa: MutableList<Siswa>?) : Serializable, Emptiable {

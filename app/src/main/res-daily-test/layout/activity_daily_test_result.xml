@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wawakaka.jst.dailytest.composer.DailyTestActivity">
+    tools:context="com.wawakaka.jst.dailytest.composer.DailyTestResultActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_container"
@@ -33,7 +33,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
                     android:gravity="center_vertical"
-                    android:text="@string/daily_test_title"
+                    android:text="@string/daily_test_result_title"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,57 +45,27 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <ScrollView
-        android:id="@+id/content_container"
+    <FrameLayout
+        android:id="@+id/list_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:id="@+id/siswa_list_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/test_results_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/medium_margin">
+            android:overScrollMode="never" />
 
-            <com.wawakaka.jst.base.view.DefaultTextView
-                android:id="@+id/daily_test_file_title"
-                style="@style/SubTitleTextStyles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/small_margin"
-                android:gravity="center"
-                android:text="@string/daily_test_file_empty" />
 
-            <com.wawakaka.jst.base.view.DefaultTextView
-                android:id="@+id/daily_test_file_size"
-                style="@style/DefaultTextStyles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/medium_margin"
-                android:gravity="end"
-                android:text="@string/daily_test_file_size" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add"
+            android:layout_width="@dimen/fab_size_default"
+            android:layout_height="@dimen/fab_size_default"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/medium_margin"
+            app:srcCompat="@drawable/ic_add_24dp" />
 
-            <Button
-                android:id="@+id/daily_test_download_button"
-                style="@style/DailyTestButtonStyles"
-                android:text="@string/daily_test_download_button"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <Button
-                android:id="@+id/daily_test_upload_button"
-                style="@style/DailyTestButtonStyles"
-                android:text="@string/daily_test_upload_button" />
-
-            <Button
-                android:id="@+id/daily_test_view_result_button"
-                style="@style/DailyTestButtonStyles"
-                android:text="@string/daily_test_add_or_view_test_result" />
-
-        </LinearLayout>
-
-    </ScrollView>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
