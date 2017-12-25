@@ -11,6 +11,11 @@
     <string name="error_network">Tidak ada jaringan. Pastikan kamu terhubung ke internet.</string>
     <string name="error_no_internet">Kamu tidak terhubung ke internet.\nHarap periksa koneksi kamu dan coba lagi.</string>
     <string name="error_unknown">Terjadi kesalahan pada sistem.\nHarap coba kembali.</string>
+    <string name="error_empty">Belum ada data yang tesimpan</string>
+
+    <string name="unsaved_warning_title">Konfirmasi Navigasi</string>
+    <string name="unsaved_warning_message">Kamu memiliki perubahan yang belum disimpan. Apakah kamu yakin ingin meninggalkan halaman ini?</string>
+
 
     <string name="invalid_data">Data tidak valid</string>
     <string name="kelas_private">Private</string>

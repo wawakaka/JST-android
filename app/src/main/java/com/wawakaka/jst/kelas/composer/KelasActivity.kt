@@ -8,9 +8,9 @@ import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.LogUtils
-import com.wawakaka.jst.dailytest.composer.DailyTestActivity
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.presensi.composer.PresensiActivity
+import com.wawakaka.jst.tesHarian.composer.TesHarianActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_kelas.*
 
@@ -75,9 +75,9 @@ class KelasActivity : BaseActivity() {
     }
 
     private fun launchDailyTestActivity() {
-        val intent = Intent(this, DailyTestActivity::class.java)
-        intent.putExtra(DailyTestActivity.EXTRA_ID_KELAS, kelas?.id)
-        intent.putExtra(DailyTestActivity.EXTRA_ID_JADWAL, idJadwalKelas)
+        val intent = Intent(this, TesHarianActivity::class.java)
+        intent.putExtra(TesHarianActivity.EXTRA_ID_KELAS, kelas?.id)
+        intent.putExtra(TesHarianActivity.EXTRA_ID_JADWAL, idJadwalKelas)
         startActivity(intent)
     }
 

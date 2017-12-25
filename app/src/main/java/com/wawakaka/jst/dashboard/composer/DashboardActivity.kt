@@ -15,11 +15,11 @@ import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.presenter.DashboardPresenter
-import com.wawakaka.jst.dashboard.view.ClassHolder
+import com.wawakaka.jst.dashboard.view.KelasHolder
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
+import com.wawakaka.jst.jadwal.composer.JadwalActivity
 import com.wawakaka.jst.navigation.composer.NavigationFragment
-import com.wawakaka.jst.schedule.composer.ScheduleActivity
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import io.reactivex.Observable
@@ -49,6 +49,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
         initListenToRefreshListEvent()
         initSwipeRefreshKelas()
         initListKelas()
+        initListSiswa()
     }
 
     private fun initLayout() {
@@ -134,7 +135,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             .doOnNext { showLoadProgress() }
             .observeOn(Schedulers.io())
             .flatMap { dashboardPresenter.loadClassObservable() }
-            .filter { it != null && it.isNotEmpty() }
+            .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
                 createClassHolderList(it)
@@ -161,7 +162,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             .doOnNext { initLayoutManager() }
             .observeOn(Schedulers.io())
             .flatMap { dashboardPresenter.loadClassObservable() }
-            .filter { it != null && it.isNotEmpty() }
+            .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
                 createClassHolderList(it)
@@ -217,6 +218,21 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
         class_list_container.makeVisible()
     }
 
+    private fun initListSiswa() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showLoadProgress() }
+            .observeOn(Schedulers.io())
+            .flatMap { dashboardPresenter.loadSiswaObservable() }
+            .filter { it.isNotEmpty() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                hideLoadProgress()
+            }
+    }
+
     private fun showLoadProgress() {
         Kelas_list_refresher?.let { it.isRefreshing = true }
     }
@@ -252,23 +268,22 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
 
     private fun createClassHolderList(kelas: MutableList<Kelas>) {
         list.clear()
-        kelas.forEach { list.add(ClassHolder(it)) }
+        kelas.forEach { list.add(KelasHolder(it)) }
     }
 
     override fun onItemClick(position: Int): Boolean {
         LogUtils.debug(TAG, position.toString())
         val item = adapter.getItem(position)
-        if (item is ClassHolder) {
+        if (item is KelasHolder) {
             launchScheduleActivity(item.model)
-            LogUtils.debug(TAG, item.model.bidangNama ?: "")
             return true
         }
         return false
     }
 
     private fun launchScheduleActivity(kelas: Kelas) {
-        val intent = Intent(this, ScheduleActivity::class.java)
-        intent.putExtra(ScheduleActivity.SCHEDULE_INFO, kelas)
+        val intent = Intent(this, JadwalActivity::class.java)
+        intent.putExtra(JadwalActivity.SCHEDULE_INFO, kelas)
         startActivity(intent)
     }
 

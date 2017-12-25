@@ -47,7 +47,7 @@
         android:layout_marginLeft="@dimen/huge_margin"
         android:layout_marginRight="@dimen/huge_margin"
         android:layout_marginTop="@dimen/medium_margin"
-        android:background="@drawable/rounded_background_primary"
+        android:background="@drawable/button_primary"
         android:text="@string/retry_label"
         android:textAllCaps="true"
         android:textColor="@color/white" />

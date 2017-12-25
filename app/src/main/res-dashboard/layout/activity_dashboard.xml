@@ -45,7 +45,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:srcCompat="@drawable/ic_navigation_drawer" />
 
-                    <com.wawakaka.jst.base.view.DefaultTextView
+                    <com.wawakaka.jst.base.view.BoldTextView
                         android:id="@+id/toolbar_title"
                         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                         android:layout_width="0dp"

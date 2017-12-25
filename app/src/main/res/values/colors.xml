@@ -8,7 +8,8 @@
     <color name="primary_dark">#FBC02D</color>
     <color name="primary_light">#FFF9C4</color>
     <color name="accent">#ff5722</color>
-    <color name="primary_text">#212121</color>
+    <color name="accent_dark">#D93602</color>
+    <color name="primary_text">@color/black</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
@@ -22,7 +23,8 @@
     <color name="dim_gray">#696773</color>
     <color name="raisin_black">#272727</color>
     <color name="anti_flash_white">#EFF1F3</color>
-
+    <color name="disabled_color">#b9b9b9</color>
+    <color name="disabled_transparent_color">#99b9b9b9</color>
 
     <color name="black">#000000</color>
     <color name="black_19">#31000000</color>

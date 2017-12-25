@@ -29,13 +29,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
-                <com.wawakaka.jst.base.view.DefaultTextView
+                <com.wawakaka.jst.base.view.BoldTextView
                     android:id="@+id/toolbar_title"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="8dp"
                     android:gravity="center_vertical"
                     android:text="@string/class_title"
                     android:textColor="@color/white"

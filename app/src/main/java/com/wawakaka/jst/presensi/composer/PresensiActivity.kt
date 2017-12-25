@@ -1,6 +1,7 @@
 package com.wawakaka.jst.presensi.composer
 
 import android.view.MenuItem
+import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
@@ -8,16 +9,20 @@ import com.wawakaka.jst.R
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.LogUtils
-import com.wawakaka.jst.base.view.DefaultCheckView
+import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.Siswa
+import com.wawakaka.jst.datasource.model.ResultEmptyError
+import com.wawakaka.jst.datasource.server.model.NetworkError
+import com.wawakaka.jst.datasource.server.model.NoInternetError
 import com.wawakaka.jst.kelas.composer.KelasActivity
 import com.wawakaka.jst.presensi.model.Presensi
+import com.wawakaka.jst.presensi.model.PresensiRequestWrapper
 import com.wawakaka.jst.presensi.presenter.PresensiPresenter
+import com.wawakaka.jst.presensi.view.PresensiCheckView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_presensi.*
 import org.jetbrains.anko.forEachChild
@@ -39,6 +44,8 @@ class PresensiActivity : BaseActivity() {
 
     init {
         initLayout()
+        initUnknownErrorView()
+        initNetworkErrorView()
         initListSiswa()
         initSaveButton()
     }
@@ -53,7 +60,32 @@ class PresensiActivity : BaseActivity() {
                 idJadwalKelas = intent.getSerializableExtra(KelasActivity.EXTRA_ID_JADWAL) as Int
                 setContentView(R.layout.activity_presensi)
                 initToolbar()
-                LogUtils.debug("idJadwalKelas", "$idJadwalKelas")
+            }
+    }
+
+    private fun initNetworkErrorView() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                network_error_view.setActionOnClickListener(View.OnClickListener {
+                    network_error_view.isEnabled = false
+                    initCheckedList()
+                })
+            }
+    }
+
+    private fun initUnknownErrorView() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                unknown_error_view.setActionOnClickListener(View.OnClickListener {
+                    unknown_error_view.isEnabled = false
+                    initCheckedList()
+                })
             }
     }
 
@@ -61,9 +93,8 @@ class PresensiActivity : BaseActivity() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
-//todo            .doOnNext { showLoadingView() }
+            .doOnNext { showLoadingView() }
             .observeOn(Schedulers.computation())
-            .doOnNext { LogUtils.debug(TAG, "$kelas?.listSiswa") }
             .map { kelas?.listSiswa ?: mutableListOf() }
             .filter { it.isNotEmpty() }
             .observeOn(AndroidSchedulers.mainThread())
@@ -71,7 +102,6 @@ class PresensiActivity : BaseActivity() {
             .subscribe(
                 {
                     LogUtils.debug(TAG, "Success in load list siswa")
-                    LogUtils.debug(TAG, "$it")
                     onLoadListSiswaSucceded(it)
                 },
                 {
@@ -82,7 +112,6 @@ class PresensiActivity : BaseActivity() {
     }
 
     private fun onLoadListSiswaSucceded(listSiswa: MutableList<Siswa>) {
-        showSiswaListContainer()
         listSiswa.forEach { addSiswa(it) }
         initCheckedList()
     }
@@ -91,30 +120,18 @@ class PresensiActivity : BaseActivity() {
         Observable
             .just(true)
             .observeOn(Schedulers.io())
-            .flatMap {
-                presensiPresenter
-                    .loadPresensiCheckedListObservable(idJadwalKelas)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .onErrorResumeNext(Function {
-                        LogUtils.error(TAG, "Error in initCheckedList presensi", it)
-                        Observable.just(null)
-                        //todo dissable loading here
-
-                    })
-            }
-            .filter { it.isNotEmpty() }
+            .flatMap { presensiPresenter.loadPresensiCheckedListObservable(idJadwalKelas) }
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe(
                 {
                     LogUtils.debug(TAG, "Success in initCheckedList presensi")
-                    LogUtils.debug(TAG, "$it")
                     setCheckedSiswa(it)
+                    showSiswaListContainer()
                 },
                 {
                     LogUtils.error(TAG, "Error in initCheckedList presensi", it)
-                    //todo dissable loading here
-
+                    onLoadListSiswaFailed(it)
                 }
             )
     }
@@ -122,7 +139,7 @@ class PresensiActivity : BaseActivity() {
     private fun setCheckedSiswa(listSiswa: MutableList<Presensi>) {
         siswa_list_content
             .forEachChild { presensi ->
-                if (presensi is DefaultCheckView) {
+                if (presensi is PresensiCheckView) {
                     val daftarAbsen = presensi.getSiswa()
                     listSiswa.forEach { siswa ->
                         if (daftarAbsen.id == siswa.siswaId) {
@@ -131,8 +148,6 @@ class PresensiActivity : BaseActivity() {
                     }
                 }
             }
-        //todo dissable loading here
-
     }
 
     private fun addSiswa(siswa: Siswa) {
@@ -144,29 +159,17 @@ class PresensiActivity : BaseActivity() {
         }
     }
 
-    private fun buildDefaultCheckView() = DefaultCheckView(this)
-
-    private fun showSiswaListContainer() {
-        hideAllViews()
-        siswa_list_content.makeVisible()
-    }
-
-    private fun onLoadListSiswaFailed(throwable: Throwable) {
-        when (throwable) {
-        //todo add error screen
-//            is NetworkError -> showNetworkErrorView()
-//            is NoInternetError -> showNetworkErrorView()
-//            is ResultEmptyError -> showEmptyShippingProvider()
-//            else -> showUnknownErrorView()
-        }
-    }
+    private fun buildDefaultCheckView() = PresensiCheckView(this)
 
     private fun initSaveButton() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { save_presensi.setEnabledState(true) }
             .flatMap { RxView.clicks(save_presensi) }
+            .doOnNext { showProgressDialog() }
             .map { setPresensi() }
+            .doOnNext { LogUtils.debug("list presensi", it.presensi.toString()) }
             .observeOn(Schedulers.io())
             .flatMap {
                 presensiPresenter
@@ -174,13 +177,6 @@ class PresensiActivity : BaseActivity() {
                         idJadwalKelas,
                         it
                     )
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .onErrorResumeNext(Function {
-                        LogUtils.error(TAG, "Error in initSaveButton", it)
-                        Observable.just(null)
-                        //todo dissable loading here
-
-                    })
             }
             .filter { it }
             .observeOn(AndroidSchedulers.mainThread())
@@ -188,32 +184,76 @@ class PresensiActivity : BaseActivity() {
             .subscribe(
                 {
                     LogUtils.debug(TAG, "Success in initSaveButton")
-                    //todo dissable loading here
+                    hideProgressDialog()
+                    showSiswaListContainer()
                 },
                 {
                     LogUtils.error(TAG, "Error in initSaveButton", it)
-                    //todo dissable loading here
+                    hideProgressDialog()
+                    showSiswaListContainer()
                 }
             )
     }
 
-    private fun setPresensi(): MutableList<Presensi> {
+    private fun setPresensi(): PresensiRequestWrapper {
         val presensi = mutableListOf<Presensi>()
         siswa_list_content
             .forEachChild {
-                if (it is DefaultCheckView) {
-                    presensi.add(it.getPresensi(idJadwalKelas!!))
+                if (it is PresensiCheckView) {
+                    if (it.isSiswaAttend()) {
+                        presensi.add(it.getPresensi(idJadwalKelas!!))
+                    }
                 }
             }
-        return presensi
+        return PresensiRequestWrapper(presensi)
     }
 
+    private fun onLoadListSiswaFailed(throwable: Throwable) {
+        hideAllViews()
+        when (throwable) {
+            is NetworkError -> showNetworkErrorView()
+            is NoInternetError -> showNetworkErrorView()
+            is ResultEmptyError -> showSiswaListContainer()
+            else -> showUnknownErrorView()
+        }
+    }
+
+    private fun showSiswaListContainer() {
+        hideAllViews()
+        content_container.makeVisible()
+    }
+
+    private fun showNetworkErrorView() {
+        hideAllViews()
+        network_error_view.makeVisible()
+        network_error_view.isEnabled = true
+    }
+
+    private fun showUnknownErrorView() {
+        hideAllViews()
+        unknown_error_view.makeVisible()
+        unknown_error_view.isEnabled = true
+    }
+
+    private fun showLoadingView() {
+        hideAllViews()
+        loading_view.makeVisible()
+    }
+
+    private fun showProgressDialog() {
+        save_presensi.enableLoadingState()
+    }
+
+    private fun hideProgressDialog() {
+        save_presensi.disableLoadingState()
+    }
+
+
     private fun hideAllViews() {
-        //todo manage view visibility
-//        shipping_provider_content.makeGone()
-//        network_error_view.makeGone()
-//        unknown_error_view.makeGone()
-//        loading_view.makeGone()
+        loading_view.makeGone()
+        content_container.makeGone()
+        network_error_view.makeGone()
+        unknown_error_view.makeGone()
     }
 
     private fun initToolbar() {
@@ -221,7 +261,6 @@ class PresensiActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    //todo add loading view
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item?.itemId
         return if (id == android.R.id.home) {

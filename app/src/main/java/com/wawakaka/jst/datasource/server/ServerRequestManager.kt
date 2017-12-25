@@ -1,12 +1,15 @@
 package com.wawakaka.jst.datasource.server
 
-import com.wawakaka.jst.dailytest.model.TesHarian
 import com.wawakaka.jst.dashboard.model.Kelas
+import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.server.model.*
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorNetwork
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorNoInternet
 import com.wawakaka.jst.login.model.User
 import com.wawakaka.jst.presensi.model.Presensi
+import com.wawakaka.jst.presensi.model.PresensiRequestWrapper
+import com.wawakaka.jst.tesHarian.model.TesHarian
+import com.wawakaka.jst.tesHarian.model.TesHarianRequest
 import io.reactivex.Observable
 import io.reactivex.functions.Function
 
@@ -48,7 +51,7 @@ class ServerRequestManager(private val serverApi: ServerApi) {
         )
     }
 
-    fun loadPresensiCheckedListOBservable(idJadwalKelas: Int?): Observable<ServerResponseWrapper<MutableList<Presensi>>> {
+    fun loadPresensiCheckedListObservable(idJadwalKelas: Int?): Observable<ServerResponseWrapper<MutableList<Presensi>>> {
         return handleServerRequestError(
             serverApi.loadPresensiCheckedListObservable(
                 getAcceptApplicationJsonHeader(),
@@ -58,31 +61,41 @@ class ServerRequestManager(private val serverApi: ServerApi) {
     }
 
     fun savePresensiCheckedListObservable(jadwalKelasId: Int?,
-                                          presensi: MutableList<Presensi>): Observable<ServerResponseWrapper<Boolean>> {
+                                          request: PresensiRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
         return handleServerRequestError(
             serverApi.savePresensiCheckedListObservable(
                 getAcceptApplicationJsonHeader(),
                 jadwalKelasId,
-                presensi
+                request
             )
         )
     }
 
-    fun loadTesHarianOBservable(idJadwalKelas: Int?): Observable<ServerResponseWrapper<TesHarian>> {
+    fun loadTesHarianObservable(idJadwalKelas: Int?,
+                                tesHarian: TesHarianRequest): Observable<ServerResponseWrapper<TesHarian>> {
         return handleServerRequestError(
             serverApi.loadTesHarianObservable(
                 getAcceptApplicationJsonHeader(),
-                idJadwalKelas
+                idJadwalKelas,
+                tesHarian
             )
         )
     }
 
-    fun updateTesHarianOBservable(tesHarian: TesHarian?): Observable<ServerResponseWrapper<Boolean>> {
+    fun updateTesHarianObservable(tesHarian: TesHarian?): Observable<ServerResponseWrapper<Boolean>> {
         return handleServerRequestError(
             serverApi.updateTesHarianObservable(
                 getAcceptApplicationJsonHeader(),
                 tesHarian!!.id,
                 tesHarian
+            )
+        )
+    }
+
+    fun loadSiswaObservable(): Observable<ServerResponseWrapper<MutableList<Siswa>>> {
+        return handleServerRequestError(
+            serverApi.loadSiswaObservable(
+                getAcceptApplicationJsonHeader()
             )
         )
     }

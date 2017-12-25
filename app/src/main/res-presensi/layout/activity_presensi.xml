@@ -25,13 +25,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
-                <com.wawakaka.jst.base.view.DefaultTextView
+                <com.wawakaka.jst.base.view.BoldTextView
                     android:id="@+id/toolbar_title"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="8dp"
                     android:gravity="center_vertical"
                     android:text="@string/presensi_title"
                     android:textColor="@color/white"
@@ -46,6 +45,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -76,17 +76,39 @@
             style="@style/ProgressButtonStyles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:buttonBackground="@drawable/button_background"
+            app:buttonBackground="@drawable/button_primary"
+            app:buttonImage="@drawable/ic_save"
             app:buttonText="@string/presensi_save"
             app:buttonTextColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:progressColor="light">
-
-        </com.wawakaka.jst.base.view.ProgressButton>
+            app:progressColor="light" />
 
     </android.support.constraint.ConstraintLayout>
 
+    <com.wawakaka.jst.base.view.ErrorView
+        android:id="@+id/unknown_error_view"
+        style="@style/UnknownErrorStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+    <com.wawakaka.jst.base.view.ErrorView
+        android:id="@+id/network_error_view"
+        style="@style/NetworkErrorStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
+    <com.wawakaka.jst.base.view.LoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/disabled_transparent_color"
+        android:clickable="false"
+        android:visibility="visible" />
 
 </android.support.design.widget.CoordinatorLayout>

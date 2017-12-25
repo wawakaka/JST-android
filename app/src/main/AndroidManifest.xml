@@ -23,12 +23,12 @@
         <activity android:name=".dashboard.composer.DashboardActivity" />
         <activity android:name=".onboarding.composer.OnBoardingActivity" />
         <activity android:name=".camera.composer.CameraActivity" />
-        <activity android:name=".schedule.composer.ScheduleActivity" />
+        <activity android:name=".jadwal.composer.JadwalActivity" />
         <activity android:name=".kelas.composer.KelasActivity" />
         <activity android:name=".presensi.composer.PresensiActivity" />
-        <activity android:name=".dailytest.composer.DailyTestActivity" />
-        <activity android:name=".dailytest.composer.DailyTestResultActivity" />
-        <activity android:name=".dailytest.composer.TestResultAddOrEditActivity"></activity>
+        <activity android:name=".tesHarian.composer.TesHarianActivity" />
+        <activity android:name=".tesHarian.composer.HasilTesHarianActivity" />
+        <activity android:name=".tesHarian.composer.HasilTesHarianAddOrEditActivity" />
     </application>
 
 </manifest>

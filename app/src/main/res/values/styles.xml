@@ -58,4 +58,11 @@
         <item name="imageWidth">wrap_content</item>
     </style>
 
+    <style name="ResultEmptyErrorStyle" parent="TextAppearance.AppCompat.Body1">
+        <item name="imageDrawable">@drawable/ic_something_went_wrong</item>
+        <item name="description">@string/error_empty</item>
+        <item name="imageHeight">wrap_content</item>
+        <item name="imageWidth">wrap_content</item>
+    </style>
+
 </resources>

@@ -1,10 +1,10 @@
 package com.wawakaka.jst.presensi.presenter
 
 import com.wawakaka.jst.base.presenter.BasePresenter
-import com.wawakaka.jst.base.utils.toResultEmptyErrorIfEmpty
 import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestManager
 import com.wawakaka.jst.presensi.model.Presensi
+import com.wawakaka.jst.presensi.model.PresensiRequestWrapper
 import io.reactivex.Observable
 
 /**
@@ -19,23 +19,20 @@ class PresensiPresenter(private val serverRequestManager: ServerRequestManager,
 
     fun loadPresensiCheckedListObservable(idJadwalKelas: Int?): Observable<MutableList<Presensi>> {
         return serverRequestManager
-            .loadPresensiCheckedListOBservable(idJadwalKelas)
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }
+            .loadPresensiCheckedListObservable(idJadwalKelas)
             .map { it.data!! }
             .doOnNext { savePresensiCheckedList(it) }
     }
 
     fun savePresensiCheckedListObservable(jadwalKelasId: Int?,
-                                          presensi: MutableList<Presensi>): Observable<Boolean?> {
+                                          request: PresensiRequestWrapper): Observable<Boolean> {
         return serverRequestManager
             .savePresensiCheckedListObservable(
                 jadwalKelasId,
-                presensi
+                request
             )
-            .toResultEmptyErrorIfEmpty { it?.data ?: false }
-            .map { it.data }
-            .filter { it }
-            .doOnNext { savePresensiCheckedList(presensi) }
+            .map { it.data!! }
+            .doOnNext { savePresensiCheckedList(request.presensi) }
     }
 
     private fun savePresensiCheckedList(list: List<Presensi>) {

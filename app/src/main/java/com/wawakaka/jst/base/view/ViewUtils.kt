@@ -102,6 +102,18 @@ object ViewUtils {
         }
     }
 
+    /**
+     * Show confirmation dialog to the user about the unsaved data as an observable.
+     * Will emit true if confirmed, false otherwise.
+     */
+    fun showUnsavedConfirmationDialog(context: Context): Observable<Boolean> {
+        return showConfirmationObservable(
+            context,
+            context.getString(R.string.unsaved_warning_title),
+            context.getString(R.string.unsaved_warning_message)
+        )
+    }
+
     fun showToastLong(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG)
     }

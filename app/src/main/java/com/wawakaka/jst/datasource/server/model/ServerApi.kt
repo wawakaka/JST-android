@@ -1,9 +1,12 @@
 package com.wawakaka.jst.datasource.server.model
 
-import com.wawakaka.jst.dailytest.model.TesHarian
 import com.wawakaka.jst.dashboard.model.Kelas
+import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.login.model.User
 import com.wawakaka.jst.presensi.model.Presensi
+import com.wawakaka.jst.presensi.model.PresensiRequestWrapper
+import com.wawakaka.jst.tesHarian.model.TesHarian
+import com.wawakaka.jst.tesHarian.model.TesHarianRequest
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -30,17 +33,21 @@ interface ServerApi {
     fun loadPresensiCheckedListObservable(@Header("Content-Type") acceptFormat: String,
                                           @Path("id") id: Int?): Observable<ServerResponseWrapper<MutableList<Presensi>>>
 
-    @POST("/all/{id}")
+    @POST("/presensi/update/{id}")
     fun savePresensiCheckedListObservable(@Header("Content-Type") acceptFormat: String,
                                           @Path("id") id: Int?,
-                                          @Body presensi: MutableList<Presensi>): Observable<ServerResponseWrapper<Boolean>>
-
-    @GET("/tesharian/{id}")
-    fun loadTesHarianObservable(@Header("Content-Type") acceptFormat: String,
-                                @Path("id") id: Int?): Observable<ServerResponseWrapper<TesHarian>>
+                                          @Body request: PresensiRequestWrapper): Observable<ServerResponseWrapper<Boolean>>
 
     @POST("/tesharian/{id}")
+    fun loadTesHarianObservable(@Header("Content-Type") acceptFormat: String,
+                                @Path("id") id: Int?,
+                                @Body tesHarian: TesHarianRequest): Observable<ServerResponseWrapper<TesHarian>>
+
+    @PUT("/tesharian/{id}")
     fun updateTesHarianObservable(@Header("Content-Type") acceptFormat: String,
                                   @Path("id") id: Int?,
                                   @Body tesHarian: TesHarian): Observable<ServerResponseWrapper<Boolean>>
+
+    @GET("/siswa/all")
+    fun loadSiswaObservable(@Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<Siswa>>>
 }

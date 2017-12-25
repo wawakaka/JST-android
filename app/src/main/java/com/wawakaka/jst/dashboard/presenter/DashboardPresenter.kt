@@ -5,6 +5,7 @@ import com.wawakaka.jst.base.utils.RxBus
 import com.wawakaka.jst.base.utils.toResultEmptyErrorIfEmpty
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.KelasListRefreshEvent
+import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestManager
 import com.wawakaka.jst.login.model.User
@@ -28,10 +29,22 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
             .doOnNext { saveKelas(it) }
     }
 
+    fun loadSiswaObservable():Observable<MutableList<Siswa>>{
+        return serverRequestManager
+            .loadSiswaObservable()
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }
+            .map { it.data?.sortedBy { it.id }?.toMutableList() ?: mutableListOf() }
+            .doOnNext { saveSiswa(it) }
+    }
+
     private fun getUser(): User = localRequestManager.getUser()
 
     private fun saveKelas(listKelas: List<Kelas>) {
         localRequestManager.saveKelas(listKelas)
+    }
+
+    fun saveSiswa(listSiswa: List<Siswa>){
+        localRequestManager.saveListSiswa(listSiswa)
     }
 
     fun listenRefreshListKelasEvent() = RxBus.registerObservable<KelasListRefreshEvent>()

@@ -1,7 +1,7 @@
 package com.wawakaka.jst.dashboard.model
 
 import com.wawakaka.jst.base.model.Emptiable
-import com.wawakaka.jst.dailytest.model.HasilTesHarian
+import com.wawakaka.jst.tesHarian.model.HasilTesHarian
 import java.io.Serializable
 
 /**
