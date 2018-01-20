@@ -1,5 +1,7 @@
 package com.wawakaka.jst.datasource.local
 
+import com.wawakaka.jst.admin.model.Sekolah
+import com.wawakaka.jst.dashboard.model.Bidang
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.local.preference.PreferenceApi
@@ -14,15 +16,27 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
 
     companion object {
         private const val KEY_USER = "user"
+        private const val KEY_LIST_USER = "list-user"
         private const val KEY_KELAS = "kelas"
         private const val KEY_PRESENSI_CHECKED_LIST = "presensi-checked-list"
         private const val KEY_TES_HARIAN = "tes-harian"
         private const val KEY_SISWA = "siswa"
+        private const val KEY_BIDANG = "bidang"
+        private const val KEY_SEKOLAH = "sekolah"
 
     }
 
     fun isLoggedIn(): Boolean {
         return !getUser().isEmpty()
+    }
+
+    //todo load list user in admin activity if user is admin
+    fun saveListUser(user: List<User>) {
+        return preferenceApi.putListObject(KEY_LIST_USER, user)
+    }
+
+    fun getListUser(): List<User> {
+        return preferenceApi.getListObject(KEY_LIST_USER, listOf(), User::class.java)
     }
 
     fun saveUser(user: User?) {
@@ -37,12 +51,8 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
         return preferenceApi.getObject(KEY_USER, User.empty, User::class.java)
     }
 
-    fun saveKelas(kelas: List<Kelas>) {
-        if (kelas != null) {
-            return preferenceApi.putListObject(KEY_KELAS, kelas)
-        } else {
-            preferenceApi.removePreference(KEY_KELAS)
-        }
+    fun saveListKelas(kelas: List<Kelas>) {
+        return preferenceApi.putListObject(KEY_KELAS, kelas)
     }
 
     fun getListKelas(): List<Kelas> {
@@ -50,11 +60,7 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
     }
 
     fun savePresensiCheckedList(presensi: List<Presensi>) {
-        if (presensi != null) {
-            return preferenceApi.putListObject(KEY_PRESENSI_CHECKED_LIST, presensi)
-        } else {
-            preferenceApi.removePreference(KEY_KELAS)
-        }
+        return preferenceApi.putListObject(KEY_PRESENSI_CHECKED_LIST, presensi)
     }
 
     fun getPresensiCheckedList(): List<Presensi> {
@@ -80,6 +86,22 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
 
     fun getListSiswa(): List<Siswa> {
         return preferenceApi.getListObject(KEY_SISWA, listOf(), Siswa::class.java)
+    }
+
+    fun saveListBidang(bidang: List<Bidang>) {
+        return preferenceApi.putListObject(KEY_BIDANG, bidang)
+    }
+
+    fun getListBidang(): List<Bidang> {
+        return preferenceApi.getListObject(KEY_BIDANG, listOf(), Bidang::class.java)
+    }
+
+    fun saveListSekolah(sekolah: List<Sekolah>) {
+        return preferenceApi.putListObject(KEY_SEKOLAH, sekolah)
+    }
+
+    fun getListSekolah(): List<Sekolah> {
+        return preferenceApi.getListObject(KEY_SEKOLAH, listOf(), Sekolah::class.java)
     }
 
 }

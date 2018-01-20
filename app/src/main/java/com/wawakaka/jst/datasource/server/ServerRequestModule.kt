@@ -1,5 +1,6 @@
 package com.wawakaka.jst.datasource.server
 
+import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.model.ServerApi
 import dagger.Module
 import dagger.Provides
@@ -11,7 +12,11 @@ import dagger.Provides
 class ServerRequestModule {
 
     @Provides
-    fun provideServerRequestManager(serverApi: ServerApi): ServerRequestManager {
-        return ServerRequestManager(serverApi)
+    fun provideServerRequestManager(localRequestManager: LocalRequestManager,
+                                    serverApi: ServerApi): ServerRequestManager {
+        return ServerRequestManager(
+                localRequestManager,
+                serverApi
+        )
     }
 }

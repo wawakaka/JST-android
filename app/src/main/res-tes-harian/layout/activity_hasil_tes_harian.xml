@@ -42,7 +42,7 @@
                     android:id="@+id/save_nilai"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="?android:attr/selectableItemBackground"
                     android:padding="@dimen/medium_margin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -67,14 +67,6 @@
             android:overScrollMode="never" />
 
     </FrameLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add"
-        android:layout_width="@dimen/fab_size_default"
-        android:layout_height="@dimen/fab_size_default"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/medium_margin"
-        app:srcCompat="@drawable/ic_add_24dp" />
 
     <com.wawakaka.jst.base.view.ErrorView
         android:id="@+id/unknown_error_view"

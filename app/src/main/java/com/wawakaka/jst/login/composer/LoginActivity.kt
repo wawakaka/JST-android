@@ -166,11 +166,10 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
 
     private fun onLoginError(throwable: Throwable) {
         hideProgressDialog()
-        //todo add all strings to resource
         when (throwable) {
-            is NetworkError -> showError("error network")
-            is NoInternetError -> showError("no internet error")
-            else -> showError("unknown error")
+            is NetworkError -> showError(getString(R.string.error_network))
+            is NoInternetError -> showError(getString(R.string.error_no_internet))
+            else -> showError(getString(R.string.error_unknown))
         }
     }
 
@@ -184,14 +183,12 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
     }
 
     private fun launchOnBoardingActivity() {
-        //todo add appropriate intent
         val intent = Intent(this, OnBoardingActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun launchDashboardActivity() {
-        //todo add appropriate intent
         val intent = Intent(this, DashboardActivity::class.java)
         startActivity(intent)
         finish()

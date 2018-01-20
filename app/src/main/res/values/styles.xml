@@ -65,4 +65,12 @@
         <item name="imageWidth">wrap_content</item>
     </style>
 
+    <style name="card_view_styles">
+        <item name="android:padding">@dimen/medium_margin</item>
+        <item name="android:layout_marginTop">@dimen/medium_margin</item>
+        <item name="android:layout_marginBottom">@dimen/medium_margin</item>
+        <item name="android:layout_marginStart">@dimen/small_margin</item>
+        <item name="android:layout_marginEnd">@dimen/medium_margin</item>
+    </style>
+
 </resources>

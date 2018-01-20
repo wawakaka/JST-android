@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_jadwal_kelas">Jadwal Kelas</string>
+    <string name="menu_siswa">Siswa</string>
+    <string name="menu_bidang">Bidang</string>
+    <string name="menu_kelas_subtitle">Tambah dan ubah kelas</string>
+    <string name="menu_jadwal_kelas_subtitle">Tambah dan ubah jadwal kelas</string>
+    <string name="menu_siswa_subtitle">Tambah sekolah baru dan ubah sekolah lama</string>
+    <string name="menu_bidang_subtitle">Tambah dan ubah bidang</string>
+    <string name="manage_jadwal_kelas_title">Kelola Jadwal Kelas</string>
+    <string name="manage_kelas_title">Kelola Kelas</string>
+    <string name="manage_siswa_title">Kelola Siswa</string>
+    <string name="manage_bidang_title">Kelola Bidang</string>
+
+    <string name="delete_bidang_title">Hapus bidang</string>
+    <string name="delete_bidang_message">Apakah kamu yakin akan menghapus bidang ini?</string>
+    <string name="delete_bidang_error_message">Gagal menghapus bidang. Silahkan coba kembali?</string>
+    <string name="delete_kelas_title">Non-aktifkan Kelas</string>
+    <string name="delete_kelas_message">Apakah kamu yakin akan menonaktifkan kelas ini?</string>
+    <string name="delete_kelas_error_message">Gagal menonaktifkan kelas. Silahkan coba kembali?</string>
+    <string name="delete_jadwal_title">Hapus Jadwal</string>
+    <string name="delete_jadwal_message">Apakah kamu yakin akan menghapus jadwal ini?</string>
+    <string name="delete_jadwal_error_message">Gagal menghapus jadwal. Silahkan coba kembali?</string>
+    <string name="delete_siswa_title">Non-aktifkan Siswa</string>
+    <string name="delete_siswa_message">Apakah kamu yakin akan menonaktifkan sekolah ini?</string>
+    <string name="delete_siswa_error_message">Gagal menonaktifkan sekolah. Silahkan coba kembali?</string>
+
+    <string name="add_bidang_title">Tambah Bidang Baru</string>
+    <string name="edit_bidang_title">Ubdah Bidang</string>
+    <string name="add_kelas_title">Tambah Kelas Baru</string>
+    <string name="edit_kelas_title">Ubdah Kelas</string>
+    <string name="add_sekolah_title">Tambah Sekolah Baru</string>
+    <string name="edit_sekolah_title">Ubdah Sekolah</string>
+    <string name="add_siswa_title">Tambah Siswa Baru</string>
+    <string name="edit_siswa_title">Ubdah Siswa</string>
+    <string name="add_jadwal_kelas_title">Tambah Jadwal Kelas Baru</string>
+    <string name="edit_jadwal_kelas_title">Ubdah Jadwal Kelas</string>
+
+    <string name="add_or_edit_user_hint">Guru</string>
+    <string name="add_or_edit_nama_hint">Nama</string>
+    <string name="add_or_edit_kelas_hint">Kelas</string>
+    <string name="add_or_edit_status_hint">Status</string>
+    <string name="add_or_edit_bidang_hint">Bidang</string>
+    <string name="add_or_edit_sekolah_hint">Sekolah</string>
+    <string name="add_or_edit_jadwal_kelas_hint">Jadwal Kelas</string>
+    <string name="add_or_edit_tambah_siswa">Tambah Siswa</string>
+    <string name="add_or_edit_save_button">Simpan</string>
+
+</resources>

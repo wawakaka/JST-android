@@ -50,6 +50,7 @@ class TesHarianActivity : BaseActivity() {
         initDownloadButton()
         initViewResultButton()
         initTesHarian()
+        initListenToUpdateTesHarianEvent()
     }
 
     private fun initLayout() {
@@ -78,6 +79,7 @@ class TesHarianActivity : BaseActivity() {
             .subscribe {
                 network_error_view.setActionOnClickListener(View.OnClickListener {
                     network_error_view.isEnabled = false
+                    reloadTesHarian()
                 })
             }
     }
@@ -90,8 +92,41 @@ class TesHarianActivity : BaseActivity() {
             .subscribe {
                 unknown_error_view.setActionOnClickListener(View.OnClickListener {
                     unknown_error_view.isEnabled = false
+                    reloadTesHarian()
                 })
             }
+    }
+
+    private fun reloadTesHarian() {
+        Observable
+                .just(true)
+                .doOnNext {
+                    showLoadingView()
+                }
+                .observeOn(Schedulers.io())
+                .flatMap {
+                    tesHarianPresenter
+                            .reloadTesHarian(idJadwalKelas ?: 0)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .onErrorResumeNext(Function {
+                                LogUtils.error(TAG, "error in reloadTesHarian", it)
+                                onInitTesFailed(it)
+                                Observable.just(null)
+                            })
+                }
+                .filter { it.isNotEmpty() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe(
+                        {
+                            LogUtils.debug(TAG, "success in reloadTesHarian")
+                            onInitTesHarianSucceed(it)
+                        },
+                        {
+                            LogUtils.error(TAG, "error in reloadTesHarian", it)
+                            onInitTesFailed(it)
+                        }
+                )
     }
 
     private fun initUploadButton() {
@@ -168,7 +203,8 @@ class TesHarianActivity : BaseActivity() {
                 }
             )
     }
-//todo set next activity to support this new method
+
+    //todo set next activity to support this new method
     private fun createNewTesHarian(): TesHarian {
         val id = rand()
         val listHasilTesHarian = mutableListOf<HasilTesHarian>()
@@ -206,6 +242,16 @@ class TesHarianActivity : BaseActivity() {
             }
             else -> showUnknownErrorView()
         }
+    }
+
+    private fun initListenToUpdateTesHarianEvent() {
+        RxNavi
+                .observe(this, Event.CREATE)
+                .observeOn(Schedulers.io())
+                .flatMap { tesHarianPresenter.listenTesHarianUpdateEvent() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe { reloadTesHarian() }
     }
 
     private fun showLoadingView() {

@@ -66,11 +66,30 @@ object ViewUtils {
         snackBar.show()
     }
 
+    fun showInfoDialogObservable(context: Context,
+                                 message: String): Observable<Boolean> {
+        return Observable.create { subscriber ->
+            //            val spanMessage = FontUtils.getDefaultFontSpannableMessage(context, message)
+//            val spanOk = FontUtils.getDefaultSpannableString(context, context.getString(R.string.ok_button))
+            val infoDialog = AlertDialog.Builder(context)
+                    .setCancelable(false)
+                    .setMessage(message)
+                    .setPositiveButton(context.getString(R.string.ok_button)) { dialog, _ ->
+                        subscriber.onNext(true)
+                        subscriber.onComplete()
+                        dialog.dismiss()
+                    }
+                    .create()
+
+            infoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            infoDialog.show()
+        }
+    }
+
     /**
      * Show confirmation dialog to the user as an observable. Will emit true if confirmed,
      * false otherwise.
      */
-    //todo string
     fun showConfirmationObservable(context: Context,
                                    confirmationTitle: String,
                                    confirmationMessage: String): Observable<Boolean> {
@@ -112,6 +131,44 @@ object ViewUtils {
             context.getString(R.string.unsaved_warning_title),
             context.getString(R.string.unsaved_warning_message)
         )
+    }
+
+    /**
+     * Show options dialog to the user as an Observable. Will return empty string if nothing is
+     * selected or the dialog is cancelled.
+     *
+     * @param context   Context used to create dialog
+     * @param title     Title of the dialog. Pass null if you don't want to show title
+     * @param options   List of options to be shown
+     */
+    fun showOptionsObservable(context: Context,
+                              title: String?,
+                              options: List<String>): Observable<String> {
+        return Observable.create { subscriber ->
+            //            val spanTitle = FontUtils.getBoldFontSpannableTitle(context, title ?: "")
+            val optionsDialog = AlertDialog.Builder(context)
+                    .setCancelable(true)
+                    .setTitle(title)
+                    .setItems(
+                            options
+//                        .map { FontUtils.getLightSpannableString(context, it) }
+                                    .map { it }
+                                    .toTypedArray(),
+                            { dialog, which ->
+                                subscriber.onNext(options[which])
+                                subscriber.onComplete()
+                                dialog.dismiss()
+                            }
+                    )
+                    .setOnCancelListener {
+                        subscriber.onNext("")
+                        subscriber.onComplete()
+                    }
+                    .create()
+
+            optionsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            optionsDialog.show()
+        }
     }
 
     fun showToastLong(context: Context, message: String) {

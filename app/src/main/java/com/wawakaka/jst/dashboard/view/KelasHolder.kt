@@ -10,7 +10,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.flexibleadapter.items.IHolder
-import kotlinx.android.synthetic.main.kelas_item.view.*
+import kotlinx.android.synthetic.main.item_kelas.view.*
 
 /**
  * Created by wawakaka on 11/22/2017.
@@ -21,7 +21,7 @@ data class KelasHolder(private val model: Kelas) : AbstractFlexibleItem<ClassVie
 
     override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>): ClassViewHolder = ClassViewHolder(view, adapter)
 
-    override fun getLayoutRes(): Int = R.layout.kelas_item
+    override fun getLayoutRes(): Int = R.layout.item_kelas
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>, holder: ClassViewHolder, position: Int, payloads: MutableList<Any?>?) {
         setId(holder)

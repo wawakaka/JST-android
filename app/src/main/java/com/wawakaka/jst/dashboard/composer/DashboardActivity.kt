@@ -54,131 +54,131 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
 
     private fun initLayout() {
         RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                setContentView(R.layout.activity_dashboard)
-            }
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe {
+                    setContentView(R.layout.activity_dashboard)
+                }
     }
 
     private fun initNetworkErrorView() {
         RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                network_error_view.setActionOnClickListener(View.OnClickListener {
-                    network_error_view.isEnabled = false
-                    dashboardPresenter.publishRefreshListKelasEvent()
-                })
-            }
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe {
+                    network_error_view.setActionOnClickListener(View.OnClickListener {
+                        network_error_view.isEnabled = false
+                        dashboardPresenter.publishRefreshListKelasEvent()
+                    })
+                }
     }
 
     private fun initUnknownErrorView() {
         RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                unknown_error_view.setActionOnClickListener(View.OnClickListener {
-                    unknown_error_view.isEnabled = false
-                    dashboardPresenter.publishRefreshListKelasEvent()
-                })
-            }
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe {
+                    unknown_error_view.setActionOnClickListener(View.OnClickListener {
+                        unknown_error_view.isEnabled = false
+                        dashboardPresenter.publishRefreshListKelasEvent()
+                    })
+                }
     }
 
     private fun initNavigationDrawer() {
         RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                initNavigationDrawer(
-                    navigation_drawer_icon,
-                    navigation_drawer,
-                    R.id.dashboard_drawer_fragment,
-                    NavigationFragment.DRAWER_TYPE_LOGOUT
-                )
-            }
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe {
+                    initNavigationDrawer(
+                            navigation_drawer_icon,
+                            navigation_drawer,
+                            R.id.dashboard_drawer_fragment,
+                            NavigationFragment.DRAWER_TYPE_KELAS
+                    )
+                }
     }
 
     private fun initListenToRefreshListEvent() {
         RxNavi
-            .observe(this, Event.CREATE)
-            .observeOn(Schedulers.io())
-            .flatMap { dashboardPresenter.listenRefreshListKelasEvent() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe { retryLoadKelas() }
+                .observe(this, Event.CREATE)
+                .observeOn(Schedulers.io())
+                .flatMap { dashboardPresenter.listenRefreshListKelasEvent() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe { retryLoadKelas() }
     }
 
     private fun initSwipeRefreshKelas() {
         RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .flatMap {
-                Kelas_list_refresher.setColorSchemeResources(R.color.colorPrimary)
-                RxSwipeRefreshLayout.refreshes(Kelas_list_refresher)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                dashboardPresenter.publishRefreshListKelasEvent()
-            }
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap {
+                    kelas_list_refresher.setColorSchemeResources(R.color.colorPrimary)
+                    RxSwipeRefreshLayout.refreshes(kelas_list_refresher)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe {
+                    dashboardPresenter.publishRefreshListKelasEvent()
+                }
     }
 
     private fun retryLoadKelas() {
         Observable
-            .just(true)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { showLoadProgress() }
-            .observeOn(Schedulers.io())
-            .flatMap { dashboardPresenter.loadClassObservable() }
-            .filter { it.isNotEmpty() }
-            .observeOn(Schedulers.computation())
-            .doOnNext {
-                createClassHolderList(it)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe(
-                {
-                    adapter.updateDataSet(list)
-                    showKelasView()
-                },
-                {
-                    LogUtils.error(TAG, "error in initClassList", it)
-                    onLoadLoadKelasError(it)
+                .just(true)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { showLoadProgress() }
+                .observeOn(Schedulers.io())
+                .flatMap { dashboardPresenter.loadClassObservable() }
+                .filter { it.isNotEmpty() }
+                .observeOn(Schedulers.computation())
+                .doOnNext {
+                    createClassHolderList(it)
                 }
-            )
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe(
+                        {
+                            adapter.updateDataSet(list)
+                            showKelasView()
+                        },
+                        {
+                            LogUtils.error(TAG, "error in retry ClassList", it)
+                            onLoadLoadKelasError(it)
+                        }
+                )
     }
 
     private fun initListKelas() {
         RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { showLoadProgress() }
-            .doOnNext { initLayoutManager() }
-            .observeOn(Schedulers.io())
-            .flatMap { dashboardPresenter.loadClassObservable() }
-            .filter { it.isNotEmpty() }
-            .observeOn(Schedulers.computation())
-            .doOnNext {
-                createClassHolderList(it)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe(
-                {
-                    adapter.updateDataSet(list)
-                    showKelasView()
-                },
-                {
-                    LogUtils.error(TAG, "error in initClassList", it)
-                    onLoadLoadKelasError(it)
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { showLoadProgress() }
+                .doOnNext { initLayoutManager() }
+                .observeOn(Schedulers.io())
+                .flatMap { dashboardPresenter.loadClassObservable() }
+                .filter { it.isNotEmpty() }
+                .observeOn(Schedulers.computation())
+                .doOnNext {
+                    createClassHolderList(it)
                 }
-            )
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe(
+                        {
+                            adapter.updateDataSet(list)
+                            showKelasView()
+                        },
+                        {
+                            LogUtils.error(TAG, "error in initClassList", it)
+                            onLoadLoadKelasError(it)
+                        }
+                )
     }
 
     private fun onLoadLoadKelasError(throwable: Throwable) {
@@ -220,25 +220,29 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
 
     private fun initListSiswa() {
         RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { showLoadProgress() }
-            .observeOn(Schedulers.io())
-            .flatMap { dashboardPresenter.loadSiswaObservable() }
-            .filter { it.isNotEmpty() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                hideLoadProgress()
-            }
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { showLoadProgress() }
+                .observeOn(Schedulers.io())
+                .flatMap { dashboardPresenter.loadSiswaObservable() }
+                .filter { it.isNotEmpty() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe(
+                        { hideLoadProgress() },
+                        {
+                            LogUtils.error(TAG, "error in initListSiswa", it)
+                            hideLoadProgress()
+                        }
+                )
     }
 
     private fun showLoadProgress() {
-        Kelas_list_refresher?.let { it.isRefreshing = true }
+        kelas_list_refresher?.let { it.isRefreshing = true }
     }
 
     private fun hideLoadProgress() {
-        Kelas_list_refresher?.let { it.isRefreshing = false }
+        kelas_list_refresher?.let { it.isRefreshing = false }
     }
 
     private fun showNetworkErrorView() {
@@ -272,7 +276,6 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int): Boolean {
-        LogUtils.debug(TAG, position.toString())
         val item = adapter.getItem(position)
         if (item is KelasHolder) {
             launchScheduleActivity(item.model)

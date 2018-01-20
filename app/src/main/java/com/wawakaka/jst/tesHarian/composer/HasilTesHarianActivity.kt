@@ -13,7 +13,6 @@ import com.wawakaka.jst.R
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.LogUtils
-import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.datasource.model.ResultEmptyError
@@ -22,7 +21,6 @@ import com.wawakaka.jst.datasource.server.model.NoInternetError
 import com.wawakaka.jst.tesHarian.composer.HasilTesHarianAddOrEditActivity.Companion.EXTRA_DAILY_TEST_RESULT
 import com.wawakaka.jst.tesHarian.composer.HasilTesHarianAddOrEditActivity.Companion.EXTRA_DAILY_TEST_RESULT_EDIT
 import com.wawakaka.jst.tesHarian.composer.HasilTesHarianAddOrEditActivity.Companion.EXTRA_DAILY_TEST_RESULT_NAME
-import com.wawakaka.jst.tesHarian.composer.HasilTesHarianAddOrEditActivity.Companion.EXTRA_ID_JADWAL_KELAS
 import com.wawakaka.jst.tesHarian.model.HasilTesHarian
 import com.wawakaka.jst.tesHarian.model.TesHarian
 import com.wawakaka.jst.tesHarian.presenter.TesHarianPresenter
@@ -35,11 +33,10 @@ import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_hasil_tes_harian.*
 
-class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener {
-
+class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
+    //todo add up and back button checking dialog
     companion object {
         private val TAG = TesHarianActivity::class.java.simpleName
-        const val ADD_REQUEST = 2080
         const val EDIT_REQUEST = 2081
     }
 
@@ -50,6 +47,7 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
     private var idJadwalKelas: Int? = null
     private val list: MutableList<AbstractFlexibleItem<*>> = mutableListOf()
     private var adapter = FlexibleAdapter(list, this, true)
+    private var tempList: MutableList<HasilTesHarian> = mutableListOf()
 
     init {
         initLayout()
@@ -57,8 +55,6 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
         initUnknownErrorView()
         initResultEmptyErrorView()
         initHasilTes()
-        initAddButton()
-        addNilaiResult()
         editNilaiResult()
         initSaveNilai()
     }
@@ -162,26 +158,10 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
 
     private fun hasilTesHolder(listHasilTes: MutableList<HasilTesHarian>) {
         list.clear()
-        listHasilTes.forEach { list.add(HasilTesHolder(it, tesHarianPresenter)) }
-    }
-
-    private fun initAddButton() {
-        RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { hideAddButtonIfAllScored() }
-            .flatMap { RxView.clicks(fab_add) }
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                launchAddActivity()
-            }
-    }
-
-    private fun hideAddButtonIfAllScored() {
-        if (isAllScored()) {
-            fab_add.makeGone()
-        } else {
-            fab_add.makeVisible()
+        tempList.clear()
+        tempList.addAll(listHasilTes)
+        listHasilTes.forEach {
+            list.add(HasilTesHolder(it, tesHarianPresenter))
         }
     }
 
@@ -192,39 +172,10 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
     private fun launchEditActivity(hasilTesHarian: HasilTesHarian,
                                    nama: String) {
         val intent = Intent(this, HasilTesHarianAddOrEditActivity::class.java)
-        intent.putExtra(EXTRA_ID_JADWAL_KELAS, idJadwalKelas)
         intent.putExtra(EXTRA_DAILY_TEST_RESULT, hasilTesHarian)
         intent.putExtra(EXTRA_DAILY_TEST_RESULT_NAME, nama)
         intent.putExtra(EXTRA_DAILY_TEST_RESULT_EDIT, true)
         startActivityForResult(intent, EDIT_REQUEST)
-    }
-
-    private fun launchAddActivity() {
-        val tesHarianId = tesHarianPresenter.getTesHarian(idJadwalKelas ?: 0).id
-        val intent = Intent(this, HasilTesHarianAddOrEditActivity::class.java)
-        intent.putExtra(EXTRA_ID_JADWAL_KELAS, idJadwalKelas)
-        intent.putExtra(EXTRA_DAILY_TEST_RESULT, HasilTesHarian(null, null, tesHarianId, null))
-        intent.putExtra(EXTRA_DAILY_TEST_RESULT_NAME, "")
-        intent.putExtra(EXTRA_DAILY_TEST_RESULT_EDIT, false)
-        startActivityForResult(intent, ADD_REQUEST)
-    }
-
-    private fun launchDeleteConfirmationDialog(hasilTesHarian: HasilTesHarian) {
-        //todo create delete dialog
-        ViewUtils
-            .showConfirmationObservable(
-                this,
-                getString(R.string.daily_delete_dialog_title),
-                getString(R.string.daily_delete_dialog_message)
-            )
-            .filter { it }
-            .subscribe {
-                var testHarian = tesHarianPresenter.getTesHarian(idJadwalKelas ?: 0)
-                var hasilTesHarianList = testHarian.hasilTesHarian
-                hasilTesHarianList?.remove(hasilTesHarianList.find { it.id == hasilTesHarian.id })
-                testHarian.hasilTesHarian = hasilTesHarianList
-                updateTesHarian(testHarian)
-            }
     }
 
     private fun updateTesHarian(tesHarian: TesHarian) {
@@ -274,28 +225,6 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
         hideAllViews()
         list_wrapper.makeVisible()
         save_nilai.makeVisible()
-        fab_add.makeVisible()
-    }
-
-    private fun addNilaiResult() {
-        LogUtils.debug(TAG, "initAddNilaiResult")
-        RxNavi
-            .observe(naviComponent, Event.ACTIVITY_RESULT)
-            .filter { isAddResultOk(it) }
-            .map { getAddOrEditHasilTestResult(it) ?: HasilTesHarian.empty }
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe(
-                {
-                    LogUtils.debug(TAG, "success in addNilaiResult")
-                    onAddHasilTestReceived(it)
-                },
-                { LogUtils.error(TAG, "Error in addNilaiResult", it) }
-            )
-    }
-
-    private fun isAddResultOk(result: ActivityResult): Boolean {
-        return result.requestCode() == ADD_REQUEST
-            && result.resultCode() == Activity.RESULT_OK
     }
 
     private fun onAddHasilTestReceived(hasilTesHarian: HasilTesHarian) {
@@ -326,7 +255,11 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
     }
 
     private fun onEditHasilTestReceived(hasilTesHarian: HasilTesHarian) {
-        LogUtils.debug("lista", list.toString())
+        tempList.forEach {
+            if (it.id == hasilTesHarian.id) {
+                it.hasil = hasilTesHarian.hasil
+            }
+        }
         (0 until list.size - 1).forEach { i ->
             val model = (list[i] as HasilTesHolder).model
             if (model.id == hasilTesHarian.id) {
@@ -335,20 +268,31 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
             }
         }
         onInitHasilTesSucced()
-        LogUtils.debug("listb", list.toString())
     }
 
-    private fun initSaveNilai(){
+    private fun initSaveNilai() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap { RxView.clicks(save_nilai) }
             .filter { list.isNotEmpty() }
-//            .flatMap {  }
+                .flatMap {
+                    tesHarianPresenter.updateHasilTesHarian(
+                            idJadwalKelas ?: 0,
+                            tesHarianPresenter.getTesHarian(idJadwalKelas ?: 0).id ?: 0,
+                            tempList
+                    )
+                }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
+                .subscribe(
+                        {
+                            LogUtils.debug(TAG, "success in initSaveNilai")
+                            tesHarianPresenter.publishTesHarianUpdateEvent()
+                            finish()
 
-            }
+                        },
+                        { LogUtils.error(TAG, "Error in initSaveNilai", it) }
+                )
     }
 
     private fun getAddOrEditHasilTestResult(result: ActivityResult): HasilTesHarian? {
@@ -377,7 +321,6 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
 
     private fun showResultEmptyErrorView() {
         hideAllViews()
-        fab_add.makeVisible()
         result_empty_error_view.makeVisible()
         result_empty_error_view.isEnabled = true
     }
@@ -385,7 +328,6 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
     private fun hideAllViews() {
         hideLoadingView()
         save_nilai.makeGone()
-        fab_add.makeGone()
         list_wrapper.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()
@@ -409,13 +351,6 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
             return true
         }
         return false
-    }
-
-    override fun onItemLongClick(position: Int) {
-        val item = adapter.getItem(position)
-        if (item is HasilTesHolder) {
-            launchDeleteConfirmationDialog(item.model)
-        }
     }
 
 }

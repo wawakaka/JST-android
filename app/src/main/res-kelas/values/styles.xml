@@ -1,11 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="card_view_styles">
-        <item name="android:padding">@dimen/medium_margin</item>
-        <item name="android:layout_marginTop">@dimen/medium_margin</item>
-        <item name="android:layout_marginBottom">@dimen/medium_margin</item>
-        <item name="android:layout_marginStart">@dimen/small_margin</item>
-        <item name="android:layout_marginEnd">@dimen/medium_margin</item>
-    </style>
 </resources>

@@ -10,7 +10,7 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.flexibleadapter.items.IHolder
-import kotlinx.android.synthetic.main.jadwal_item.view.*
+import kotlinx.android.synthetic.main.item_jadwal.view.*
 
 /**
  * Created by wawakaka on 11/25/2017.
@@ -23,7 +23,7 @@ data class JadwalHolder(private val model: JadwalKelas) : AbstractFlexibleItem<S
 
     override fun createViewHolder(view: View, adapter: FlexibleAdapter<out IFlexible<*>>): ScheduleViewHolder = ScheduleViewHolder(view, adapter)
 
-    override fun getLayoutRes(): Int = R.layout.jadwal_item
+    override fun getLayoutRes(): Int = R.layout.item_jadwal
 
     override fun bindViewHolder(adapter: FlexibleAdapter<out IFlexible<*>>, holder: ScheduleViewHolder, position: Int, payloads: MutableList<Any?>?) {
         setDate(holder)

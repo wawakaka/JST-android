@@ -6,9 +6,7 @@ import com.wawakaka.jst.base.utils.toResultEmptyErrorIfEmpty
 import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestManager
-import com.wawakaka.jst.tesHarian.model.HasilTesHarianUpdateEvent
-import com.wawakaka.jst.tesHarian.model.TesHarian
-import com.wawakaka.jst.tesHarian.model.TesHarianRequest
+import com.wawakaka.jst.tesHarian.model.*
 import io.reactivex.Observable
 
 /**
@@ -21,7 +19,15 @@ class TesHarianPresenter(val serverRequestManager: ServerRequestManager,
                       tesHarian: TesHarian): Observable<TesHarian> {
         return serverRequestManager
             .loadTesHarianObservable(idJadwalKelas, TesHarianRequest(tesHarian))
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }
+                .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
+                .map { it.data!! }
+                .doOnNext { saveTesHarian(it, idJadwalKelas) }
+    }
+
+    fun reloadTesHarian(idJadwalKelas: Int): Observable<TesHarian> {
+        return serverRequestManager
+                .reloadTesHarianObservable(idJadwalKelas)
+                .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data!! }
             .doOnNext { saveTesHarian(it, idJadwalKelas) }
     }
@@ -33,6 +39,15 @@ class TesHarianPresenter(val serverRequestManager: ServerRequestManager,
             .map { it.data!! }
             .filter { it }
             .doOnNext { saveTesHarian(tesHarian, idJadwalKelas) }
+    }
+
+    fun updateHasilTesHarian(idJadwalKelas: Int,
+                             idTesHarian: Int,
+                             hasilTesHarian: MutableList<HasilTesHarian>): Observable<Boolean> {
+        return serverRequestManager
+                .updateHasilTesHarian(idTesHarian, HasilTesHarianRequest(hasilTesHarian))
+                .map { it.data!! }
+
     }
 
     private fun saveTesHarian(tesHarian: TesHarian,
@@ -48,14 +63,15 @@ class TesHarianPresenter(val serverRequestManager: ServerRequestManager,
         return getSiswa().find { it.id == siswaId } ?: Siswa.empty
     }
 
+    //todo change this method to get siswa from kelas because this call need administrative privilege
     fun getSiswa(): List<Siswa> {
         return localRequestManager.getListSiswa()
     }
 
-    fun listenHasilTesHarianUpdateEvent() = RxBus.registerObservable<HasilTesHarianUpdateEvent>()
+    fun listenTesHarianUpdateEvent() = RxBus.registerObservable<TesHarianUpdateEvent>()
 
-    fun publishHasilTesHarianUpdateEvent() {
-        RxBus.post(HasilTesHarianUpdateEvent())
+    fun publishTesHarianUpdateEvent() {
+        RxBus.post(TesHarianUpdateEvent())
     }
 
 }

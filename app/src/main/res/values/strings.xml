@@ -6,18 +6,25 @@
     <string name="font_thin" translatable="false">fonts/Kirvy-Thin.otf</string>
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
+    <string name="delete">Hapus</string>
+    <string name="update">Update Status</string>
+    <string name="processing">Memproses</string>
 
     <string name="retry_label">Coba Lagi</string>
     <string name="error_network">Tidak ada jaringan. Pastikan kamu terhubung ke internet.</string>
     <string name="error_no_internet">Kamu tidak terhubung ke internet.\nHarap periksa koneksi kamu dan coba lagi.</string>
     <string name="error_unknown">Terjadi kesalahan pada sistem.\nHarap coba kembali.</string>
     <string name="error_empty">Belum ada data yang tesimpan</string>
+    <string name="error_token_expired">Sesi kamu telah berakhir. Harap login kembali.</string>
 
     <string name="unsaved_warning_title">Konfirmasi Navigasi</string>
     <string name="unsaved_warning_message">Kamu memiliki perubahan yang belum disimpan. Apakah kamu yakin ingin meninggalkan halaman ini?</string>
+    <string name="ok_button">Ok</string>
 
 
     <string name="invalid_data">Data tidak valid</string>
+    <string name="active">Active</string>
+    <string name="not_active">Not Active</string>
     <string name="kelas_private">Private</string>
     <string name="kelas_sekolah">SMAN 1</string>
 </resources>

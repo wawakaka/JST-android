@@ -3,6 +3,7 @@ package com.wawakaka.jst.navigation.presenter
 import com.birbit.android.jobqueue.JobManager
 import com.wawakaka.jst.base.presenter.BasePresenter
 import com.wawakaka.jst.datasource.local.LocalRequestManager
+import com.wawakaka.jst.login.model.User
 import com.wawakaka.jst.login.presenter.LoginPresenter
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -24,6 +25,8 @@ class NavigationPresenter(private val localRequestManager: LocalRequestManager,
                 loginPresenter.getFireBaseAuth().signOut()
             }
     }
+
+    fun getUser(): User = localRequestManager.getUser()
 
     override fun takeLocalRequestManager(): LocalRequestManager? = localRequestManager
 

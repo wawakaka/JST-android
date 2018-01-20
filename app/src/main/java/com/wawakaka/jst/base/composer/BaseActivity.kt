@@ -8,12 +8,15 @@ import com.trello.navi2.Event
 import com.trello.navi2.NaviComponent
 import com.trello.navi2.component.support.NaviAppCompatActivity
 import com.trello.navi2.rx.RxNavi
+import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.model.RequestPermissionResultStatus
+import com.wawakaka.jst.base.utils.LogoutUtils
 import com.wawakaka.jst.base.utils.RxBus
 import com.wawakaka.jst.base.utils.replaceFragmentSafely
 import com.wawakaka.jst.datasource.server.model.InvalidTokenError
 import com.wawakaka.jst.navigation.composer.NavigationFragment
 import com.wawakaka.jst.navigation.model.DrawerItemClickEvent
+import com.wawakaka.jst.navigation.presenter.NavigationPresenter
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,6 +32,7 @@ open class BaseActivity : NaviAppCompatActivity(), EasyPermissions.PermissionCal
         const val RC_SETTINGS_SCREEN = 1601
     }
 
+    private val navigationPresenter: NavigationPresenter by lazy { JstApplication.component.provideNavigationPresenter() }
     protected val naviComponent: NaviComponent = this
 
     private val rxBusId = hashCode()
@@ -38,6 +42,29 @@ open class BaseActivity : NaviAppCompatActivity(), EasyPermissions.PermissionCal
     private var requestCode = -1
     private var permissions: MutableList<String>? = null
     private var listener: Observer<RequestPermissionResultStatus>? = null
+
+    init {
+        initInvalidTokenError()
+    }
+
+    private fun initInvalidTokenError() {
+        RxNavi
+                .observe(naviComponent, Event.RESUME)
+                .observeOn(Schedulers.io())
+                .flatMap {
+                    listenToInvalidTokenErrorObservable()
+                            .takeUntil(RxNavi.observe(naviComponent, Event.PAUSE))
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe {
+                    LogoutUtils.showForceLogOutInformation(
+                            this,
+                            naviComponent,
+                            { navigationPresenter.onLogoutConfirmedObservable() }
+                    )
+                }
+    }
 
     /**
      * Listen if there is [InvalidTokenError] event
@@ -181,7 +208,7 @@ open class BaseActivity : NaviAppCompatActivity(), EasyPermissions.PermissionCal
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SETTINGS_SCREEN) {
-            if (permissions?.isEmpty() ?: true) {
+            if (permissions?.isEmpty() != false) {
                 return
             }
 

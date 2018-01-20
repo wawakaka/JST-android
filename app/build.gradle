@@ -11,7 +11,7 @@ android {
         release {
             keyAlias 'release'
             keyPassword '1234567890'
-            storeFile file('C:/Users/wawakaka/Videos/JST/keystore/keystore-release.jks')
+            storeFile file('C:/Users/babang/Documents/JST-android/keystore/keystore-release.jks')
             storePassword '1234567890'
         }
     }
@@ -46,7 +46,8 @@ android {
                     'src/main/res-jadwal',
                     'src/main/res-kelas',
                     'src/main/res-presensi',
-                    'src/main/res-tes-harian'
+                    'src/main/res-tes-harian',
+                    'src/main/res-admin'
             ]
         }
     }
@@ -98,5 +99,15 @@ dependencies {
     implementation 'com.birbit:android-priority-jobqueue:2.0.1'
     implementation 'net.danlew:android.joda:2.9.9.1'
 }
+
+
+
+
+
+
+
+
+
+
 
 apply plugin: 'com.google.gms.google-services'

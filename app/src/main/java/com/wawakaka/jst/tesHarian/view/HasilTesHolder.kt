@@ -2,6 +2,7 @@ package com.wawakaka.jst.tesHarian.view
 
 import android.view.View
 import com.wawakaka.jst.R
+import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.tesHarian.model.HasilTesHarian
 import com.wawakaka.jst.tesHarian.presenter.TesHarianPresenter
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -15,6 +16,8 @@ import kotlinx.android.synthetic.main.hasil_tes_item.view.*
  */
 data class HasilTesHolder(private val model: HasilTesHarian,
                           private val harianPresenter: TesHarianPresenter) : AbstractFlexibleItem<HasilTesViewHolder>(), IHolder<HasilTesHarian> {
+
+    private val context = JstApplication.component.provideApplicationContext()
 
     override fun getModel(): HasilTesHarian = model
 
@@ -36,6 +39,10 @@ data class HasilTesHolder(private val model: HasilTesHarian,
     }
 
     private fun setHasil(holder: HasilTesViewHolder) {
-        holder.itemView.hasil.text = model.hasil
+        if (holder.itemView.hasil.text.isNullOrBlank()) {
+            holder.itemView.hasil.text = context.getString(R.string.daily_test_result_not_scored_yet)
+        } else {
+            holder.itemView.hasil.text = model.hasil
+        }
     }
 }

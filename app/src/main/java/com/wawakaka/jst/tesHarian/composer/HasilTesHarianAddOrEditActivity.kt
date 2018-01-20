@@ -3,36 +3,26 @@ package com.wawakaka.jst.tesHarian.composer
 import android.app.Activity
 import android.content.Intent
 import android.view.MenuItem
-import android.widget.ArrayAdapter
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
-import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.base.view.ViewUtils
-import com.wawakaka.jst.base.view.makeGone
-import com.wawakaka.jst.base.view.makeVisible
-import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.tesHarian.model.HasilTesHarian
-import com.wawakaka.jst.tesHarian.presenter.TesHarianPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_test_result_add_or_edit.*
 
 
 class HasilTesHarianAddOrEditActivity : BaseActivity() {
-
+    //todo add field checking function
     companion object {
         private val TAG = HasilTesHarianAddOrEditActivity::class.java.simpleName
         const val EXTRA_DAILY_TEST_RESULT = "daily-test-result"
         const val EXTRA_DAILY_TEST_RESULT_NAME = "nama-daily-test-result"
         const val EXTRA_DAILY_TEST_RESULT_EDIT = "edit"
         const val EXTRA_ID_JADWAL_KELAS = "id-jadwal-kelas"
-    }
-
-    private val idJadwalKelas: Int? by lazy {
-        intent.getSerializableExtra(EXTRA_ID_JADWAL_KELAS) as? Int
     }
 
     private val hasilTesHarian: HasilTesHarian? by lazy {
@@ -47,15 +37,8 @@ class HasilTesHarianAddOrEditActivity : BaseActivity() {
         intent.getSerializableExtra(EXTRA_DAILY_TEST_RESULT_EDIT) as? Boolean
     }
 
-    private val listSiswa = mutableListOf<String>()
-
-    private val tesHarianPresenter: TesHarianPresenter by lazy {
-        JstApplication.component.provideTesHarianPresenter()
-    }
-
     init {
         initLayout()
-        initListSiswa()
         initData()
         initAddButton()
     }
@@ -74,33 +57,6 @@ class HasilTesHarianAddOrEditActivity : BaseActivity() {
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    private fun initListSiswa() {
-        RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .filter { isEdit != true }
-            .map { tesHarianPresenter.getSiswa() }
-            .doOnNext { setSpinnerAdapter(it) }
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                showListSiswa()
-            }
-    }
-
-    private fun setSpinnerAdapter(siswa: List<Siswa>) {
-        siswa.forEach {
-            listSiswa.add(it.nama ?: "")
-        }
-        var spinnerArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listSiswa)
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        list_siswa.adapter = spinnerArrayAdapter
-    }
-
-    private fun showListSiswa() {
-        list_siswa.makeVisible()
-        nama_siswa.makeGone()
     }
 
     private fun initData() {

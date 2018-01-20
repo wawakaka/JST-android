@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CardViewTitleStyles">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">@dimen/medium_margin</item>
+        <item name="android:paddingEnd">@dimen/medium_margin</item>
+        <item name="android:paddingBottom">@dimen/small_margin</item>
+        <item name="android:paddingTop">@dimen/small_margin</item>
+        <item name="android:textSize">@dimen/huge_font_size</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CardViewSubtitleStyles">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">@dimen/medium_margin</item>
+        <item name="android:paddingEnd">@dimen/medium_margin</item>
+        <item name="android:paddingBottom">@dimen/small_margin</item>
+        <item name="android:textSize">@dimen/small_font_size</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AddOrEditContainerStyles">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingStart">@dimen/medium_margin</item>
+        <item name="android:paddingEnd">@dimen/medium_margin</item>
+        <item name="android:paddingBottom">@dimen/small_margin</item>
+        <item name="android:paddingTop">@dimen/small_margin</item>
+    </style>
+
+    <style name="SaveButtonStyles">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:background">@drawable/button_primary</item>
+        <item name="android:layout_marginBottom">@dimen/large_margin</item>
+        <item name="android:layout_marginTop">@dimen/large_margin</item>
+        <item name="android:layout_marginStart">@dimen/medium_margin</item>
+        <item name="android:layout_marginEnd">@dimen/medium_margin</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/large_font_size</item>
+    </style>
+
+    <style name="AddOrEditInputStyles">
+        <item name="android:textSize">@dimen/large_font_size</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/medium_margin</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AddOrEditTextInputStyles">
+        <item name="android:textSize">@dimen/large_font_size</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+</resources>

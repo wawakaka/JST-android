@@ -5,13 +5,46 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <ScrollView
+        android:id="@+id/scrollable_menu"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/drawer_item_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.wawakaka.jst.navigation.view.DrawerItemView
+                android:id="@+id/drawer_item_kelas"
+                style="@style/NavigationMenuStyles"
+                app:drawerItemTitle="@string/menu_kelas" />
+
+            <com.wawakaka.jst.navigation.view.DrawerItemView
+                android:id="@+id/drawer_item_admin"
+                style="@style/NavigationMenuStyles"
+                app:drawerItemTitle="@string/menu_admin" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <View
+        android:id="@+id/bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_above="@+id/drawer_item_logout"
+        android:background="@color/light_grey" />
+
     <com.wawakaka.jst.navigation.view.DrawerItemView
         android:id="@+id/drawer_item_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white_2"
+        style="@style/NavigationMenuStyles"
         app:drawerItemIcon="@drawable/ic_logout"
-        app:drawerItemTitle="Logout"
+        app:drawerItemTitle="@string/menu_logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

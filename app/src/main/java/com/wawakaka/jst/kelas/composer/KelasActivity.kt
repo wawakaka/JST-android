@@ -7,7 +7,6 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.composer.BaseActivity
-import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.presensi.composer.PresensiActivity
 import com.wawakaka.jst.tesHarian.composer.TesHarianActivity
@@ -41,7 +40,6 @@ class KelasActivity : BaseActivity() {
                 idJadwalKelas = intent.getSerializableExtra(EXTRA_ID_JADWAL) as Int
                 setContentView(R.layout.activity_kelas)
                 initToolbar()
-                LogUtils.debug(TAG, "$kelas")
             }
     }
 
@@ -86,7 +84,6 @@ class KelasActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    //todo add loading view
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item?.itemId
         return if (id == android.R.id.home) {

@@ -91,7 +91,7 @@ class RetrofitModule {
     @Provides
     @Named("base_url")
     fun provideBaseUrl(): String {
-        return "https://jst-api.herokuapp.com/"
+        return "http://45.77.174.200:3000"
     }
 
     @Singleton

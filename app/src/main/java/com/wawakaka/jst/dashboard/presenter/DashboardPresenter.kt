@@ -24,15 +24,16 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
     fun loadClassObservable(): Observable<MutableList<Kelas>> {
         return serverRequestManager
             .loadClassObservable(getUser())
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }
+                .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data?.sortedBy { it.id }?.toMutableList() ?: mutableListOf() }
             .doOnNext { saveKelas(it) }
     }
 
     fun loadSiswaObservable():Observable<MutableList<Siswa>>{
+        //todo change this method
         return serverRequestManager
-            .loadSiswaObservable()
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }
+                .loadAllSiswaObservable()
+                .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data?.sortedBy { it.id }?.toMutableList() ?: mutableListOf() }
             .doOnNext { saveSiswa(it) }
     }
@@ -40,7 +41,7 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
     private fun getUser(): User = localRequestManager.getUser()
 
     private fun saveKelas(listKelas: List<Kelas>) {
-        localRequestManager.saveKelas(listKelas)
+        localRequestManager.saveListKelas(listKelas)
     }
 
     fun saveSiswa(listSiswa: List<Siswa>){

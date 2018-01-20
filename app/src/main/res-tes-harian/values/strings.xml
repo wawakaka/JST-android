@@ -14,6 +14,7 @@
     <string name="daily_test_result_edit_title">Edit Hasil Tes</string>
     <string name="daily_test_result_name_hint">Nama Siswa</string>
     <string name="daily_test_result_score_hint">Nilai</string>
+    <string name="daily_test_result_not_scored_yet">Belum Ada Nilai</string>
 
     <string name="daily_test_edit_save_button">Simpan</string>
 

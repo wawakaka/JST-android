@@ -2,26 +2,17 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/medium_margin">
 
     <com.wawakaka.jst.base.view.DefaultTextView
-        android:id="@+id/schedule_item_date"
+        android:id="@+id/nama_bidang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin"
-        android:text="tanggal"
-        android:textColor="@color/black"
+        android:text="id"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/large_font_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.wawakaka.jst.base.view.DefaultTextView
-        android:id="@+id/schedule_item_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin"
-        android:text="waktu"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -30,8 +21,9 @@
         android:layout_height="@dimen/divider_height"
         android:layout_marginTop="@dimen/medium_margin"
         android:background="@color/light_grey"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/schedule_item_date" />
+        app:layout_constraintTop_toBottomOf="@+id/nama_bidang" />
 
 </android.support.constraint.ConstraintLayout>

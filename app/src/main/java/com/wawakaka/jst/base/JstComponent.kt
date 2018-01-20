@@ -2,6 +2,8 @@ package com.wawakaka.jst.base
 
 import android.content.Context
 import com.google.gson.Gson
+import com.wawakaka.jst.admin.AdminModule
+import com.wawakaka.jst.admin.presenter.AdminPresenter
 import com.wawakaka.jst.base.utils.GsonModule
 import com.wawakaka.jst.base.utils.LogUtilsModule
 import com.wawakaka.jst.dashboard.DashboardModule
@@ -44,7 +46,8 @@ import javax.inject.Singleton
     NavigationModule::class,
     JobModule::class,
     PresensiModule::class,
-    TesHarianModule::class
+        TesHarianModule::class,
+        AdminModule::class
 ))
 interface JstComponent {
 
@@ -57,6 +60,7 @@ interface JstComponent {
     fun provideNavigationPresenter(): NavigationPresenter
     fun providePresensiPresenter(): PresensiPresenter
     fun provideTesHarianPresenter(): TesHarianPresenter
+    fun provideAdminPresenter(): AdminPresenter
 
     @Named("lower_case_with_underscores_gson")
     fun provideGson(): Gson

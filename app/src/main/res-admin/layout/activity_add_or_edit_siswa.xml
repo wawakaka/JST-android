@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wawakaka.jst.tesHarian.composer.HasilTesHarianAddOrEditActivity">
+    tools:context="com.wawakaka.jst.jadwal.composer.JadwalActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -25,14 +28,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
-                <com.wawakaka.jst.base.view.DefaultTextView
+                <com.wawakaka.jst.base.view.BoldTextView
                     android:id="@+id/toolbar_title"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:gravity="center_vertical"
-                    android:text="@string/daily_test_result_edit_title"
+                    android:text="@string/add_siswa_title"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -44,54 +47,55 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/medium_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Spinner
-            android:id="@+id/list_siswa"
-            style="@style/DailyTestResultItemStyles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:visibility="visible" />
+        <LinearLayout style="@style/AddOrEditContainerStyles">
 
-        <com.wawakaka.jst.base.view.DefaultTextView
-            android:id="@+id/nama_siswa"
-            style="@style/DefaultTextStyles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/large_margin"
-            android:text="@string/daily_test_result_name_hint" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/nama_hint"
+                style="@style/AddOrEditInputStyles"
+                android:hint="@string/add_or_edit_nama_hint">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/nilai_container"
-            style="@style/DailyTestResultItemStyles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/daily_test_result_score_hint">
+                <com.wawakaka.jst.base.view.DefaultTextInputEditText
+                    android:id="@+id/nama_text"
+                    style="@style/AddOrEditTextInputStyles" />
 
-            <com.wawakaka.jst.base.view.DefaultTextInputEditText
-                android:id="@+id/nilai"
-                style="@style/DefaultTextStyles"
+            </android.support.design.widget.TextInputLayout>
+
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/sekolah_hint"
+                style="@style/AddOrEditTextInputStyles"
+                android:text="@string/add_or_edit_sekolah_hint" />
+
+            <Spinner
+                android:id="@+id/sekolah_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:spinnerMode="dialog" />
 
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/kelas_hint"
+                style="@style/AddOrEditInputStyles"
+                android:hint="@string/add_or_edit_kelas_hint">
 
-    </LinearLayout>
+                <com.wawakaka.jst.base.view.DefaultTextInputEditText
+                    android:id="@+id/kelas_text"
+                    style="@style/AddOrEditTextInputStyles" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.wawakaka.jst.base.view.BoldButton
         android:id="@+id/save_button"
-        style="@style/DailyTestButtonStyles"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/medium_margin"
-        android:text="@string/daily_test_edit_save_button" />
+        style="@style/SaveButtonStyles"
+        android:text="@string/add_or_edit_save_button" />
 
 </android.support.design.widget.CoordinatorLayout>

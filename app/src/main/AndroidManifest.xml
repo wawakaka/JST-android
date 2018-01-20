@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.wawakaka.jst"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wawakaka.jst">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -29,6 +29,16 @@
         <activity android:name=".tesHarian.composer.TesHarianActivity" />
         <activity android:name=".tesHarian.composer.HasilTesHarianActivity" />
         <activity android:name=".tesHarian.composer.HasilTesHarianAddOrEditActivity" />
+        <activity android:name=".admin.composer.AdminActivity" />
+        <activity android:name=".admin.composer.ManageSiswaActivity" />
+        <activity android:name=".admin.composer.ManageJadwalKelasActivity" />
+        <activity android:name=".admin.composer.ManageBidangActivity" />
+        <activity android:name=".admin.composer.ManageKelasActivity" />
+        <activity android:name=".admin.composer.AddOrEditBidangActivity" />
+        <activity android:name=".admin.composer.AddOrEditSiswaActivity" />
+        <activity android:name=".admin.composer.AddOrEditJadwalKelasActivity" />
+        <activity android:name=".admin.composer.AddOrEditSekolahActivity" />
+        <activity android:name=".admin.composer.AddOrEditKelasActivity"></activity>
     </application>
 
 </manifest>
