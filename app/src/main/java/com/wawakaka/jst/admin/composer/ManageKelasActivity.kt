@@ -1,5 +1,6 @@
 package com.wawakaka.jst.admin.composer
 
+import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
@@ -9,6 +10,7 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.admin.presenter.AdminPresenter
+import com.wawakaka.jst.admin.utils.ExtraUtils
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.LogUtils
@@ -18,6 +20,7 @@ import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.view.KelasHolder
+import com.wawakaka.jst.datasource.model.ResultEmptyError
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -28,7 +31,7 @@ import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_manage_kelas.*
 
-class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListener {
+class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener {
 
     companion object {
         private val TAG = ManageKelasActivity::class.java.simpleName
@@ -179,6 +182,7 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListe
         list_kelas_container.adapter = adapter
     }
 
+    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -196,6 +200,9 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListe
                 } else {
                     showSnackbarError(getString(R.string.error_no_internet))
                 }
+            }
+            is ResultEmptyError -> {
+                //todo add empty screen or leave it blank
             }
             else -> {
                 if (list.isEmpty()) {
@@ -219,6 +226,7 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListe
     private fun showListKelas() {
         hideAllViews()
         list_kelas_container.makeVisible()
+        add_kelas.makeVisible()
     }
 
     private fun initAddButton() {
@@ -228,7 +236,13 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListe
                 .flatMap { RxView.clicks(add_kelas) }
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe {
+                    launchAddKelasActivity()
                 }
+    }
+
+    private fun launchAddKelasActivity() {
+        val intent = Intent(this, AddOrEditKelasActivity::class.java)
+        startActivity(intent)
     }
 
     private fun showNetworkErrorView() {
@@ -244,6 +258,7 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListe
     }
 
     private fun hideAllViews() {
+        add_kelas.makeGone()
         list_kelas_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()
@@ -256,6 +271,22 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListe
 
     private fun hideLoadProgress() {
         kelas_list_refresher?.let { it.isRefreshing = false }
+    }
+
+    override fun onItemClick(position: Int): Boolean {
+        val item = adapter.getItem(position)
+        if (item is KelasHolder) {
+            launchEditKelasActivity(item.model)
+            return true
+        }
+        return false
+    }
+
+    private fun launchEditKelasActivity(kelas: Kelas) {
+        val intent = Intent(this, AddOrEditKelasActivity::class.java)
+        intent.putExtra(ExtraUtils.IS_EDIT, true)
+        intent.putExtra(ExtraUtils.KELAS, kelas)
+        startActivity(intent)
     }
 
     override fun onItemLongClick(position: Int) {

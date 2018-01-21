@@ -24,7 +24,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
                 .loadAllBidangObservable()
                 .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
                 .map { it.data!! }
-                .doOnNext { localRequestManager.saveListBidang(it) }
+                .doOnNext { saveBidang(it) }
     }
 
     fun addBidangObservable(bidang: Bidang): Observable<Boolean> {
@@ -71,9 +71,9 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
                 .map { it.data!! }
     }
 
-    fun getJadwalKelasUserObservable(jadwalKelas: JadwalKelas): Observable<User> {
+    fun loadJadwalKelasUserObservable(jadwalKelas: JadwalKelas): Observable<User> {
         return serverRequestManager
-                .getJadwalUserObservable(
+                .loadJadwalUserObservable(
                         jadwalKelas.id ?: 0
                 )
                 .map { it.data!! }
@@ -84,6 +84,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
                 .loadAllSiswaObservable()
                 .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
                 .map { it.data!! }
+                .doOnNext { saveSiswa(it) }
     }
 
     fun addSiswaObservable(siswa: Siswa): Observable<Boolean> {
@@ -119,14 +120,73 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
                 .doOnNext { localRequestManager.saveListKelas(it) }
     }
 
+    fun addKelasObservable(kelas: Kelas): Observable<Boolean> {
+        return serverRequestManager
+                .addKelasObservable(KelasRequestWrapper(kelas))
+                .map { it.data!! }
+
+    }
+
+    fun updateKelasObservable(id: Int,
+                              kelas: Kelas): Observable<Boolean> {
+        return serverRequestManager
+                .updateKelasObservable(
+                        id,
+                        KelasRequestWrapper(kelas)
+                )
+                .map { it.data!! }
+    }
+
     fun updateStatusKelasObservable(id: Int): Observable<Boolean> {
         return serverRequestManager
                 .updateStatusKelasObservable(id)
                 .map { it.data!! }
     }
 
+    fun loadAllUser(): Observable<MutableList<User>> {
+        return serverRequestManager
+                .loadAllUserObservable()
+                .map { it.data!! }
+                .doOnNext { saveUsers(it) }
+    }
+
+    fun loadAllSekolah(): Observable<MutableList<Sekolah>> {
+        return serverRequestManager
+                .loadAllSekolahObservable()
+                .map { it.data!! }
+                .doOnNext { saveSekolah(it) }
+    }
+
+    fun getSiswa(): MutableList<Siswa> {
+        return localRequestManager.getListSiswa().toMutableList()
+    }
+
+    private fun saveSiswa(siswa: MutableList<Siswa>) {
+        localRequestManager.saveListSiswa(siswa)
+    }
+
+    fun getUsers(): MutableList<User> {
+        return localRequestManager.getListUser().toMutableList()
+    }
+
+    private fun saveUsers(users: MutableList<User>) {
+        localRequestManager.saveListUser(users)
+    }
+
     fun getSekolah(): MutableList<Sekolah> {
         return localRequestManager.getListSekolah().toMutableList()
+    }
+
+    private fun saveSekolah(sekolah: MutableList<Sekolah>) {
+        localRequestManager.saveListSekolah(sekolah)
+    }
+
+    fun getBidang(): MutableList<Bidang> {
+        return localRequestManager.getListBidang().toMutableList()
+    }
+
+    private fun saveBidang(bidang: MutableList<Bidang>) {
+        localRequestManager.saveListBidang(bidang)
     }
 
     fun publishRefreshListBidangEvent() {

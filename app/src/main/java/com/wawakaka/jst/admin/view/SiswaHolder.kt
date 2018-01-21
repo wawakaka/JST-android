@@ -40,7 +40,7 @@ data class SiswaHolder(private val model: Siswa) : AbstractFlexibleItem<SiswaVie
     }
 
     private fun setkelasSiswa(holder: SiswaViewHolder) {
-        holder.itemView.kelas_siswa.text = model.kela
+        holder.itemView.kelas_siswa.text = model.kelas
     }
 
     private fun setStatus(holder: SiswaViewHolder) {

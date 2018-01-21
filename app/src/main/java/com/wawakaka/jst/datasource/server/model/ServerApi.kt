@@ -19,6 +19,11 @@ import retrofit2.http.*
  */
 interface ServerApi {
 
+    //    route user
+    @GET("user/all")
+    fun loadAllUserObservable(@Header("Authorization") token: String,
+                              @Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<User>>>
+
     @POST("user/login/{email}")
     fun loginObservable(@Header("Content-Type") acceptFormat: String,
                         @Path("email") email: String?,
@@ -107,7 +112,18 @@ interface ServerApi {
     fun loadAllKelasObservable(@Header("Authorization") token: String,
                                @Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<Kelas>>>
 
+    @POST("/kelas/create")
+    fun addKelasObservable(@Header("Authorization") token: String,
+                           @Header("Content-Type") acceptFormat: String,
+                           @Body kelas: KelasRequestWrapper): Observable<ServerResponseWrapper<Boolean>>
+
     @PUT("/kelas/{id}/update")
+    fun updateKelasObservable(@Header("Authorization") token: String,
+                              @Header("Content-Type") acceptFormat: String,
+                              @Path("id") id: Int?,
+                              @Body kelas: KelasRequestWrapper): Observable<ServerResponseWrapper<Boolean>>
+
+    @PUT("/kelas/{id}/updatestatus")
     fun updateStatusKelasObservable(@Header("Authorization") token: String,
                                     @Header("Content-Type") acceptFormat: String,
                                     @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
@@ -133,9 +149,9 @@ interface ServerApi {
                                @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
 
     @GET("/jadwalkelas/user/{idJadwal}")
-    fun getJadwalUserObservable(@Header("Authorization") token: String,
-                                @Header("Content-Type") acceptFormat: String,
-                                @Path("idJadwal") id: Int?): Observable<ServerResponseWrapper<User>>
+    fun loadJadwalUserObservable(@Header("Authorization") token: String,
+                                 @Header("Content-Type") acceptFormat: String,
+                                 @Path("idJadwal") id: Int?): Observable<ServerResponseWrapper<User>>
 
     @GET("/sekolah/all")
     fun loadAllSekolahObservable(@Header("Authorization") token: String,

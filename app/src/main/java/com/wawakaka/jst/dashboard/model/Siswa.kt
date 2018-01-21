@@ -9,7 +9,7 @@ import java.io.Serializable
  */
 data class Siswa(val id: String?,
                  val nama: String?,
-                 val kela: String?,
+                 val kelas: String?,
                  val isActive: Boolean?,
                  val kelaId: String?,
                  val sekolahNama: String?,

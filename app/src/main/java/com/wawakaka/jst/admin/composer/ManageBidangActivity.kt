@@ -21,6 +21,7 @@ import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.model.Bidang
+import com.wawakaka.jst.datasource.model.ResultEmptyError
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -182,6 +183,7 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener
         list_bidang_container.adapter = adapter
     }
 
+    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -199,6 +201,9 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener
                 } else {
                     showSnackbarError(getString(R.string.error_no_internet))
                 }
+            }
+            is ResultEmptyError -> {
+                //todo add empty screen or leave it blank
             }
             else -> {
                 if (list.isEmpty()) {
@@ -221,6 +226,7 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener
 
     private fun showListBidang() {
         hideAllViews()
+        add_bidang.makeVisible()
         list_bidang_container.makeVisible()
     }
 
@@ -248,6 +254,7 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener
     }
 
     private fun hideAllViews() {
+        add_bidang.makeGone()
         list_bidang_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()

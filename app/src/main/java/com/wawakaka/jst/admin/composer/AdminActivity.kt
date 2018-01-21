@@ -17,6 +17,7 @@ class AdminActivity : BaseActivity() {
         initNavigationDrawer()
         initManageKelasButton()
         initManageJadwalKelasButton()
+        initManageSekolahButton()
         initManageSiswaButton()
         initManageBidangButton()
     }
@@ -76,6 +77,21 @@ class AdminActivity : BaseActivity() {
         startActivity(intent)
     }
 
+    private fun initManageSekolahButton() {
+        RxNavi
+                .observe(naviComponent, Event.CREATE)
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap { RxView.clicks(admin_siswa) }
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe { launchManageSekolahActivity() }
+    }
+
+    private fun launchManageSekolahActivity() {
+        val intent = Intent(this, ManageSiswaActivity::class.java)
+        startActivity(intent)
+    }
+
+
     private fun initManageSiswaButton() {
         RxNavi
                 .observe(naviComponent, Event.CREATE)
@@ -86,7 +102,7 @@ class AdminActivity : BaseActivity() {
     }
 
     private fun launchManageSiswaActivity() {
-        val intent = Intent(this, ManageSiswaActivity::class.java)
+        val intent = Intent(this, ManageSekolahActivity::class.java)
         startActivity(intent)
     }
 

@@ -17,10 +17,10 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
     companion object {
         private const val KEY_USER = "user"
         private const val KEY_LIST_USER = "list-user"
+        private const val KEY_LIST_SISWA = "list-siswa"
         private const val KEY_KELAS = "kelas"
         private const val KEY_PRESENSI_CHECKED_LIST = "presensi-checked-list"
         private const val KEY_TES_HARIAN = "tes-harian"
-        private const val KEY_SISWA = "siswa"
         private const val KEY_BIDANG = "bidang"
         private const val KEY_SEKOLAH = "sekolah"
 
@@ -81,11 +81,11 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
     }
 
     fun saveListSiswa(listSiswa: List<Siswa>) {
-        return preferenceApi.putListObject(KEY_SISWA, listSiswa)
+        return preferenceApi.putListObject(KEY_LIST_SISWA, listSiswa)
     }
 
     fun getListSiswa(): List<Siswa> {
-        return preferenceApi.getListObject(KEY_SISWA, listOf(), Siswa::class.java)
+        return preferenceApi.getListObject(KEY_LIST_SISWA, listOf(), Siswa::class.java)
     }
 
     fun saveListBidang(bidang: List<Bidang>) {

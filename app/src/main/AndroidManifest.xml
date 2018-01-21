@@ -38,7 +38,8 @@
         <activity android:name=".admin.composer.AddOrEditSiswaActivity" />
         <activity android:name=".admin.composer.AddOrEditJadwalKelasActivity" />
         <activity android:name=".admin.composer.AddOrEditSekolahActivity" />
-        <activity android:name=".admin.composer.AddOrEditKelasActivity"></activity>
+        <activity android:name=".admin.composer.AddOrEditKelasActivity" />
+        <activity android:name=".admin.composer.ManageSekolahActivity"></activity>
     </application>
 
 </manifest>

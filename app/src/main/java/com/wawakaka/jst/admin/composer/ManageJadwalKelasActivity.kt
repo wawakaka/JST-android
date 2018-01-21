@@ -20,6 +20,7 @@ import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.model.JadwalKelas
+import com.wawakaka.jst.datasource.model.ResultEmptyError
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
 import com.wawakaka.jst.jadwal.view.JadwalHolder
@@ -182,6 +183,7 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
         list_schedule_container.adapter = adapter
     }
 
+    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -199,6 +201,9 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
                 } else {
                     showSnackbarError(getString(R.string.error_no_internet))
                 }
+            }
+            is ResultEmptyError -> {
+                //todo add empty screen or leave it blank
             }
             else -> {
                 if (list.isEmpty()) {
@@ -221,6 +226,7 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
 
     private fun showListJadwalKelas() {
         hideAllViews()
+        add_jadwal_kelas.makeVisible()
         list_schedule_container.makeVisible()
     }
 
@@ -248,6 +254,7 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
     }
 
     private fun hideAllViews() {
+        add_jadwal_kelas.makeGone()
         list_schedule_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()

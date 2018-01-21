@@ -30,24 +30,33 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         val TAG: String = ServerRequestManager::class.java.simpleName
     }
 
+    fun loadAllUserObservable(): Observable<ServerResponseWrapper<MutableList<User>>> {
+        return handleServerRequestError(
+                serverApi.loadAllUserObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader()
+                )
+        )
+    }
+
     fun loginObservable(user: User): Observable<ServerResponseWrapper<User>> {
         return handleServerRequestError(
-            serverApi.loginObservable(
-                getAcceptApplicationJsonHeader(),
-                user.email,
-                user
-            )
+                serverApi.loginObservable(
+                        getAcceptApplicationJsonHeader(),
+                        user.email,
+                        user
+                )
         )
     }
 
     fun updateUserObservable(user: User): Observable<ServerResponseWrapper<User>> {
         return handleServerRequestError(
-            serverApi.updateUserObservable(
-                    getAccessTokenHeader(),
-                getAcceptApplicationJsonHeader(),
-                user.email,
-                user
-            )
+                serverApi.updateUserObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader(),
+                        user.email,
+                        user
+                )
         )
     }
 
@@ -55,43 +64,43 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         return handleServerRequestError(
                 serverApi.loadKelasObservable(
                         getAccessTokenHeader(),
-                getAcceptApplicationJsonHeader(),
-                user.email
-            )
+                        getAcceptApplicationJsonHeader(),
+                        user.email
+                )
         )
     }
 
     fun loadPresensiCheckedListObservable(idJadwalKelas: Int?): Observable<ServerResponseWrapper<MutableList<Presensi>>> {
         return handleServerRequestError(
-            serverApi.loadPresensiCheckedListObservable(
-                    getAccessTokenHeader(),
-                getAcceptApplicationJsonHeader(),
-                idJadwalKelas
-            )
+                serverApi.loadPresensiCheckedListObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader(),
+                        idJadwalKelas
+                )
         )
     }
 
     fun savePresensiCheckedListObservable(jadwalKelasId: Int?,
                                           request: PresensiRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
         return handleServerRequestError(
-            serverApi.savePresensiCheckedListObservable(
-                    getAccessTokenHeader(),
-                getAcceptApplicationJsonHeader(),
-                jadwalKelasId,
-                request
-            )
+                serverApi.savePresensiCheckedListObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader(),
+                        jadwalKelasId,
+                        request
+                )
         )
     }
 
     fun loadTesHarianObservable(idJadwalKelas: Int?,
                                 tesHarian: TesHarianRequest): Observable<ServerResponseWrapper<TesHarian>> {
         return handleServerRequestError(
-            serverApi.loadTesHarianObservable(
-                    getAccessTokenHeader(),
-                getAcceptApplicationJsonHeader(),
-                idJadwalKelas,
-                tesHarian
-            )
+                serverApi.loadTesHarianObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader(),
+                        idJadwalKelas,
+                        tesHarian
+                )
         )
     }
 
@@ -107,12 +116,12 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
 
     fun updateTesHarianObservable(tesHarian: TesHarian?): Observable<ServerResponseWrapper<Boolean>> {
         return handleServerRequestError(
-            serverApi.updateTesHarianObservable(
-                    getAccessTokenHeader(),
-                getAcceptApplicationJsonHeader(),
-                tesHarian!!.id,
-                tesHarian
-            )
+                serverApi.updateTesHarianObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader(),
+                        tesHarian!!.id,
+                        tesHarian
+                )
         )
     }
 
@@ -120,8 +129,8 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         return handleServerRequestError(
                 serverApi.loadAllSiswaObservable(
                         getAccessTokenHeader(),
-                getAcceptApplicationJsonHeader()
-            )
+                        getAcceptApplicationJsonHeader()
+                )
         )
     }
 
@@ -207,6 +216,28 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         )
     }
 
+    fun addKelasObservable(kelas: KelasRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+                serverApi.addKelasObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader(),
+                        kelas
+                )
+        )
+    }
+
+    fun updateKelasObservable(id: Int,
+                              kelas: KelasRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+                serverApi.updateKelasObservable(
+                        getAccessTokenHeader(),
+                        getAcceptApplicationJsonHeader(),
+                        id,
+                        kelas
+                )
+        )
+    }
+
     fun updateStatusKelasObservable(id: Int): Observable<ServerResponseWrapper<Boolean>> {
         return handleServerRequestError(
                 serverApi.updateStatusKelasObservable(
@@ -258,9 +289,9 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         )
     }
 
-    fun getJadwalUserObservable(idJadwal: Int): Observable<ServerResponseWrapper<User>> {
+    fun loadJadwalUserObservable(idJadwal: Int): Observable<ServerResponseWrapper<User>> {
         return handleServerRequestError(
-                serverApi.getJadwalUserObservable(
+                serverApi.loadJadwalUserObservable(
                         getAccessTokenHeader(),
                         getAcceptApplicationJsonHeader(),
                         idJadwal

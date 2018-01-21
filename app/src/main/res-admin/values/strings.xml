@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="menu_jadwal_kelas">Jadwal Kelas</string>
+    <string name="menu_sekolah">Sekolah</string>
     <string name="menu_siswa">Siswa</string>
     <string name="menu_bidang">Bidang</string>
     <string name="menu_kelas_subtitle">Tambah dan ubah kelas</string>
     <string name="menu_jadwal_kelas_subtitle">Tambah dan ubah jadwal kelas</string>
-    <string name="menu_siswa_subtitle">Tambah sekolah baru dan ubah sekolah lama</string>
+    <string name="menu_sekolah_subtitle">Tambah dan ubah sekolah</string>
+    <string name="menu_siswa_subtitle">Tambah dan ubdah siswa</string>
     <string name="menu_bidang_subtitle">Tambah dan ubah bidang</string>
     <string name="manage_jadwal_kelas_title">Kelola Jadwal Kelas</string>
     <string name="manage_kelas_title">Kelola Kelas</string>
@@ -45,5 +47,13 @@
     <string name="add_or_edit_jadwal_kelas_hint">Jadwal Kelas</string>
     <string name="add_or_edit_tambah_siswa">Tambah Siswa</string>
     <string name="add_or_edit_save_button">Simpan</string>
+
+    <string name="add_or_edit_user_error">Nama guru tidak boleh kosong</string>
+    <string name="add_or_edit_nama_error">Nama tidak boleh kosong</string>
+    <string name="add_or_edit_kelas_error">Kelas tidak boleh kosong</string>
+    <string name="add_or_edit_status_error">Status</string>
+    <string name="add_or_edit_bidang_error">Bidang tidak boleh kosong</string>
+    <string name="add_or_edit_sekolah_error">Sekolah tidak boleh kosong</string>
+    <string name="add_or_edit_jadwal_kelas_error">Jadwal Kelas tidak boleh kosong</string>
 
 </resources>

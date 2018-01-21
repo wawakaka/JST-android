@@ -67,14 +67,45 @@
                 android:spinnerMode="dialog" />
 
             <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/user_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_user_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/bidang_hint"
                 style="@style/AddOrEditInputStyles"
                 android:text="@string/add_or_edit_bidang_hint" />
 
             <Spinner
+                android:id="@+id/bidang_spinner"
+                style="@style/AddOrEditInputStyles"
+                android:spinnerMode="dialog" />
+
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/bidang_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_bidang_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/sekolah_hint"
+                style="@style/AddOrEditInputStyles"
+                android:text="@string/add_or_edit_sekolah_hint" />
+
+            <Spinner
                 android:id="@+id/sekolah_spinner"
                 style="@style/AddOrEditInputStyles"
                 android:spinnerMode="dialog" />
+
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/sekolah_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_sekolah_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <Switch
                 android:id="@+id/is_kelas_active"
@@ -89,43 +120,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/kelas_private" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/sekolah_hint"
-                style="@style/AddOrEditInputStyles"
-                android:hint="@string/add_or_edit_sekolah_hint"
-                android:visibility="gone">
-
-                <com.wawakaka.jst.base.view.DefaultTextInputEditText
-                    android:id="@+id/sekolah_text"
-                    style="@style/AddOrEditTextInputStyles" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <com.wawakaka.jst.base.view.DefaultButton
-                android:id="@+id/add_siswa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="?selectableItemBackground"
-                android:drawableStart="@drawable/ic_add_24dp_accent"
-                android:text="@string/add_or_edit_tambah_siswa"
-                android:textColor="@color/accent" />
-
-            <FrameLayout
-                android:id="@+id/list_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/medium_margin"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_siswa_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never" />
-
-            </FrameLayout>
 
         </LinearLayout>
 

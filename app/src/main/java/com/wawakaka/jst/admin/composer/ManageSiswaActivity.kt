@@ -21,6 +21,7 @@ import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.model.Siswa
+import com.wawakaka.jst.datasource.model.ResultEmptyError
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -193,6 +194,7 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                 }
     }
 
+    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -210,6 +212,9 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                 } else {
                     showSnackbarError(getString(R.string.error_no_internet))
                 }
+            }
+            is ResultEmptyError -> {
+                //todo add empty screen or leave it blank
             }
             else -> {
                 if (list.isEmpty()) {
@@ -232,6 +237,7 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun showListSiswa() {
         hideAllViews()
+        add_siswa.makeVisible()
         list_siswa_container.makeVisible()
     }
 
@@ -248,6 +254,7 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
     }
 
     private fun hideAllViews() {
+        add_siswa.makeGone()
         list_siswa_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()
