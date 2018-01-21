@@ -23,8 +23,8 @@
     <string name="delete_jadwal_title">Hapus Jadwal</string>
     <string name="delete_jadwal_message">Apakah kamu yakin akan menghapus jadwal ini?</string>
     <string name="delete_jadwal_error_message">Gagal menghapus jadwal. Silahkan coba kembali?</string>
-    <string name="delete_siswa_title">Non-aktifkan Siswa</string>
-    <string name="delete_siswa_message">Apakah kamu yakin akan menonaktifkan sekolah ini?</string>
+    <string name="delete_siswa_title">Ubah Status Siswa</string>
+    <string name="delete_siswa_message">Apakah kamu yakin akan mengubah status siswa ini?</string>
     <string name="delete_siswa_error_message">Gagal menonaktifkan sekolah. Silahkan coba kembali?</string>
 
     <string name="add_bidang_title">Tambah Bidang Baru</string>

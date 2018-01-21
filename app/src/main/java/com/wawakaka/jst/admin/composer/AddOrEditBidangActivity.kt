@@ -85,6 +85,7 @@ class AddOrEditBidangActivity : BaseActivity() {
     }
 
     private fun onSaveBidangSucceed() {
+        adminPresenter.publishRefreshListBidangEvent()
         hideProgressDialog()
         finish()
     }

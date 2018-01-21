@@ -11,7 +11,7 @@ data class Siswa(val id: String?,
                  val nama: String?,
                  val kelas: String?,
                  val isActive: Boolean?,
-                 val kelaId: String?,
+                 val kelaId: Int?,
                  val sekolahNama: String?,
                  val hasilTesHarian: MutableList<HasilTesHarian>?,
                  val laporanAkhir: LaporanAkhir?) : Serializable, Emptiable {

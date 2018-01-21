@@ -110,15 +110,11 @@
             <Switch
                 android:id="@+id/is_kelas_active"
                 style="@style/AddOrEditInputStyles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/add_or_edit_status_hint" />
 
             <Switch
                 android:id="@+id/is_kelas_private"
                 style="@style/AddOrEditInputStyles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/kelas_private" />
 
         </LinearLayout>

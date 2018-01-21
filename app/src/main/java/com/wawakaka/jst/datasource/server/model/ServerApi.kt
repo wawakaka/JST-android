@@ -78,7 +78,7 @@ interface ServerApi {
     fun loadAllSiswaObservable(@Header("Authorization") token: String,
                                @Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<Siswa>>>
 
-    @GET("/siswa/create")
+    @POST("/siswa/create")
     fun addSiswaObservable(@Header("Authorization") token: String,
                            @Header("Content-Type") acceptFormat: String,
                            @Body siswa: SiswaRequestWrapper): Observable<ServerResponseWrapper<Boolean>>

@@ -300,8 +300,8 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                         ViewUtils
                                 .showConfirmationObservable(
                                         this,
-                                        getString(R.string.delete_kelas_title),
-                                        getString(R.string.delete_kelas_message)
+                                        getString(R.string.delete_siswa_title),
+                                        getString(R.string.delete_siswa_message)
                                 )
                     }
                     .filter { it }
@@ -327,6 +327,7 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
     }
 
     private fun onUpdateSiswaSucceded() {
+        hideProgressDialog()
         adminPresenter.publishRefreshListSiswaEvent()
     }
 

@@ -81,13 +81,13 @@ class AdminActivity : BaseActivity() {
         RxNavi
                 .observe(naviComponent, Event.CREATE)
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(admin_siswa) }
+                .flatMap { RxView.clicks(admin_sekolah) }
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe { launchManageSekolahActivity() }
     }
 
     private fun launchManageSekolahActivity() {
-        val intent = Intent(this, ManageSiswaActivity::class.java)
+        val intent = Intent(this, ManageSekolahActivity::class.java)
         startActivity(intent)
     }
 
@@ -102,7 +102,7 @@ class AdminActivity : BaseActivity() {
     }
 
     private fun launchManageSiswaActivity() {
-        val intent = Intent(this, ManageSekolahActivity::class.java)
+        val intent = Intent(this, ManageSiswaActivity::class.java)
         startActivity(intent)
     }
 

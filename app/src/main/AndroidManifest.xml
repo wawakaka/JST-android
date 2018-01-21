@@ -10,6 +10,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -39,7 +40,7 @@
         <activity android:name=".admin.composer.AddOrEditJadwalKelasActivity" />
         <activity android:name=".admin.composer.AddOrEditSekolahActivity" />
         <activity android:name=".admin.composer.AddOrEditKelasActivity" />
-        <activity android:name=".admin.composer.ManageSekolahActivity"></activity>
+        <activity android:name=".admin.composer.ManageSekolahActivity" />
     </application>
-
+    //todo fix activity input settings before release
 </manifest>

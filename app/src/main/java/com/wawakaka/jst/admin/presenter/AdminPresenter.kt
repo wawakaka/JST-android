@@ -117,7 +117,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
                 .loadAllKelasObservable()
                 .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
                 .map { it.data!! }
-                .doOnNext { localRequestManager.saveListKelas(it) }
+                .doOnNext { saveKelas(it) }
     }
 
     fun addKelasObservable(kelas: Kelas): Observable<Boolean> {
@@ -187,6 +187,14 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
 
     private fun saveBidang(bidang: MutableList<Bidang>) {
         localRequestManager.saveListBidang(bidang)
+    }
+
+    fun getKelas(): MutableList<Kelas> {
+        return localRequestManager.getListKelas().toMutableList()
+    }
+
+    private fun saveKelas(kelas: MutableList<Kelas>) {
+        localRequestManager.saveListKelas(kelas)
     }
 
     fun publishRefreshListBidangEvent() {

@@ -73,21 +73,49 @@
 
             <Spinner
                 android:id="@+id/sekolah_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/AddOrEditInputStyles"
                 android:layout_marginBottom="@dimen/medium_margin"
                 android:spinnerMode="dialog" />
 
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/sekolah_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_sekolah_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/kelas_hint"
+                android:id="@+id/kelas_sekolah_hint"
                 style="@style/AddOrEditInputStyles"
                 android:hint="@string/add_or_edit_kelas_hint">
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
-                    android:id="@+id/kelas_text"
+                    android:id="@+id/kelas_sekolah_text"
                     style="@style/AddOrEditTextInputStyles" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <Switch
+                android:id="@+id/is_siswa_active"
+                style="@style/AddOrEditInputStyles"
+                android:text="@string/add_or_edit_status_hint" />
+
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/kelas_hint"
+                style="@style/AddOrEditTextInputStyles"
+                android:text="@string/add_or_edit_kelas_hint" />
+
+            <Spinner
+                android:id="@+id/kelas_spinner"
+                style="@style/AddOrEditInputStyles"
+                android:spinnerMode="dialog" />
+
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/kelas_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_kelas_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </LinearLayout>
 
