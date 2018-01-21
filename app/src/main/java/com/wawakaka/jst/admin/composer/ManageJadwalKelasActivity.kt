@@ -300,8 +300,8 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
                         ViewUtils
                                 .showConfirmationObservable(
                                         this,
-                                        getString(R.string.delete_siswa_title),
-                                        getString(R.string.delete_siswa_message)
+                                        getString(R.string.delete_jadwal_title),
+                                        getString(R.string.delete_jadwal_message)
                                 )
                     }
                     .filter { it }

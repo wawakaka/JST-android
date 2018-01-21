@@ -13,10 +13,14 @@
     <string name="manage_kelas_title">Kelola Kelas</string>
     <string name="manage_siswa_title">Kelola Siswa</string>
     <string name="manage_bidang_title">Kelola Bidang</string>
+    <string name="manage_sekolah_title">Kelola Sekolah</string>
 
     <string name="delete_bidang_title">Hapus bidang</string>
     <string name="delete_bidang_message">Apakah kamu yakin akan menghapus bidang ini?</string>
     <string name="delete_bidang_error_message">Gagal menghapus bidang. Silahkan coba kembali?</string>
+    <string name="delete_sekolah_title">Hapus sekolah</string>
+    <string name="delete_sekolah_message">Apakah kamu yakin akan menghapus sekolah ini?</string>
+    <string name="delete_sekolah_error_message">Gagal menghapus sekolah. Silahkan coba kembali?</string>
     <string name="delete_kelas_title">Non-aktifkan Kelas</string>
     <string name="delete_kelas_message">Apakah kamu yakin akan menonaktifkan kelas ini?</string>
     <string name="delete_kelas_error_message">Gagal menonaktifkan kelas. Silahkan coba kembali?</string>

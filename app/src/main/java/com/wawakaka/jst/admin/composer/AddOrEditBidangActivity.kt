@@ -60,6 +60,7 @@ class AddOrEditBidangActivity : BaseActivity() {
                 .doOnNext { showProgressDialog() }
                 .observeOn(Schedulers.io())
                 .flatMap { adminPresenter.addBidangObservable(Bidang(getNamaBidang())) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe(
                         {

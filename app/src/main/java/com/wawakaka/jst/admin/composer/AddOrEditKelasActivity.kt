@@ -236,6 +236,7 @@ class AddOrEditKelasActivity : BaseActivity() {
                     }
                 }
                 .filter { it }
+                .observeOn(AndroidSchedulers.mainThread())
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe(
                         {

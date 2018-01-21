@@ -205,6 +205,7 @@ class AddOrEditSiswaActivity : BaseActivity() {
                     }
                 }
                 .filter { it }
+                .observeOn(AndroidSchedulers.mainThread())
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe(
                         {

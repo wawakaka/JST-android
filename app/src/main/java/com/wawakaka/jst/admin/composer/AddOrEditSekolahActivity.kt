@@ -16,20 +16,17 @@ import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_or_edit_sekolah.*
 
 class AddOrEditSekolahActivity : BaseActivity() {
 
     companion object {
-        val TAG = AddOrEditBidangActivity::class.java.simpleName!!
+        val TAG = AddOrEditSekolahActivity::class.java.simpleName!!
     }
 
     private val sekolah: Sekolah? by lazy {
         intent.getSerializableExtra(ExtraUtils.JADWAL_KELAS) as? Sekolah
-    }
-
-    private val isEdit: Boolean? by lazy {
-        intent.getSerializableExtra(ExtraUtils.IS_EDIT) as? Boolean
     }
 
     private val adminPresenter: AdminPresenter by lazy {
@@ -64,17 +61,12 @@ class AddOrEditSekolahActivity : BaseActivity() {
         RxNavi
                 .observe(naviComponent, Event.CREATE)
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter { isEdit == true }
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe { setSekolah() }
     }
 
     private fun setSekolah() {
         nama_text.setText(sekolah?.nama)
-//        val listSekolah = adminPresenter.getSekolah()
-//        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listSekolah)
-//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        sekolah_spinner.adapter = spinnerAdapter
     }
 
     private fun initSaveButton() {
@@ -82,25 +74,42 @@ class AddOrEditSekolahActivity : BaseActivity() {
                 .observe(naviComponent, Event.CREATE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap { RxView.clicks(save_button) }
+                .filter { isValidName() }
                 .doOnNext { showProgressDialog() }
+                .observeOn(Schedulers.io())
+                .flatMap { adminPresenter.addSekolahObservable(Sekolah(nama_text.text.toString())) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe(
                         {
-                            onSaveBidangSucceed()
+                            onSaveSekolahSucceed()
                         },
                         {
                             LogUtils.error(TAG, "error in initSaveButton", it)
-                            onSaveBidangError(it)
+                            onSaveSekolahError(it)
                         }
                 )
     }
 
-    private fun onSaveBidangSucceed() {
+    private fun isValidName(): Boolean {
+        return if (nama_text.text.isNotBlank()) {
+            nama_hint.isErrorEnabled = false
+            nama_hint.error = null
+            true
+        } else {
+            nama_hint.isErrorEnabled = true
+            nama_hint.error = getString(R.string.add_or_edit_sekolah_error)
+            false
+        }
+    }
+
+    private fun onSaveSekolahSucceed() {
+        adminPresenter.publishRefreshListSekolahEvent()
         hideProgressDialog()
         finish()
     }
 
-    private fun onSaveBidangError(throwable: Throwable) {
+    private fun onSaveSekolahError(throwable: Throwable) {
         hideProgressDialog()
 
         when (throwable) {
@@ -121,10 +130,6 @@ class AddOrEditSekolahActivity : BaseActivity() {
 
     private fun showSnackbarError(errorString: String) {
         ViewUtils.showSnackbarError(findViewById(android.R.id.content), errorString)
-    }
-
-    private fun getNamaBidang(): String {
-        return ""
     }
 
     private fun showProgressDialog() {

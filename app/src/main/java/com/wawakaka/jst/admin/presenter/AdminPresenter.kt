@@ -157,6 +157,18 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
                 .doOnNext { saveSekolah(it) }
     }
 
+    fun addSekolahObservable(sekolah: Sekolah): Observable<Boolean> {
+        return serverRequestManager
+                .addSekolahObservable(SekolahRequestWrapper(sekolah))
+                .map { it.data!! }
+    }
+
+    fun deleteSekolahObservable(sekolah: String): Observable<Boolean> {
+        return serverRequestManager
+                .deleteSekolahObservable(sekolah)
+                .map { it.data!! }
+    }
+
     fun getSiswa(): MutableList<Siswa> {
         return localRequestManager.getListSiswa().toMutableList()
     }
@@ -220,5 +232,11 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
     }
 
     fun listenRefreshListKelasEvent() = RxBus.registerObservable<KelasRefreshListEvet>()
+
+    fun publishRefreshListSekolahEvent() {
+        RxBus.post(SekolahRefreshListEvet())
+    }
+
+    fun listenRefreshListSekolahEvent() = RxBus.registerObservable<SekolahRefreshListEvet>()
 
 }
