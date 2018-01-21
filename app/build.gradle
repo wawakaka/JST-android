@@ -98,6 +98,7 @@ dependencies {
     implementation 'com.wonderkiln:camerakit:0.12.1'
     implementation 'com.birbit:android-priority-jobqueue:2.0.1'
     implementation 'net.danlew:android.joda:2.9.9.1'
+    implementation 'com.wdullaer:materialdatetimepicker:3.5.0'
 }
 
 

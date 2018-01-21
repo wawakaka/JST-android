@@ -328,6 +328,7 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
 
     private fun onDeleteJadwalKelasSucceded() {
         adminPresenter.publishRefreshListJadwalKelasEvent()
+        hideProgressDialog()
     }
 
     private fun onDeleteJadwalKelasFailed(throwable: Throwable) {

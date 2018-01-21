@@ -55,40 +55,56 @@
 
         <LinearLayout style="@style/AddOrEditContainerStyles">
 
-            <android.support.design.widget.TextInputLayout
+            <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/tanggal_hint"
                 style="@style/AddOrEditInputStyles"
-                android:hint="@string/add_or_edit_jadwal_kelas_hint">
+                android:text="@string/add_or_edit_tanggal_hint" />
 
-                <com.wawakaka.jst.base.view.DefaultTextInputEditText
-                    android:id="@+id/tanggal_text"
-                    style="@style/AddOrEditTextInputStyles" />
+            <com.wawakaka.jst.base.view.DefaultEditText
+                android:id="@+id/tanggal_text"
+                style="@style/AddOrEditInputStyles"
+                android:focusable="false" />
 
-            </android.support.design.widget.TextInputLayout>
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/tanggal_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_tanggal_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-            <com.wawakaka.jst.base.view.DefaultButton
-                android:id="@+id/add_siswa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="?selectableItemBackground"
-                android:drawableStart="@drawable/ic_add_24dp_accent"
-                android:text="@string/add_or_edit_tambah_siswa"
-                android:textColor="@color/accent" />
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/waktu_hint"
+                style="@style/AddOrEditInputStyles"
+                android:text="@string/add_or_edit_waktu_hint" />
 
-            <FrameLayout
-                android:id="@+id/list_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <com.wawakaka.jst.base.view.DefaultEditText
+                android:id="@+id/waktu_text"
+                style="@style/AddOrEditInputStyles"
+                android:focusable="false" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_siswa_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never" />
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/waktu_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_waktu_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-            </FrameLayout>
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/kelas_hint"
+                style="@style/AddOrEditTextInputStyles"
+                android:text="@string/add_or_edit_kelas_hint" />
+
+            <Spinner
+                android:id="@+id/kelas_spinner"
+                style="@style/AddOrEditInputStyles"
+                android:spinnerMode="dialog" />
+
+            <com.wawakaka.jst.base.view.DefaultTextView
+                android:id="@+id/kelas_error"
+                style="@style/AddOrEditErrorStyles"
+                android:text="@string/add_or_edit_kelas_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </LinearLayout>
 

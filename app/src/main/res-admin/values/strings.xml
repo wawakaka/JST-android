@@ -48,7 +48,8 @@
     <string name="add_or_edit_status_hint">Status</string>
     <string name="add_or_edit_bidang_hint">Bidang</string>
     <string name="add_or_edit_sekolah_hint">Sekolah</string>
-    <string name="add_or_edit_jadwal_kelas_hint">Jadwal Kelas</string>
+    <string name="add_or_edit_tanggal_hint">Tanggal Kelas</string>
+    <string name="add_or_edit_waktu_hint">Waktu Kelas</string>
     <string name="add_or_edit_tambah_siswa">Tambah Siswa</string>
     <string name="add_or_edit_save_button">Simpan</string>
 
@@ -58,6 +59,7 @@
     <string name="add_or_edit_status_error">Status</string>
     <string name="add_or_edit_bidang_error">Bidang tidak boleh kosong</string>
     <string name="add_or_edit_sekolah_error">Sekolah tidak boleh kosong</string>
-    <string name="add_or_edit_jadwal_kelas_error">Jadwal Kelas tidak boleh kosong</string>
+    <string name="add_or_edit_tanggal_error">Tanggal tidak boleh kosong</string>
+    <string name="add_or_edit_waktu_error">Waktu tidak boleh kosong</string>
 
 </resources>
