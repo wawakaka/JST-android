@@ -10,8 +10,6 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.admin.presenter.AdminPresenter
-import com.wawakaka.jst.admin.utils.ExtraUtils.Companion.IS_EDIT
-import com.wawakaka.jst.admin.utils.ExtraUtils.Companion.NAMA_BIDANG
 import com.wawakaka.jst.admin.view.BidangHolder
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
@@ -32,7 +30,7 @@ import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_manage_bidang.*
 
-class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener {
+class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickListener {
 
     companion object {
         private val TAG = ManageBidangActivity::class.java.simpleName
@@ -237,7 +235,7 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener
                 .flatMap { RxView.clicks(add_bidang) }
                 .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
                 .subscribe {
-                    launchAddOrEditActivity("", false)
+                    launchAddOrEditActivity()
                 }
     }
 
@@ -269,20 +267,8 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener
         bidang_list_refresher?.let { it.isRefreshing = false }
     }
 
-    override fun onItemClick(position: Int): Boolean {
-        val item = adapter.getItem(position)
-        if (item is BidangHolder) {
-            launchAddOrEditActivity(item.model.nama ?: "", true)
-            return true
-        }
-        return false
-    }
-
-    private fun launchAddOrEditActivity(nama: String,
-                                        isEdit: Boolean) {
+    private fun launchAddOrEditActivity() {
         val intent = Intent(this, AddOrEditBidangActivity::class.java)
-        intent.putExtra(IS_EDIT, isEdit)
-        intent.putExtra(NAMA_BIDANG, nama)
         startActivity(intent)
     }
 
@@ -327,6 +313,7 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener
     }
 
     private fun onDeleteBidangSucceded() {
+        hideProgressDialog()
         adminPresenter.publishRefreshListBidangEvent()
     }
 

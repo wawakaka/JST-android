@@ -6,8 +6,6 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.admin.presenter.AdminPresenter
-import com.wawakaka.jst.admin.utils.ExtraUtils.Companion.IS_EDIT
-import com.wawakaka.jst.admin.utils.ExtraUtils.Companion.NAMA_BIDANG
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.LogUtils
@@ -26,14 +24,6 @@ class AddOrEditBidangActivity : BaseActivity() {
         val TAG = AddOrEditBidangActivity::class.java.simpleName!!
     }
 
-    private val nama: String? by lazy {
-        intent.getSerializableExtra(NAMA_BIDANG) as? String
-    }
-
-    private val isEdit: Boolean? by lazy {
-        intent.getSerializableExtra(IS_EDIT) as? Boolean
-    }
-
     private val adminPresenter: AdminPresenter by lazy {
         JstApplication.component.provideAdminPresenter()
     }
@@ -42,7 +32,6 @@ class AddOrEditBidangActivity : BaseActivity() {
 
     init {
         initLayout()
-        initNamaBidang()
         initSaveButton()
     }
 
@@ -62,24 +51,12 @@ class AddOrEditBidangActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun initNamaBidang() {
-        RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { isEdit == true }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { setNamaBidang() }
-    }
-
-    private fun setNamaBidang() {
-        nama_text.setText(nama)
-    }
-
     private fun initSaveButton() {
         RxNavi
                 .observe(naviComponent, Event.CREATE)
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap { RxView.clicks(save_button) }
+                .filter { isValidName() }
                 .doOnNext { showProgressDialog() }
                 .observeOn(Schedulers.io())
                 .flatMap { adminPresenter.addBidangObservable(Bidang(getNamaBidang())) }
@@ -93,6 +70,18 @@ class AddOrEditBidangActivity : BaseActivity() {
                             onSaveBidangError(it)
                         }
                 )
+    }
+
+    private fun isValidName(): Boolean {
+        return if (getNamaBidang().isNotBlank()) {
+            nama_container.isErrorEnabled = false
+            nama_container.error = null
+            true
+        } else {
+            nama_container.isErrorEnabled = true
+            nama_container.error = getString(R.string.add_or_edit_bidang_error)
+            false
+        }
     }
 
     private fun onSaveBidangSucceed() {
