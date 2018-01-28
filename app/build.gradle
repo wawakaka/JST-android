@@ -49,7 +49,7 @@ android {
                     'src/main/res-tes-harian',
                     'src/main/res-admin',
                     'src/main/res-journal'
-            ]
+                    , 'src/main/res-pengeluaran']
         }
     }
     productFlavors {
@@ -80,8 +80,8 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.0.0'
     implementation 'org.jetbrains.anko:anko:0.10.2'
-    implementation 'org.jetbrains.anko:anko-appcompat-v7-commons:0.10.2'
-    implementation 'org.jetbrains.anko:anko-appcompat-v7-commons:0.10.2'
+    implementation 'org.jetbrains.anko:anko-appcompat-v7-commons:0.10.4'
+    implementation 'org.jetbrains.anko:anko-appcompat-v7-commons:0.10.4'
     kapt 'com.google.dagger:dagger-compiler:2.12'
     implementation 'com.google.dagger:dagger:2.12'
     implementation 'com.androidadvance:topsnackbar:1.1.1'
@@ -96,23 +96,11 @@ dependencies {
     implementation 'eu.davidea:flexible-adapter:5.0.0-rc3'
     implementation 'eu.davidea:flexible-adapter-livedata:1.0.0-b1'
     implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b2'
-    implementation 'com.wonderkiln:camerakit:0.12.1'
+    implementation 'com.wonderkiln:camerakit:0.12.0'
     implementation 'com.birbit:android-priority-jobqueue:2.0.1'
     implementation 'net.danlew:android.joda:2.9.9.1'
     implementation 'com.wdullaer:materialdatetimepicker:3.5.0'
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 apply plugin: 'com.google.gms.google-services'
