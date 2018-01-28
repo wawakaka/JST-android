@@ -3,4 +3,5 @@
     <string name="class_title">Kelas</string>
     <string name="class_attendance">Presensi</string>
     <string name="class_daily_test">Tes Harian</string>
+    <string name="class_journal">Jadwal Kegiatan Harian</string>
 </resources>

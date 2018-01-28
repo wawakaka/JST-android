@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wawakaka.jst">
+<manifest package="com.wawakaka.jst"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    //todo fix activity input settings before release
     <application
         android:name=".base.JstApplication"
         android:allowBackup="true"
@@ -31,16 +31,30 @@
         <activity android:name=".tesHarian.composer.HasilTesHarianActivity" />
         <activity android:name=".tesHarian.composer.HasilTesHarianAddOrEditActivity" />
         <activity android:name=".admin.composer.AdminActivity" />
-        <activity android:name=".admin.composer.ManageSiswaActivity" />
-        <activity android:name=".admin.composer.ManageJadwalKelasActivity" />
-        <activity android:name=".admin.composer.ManageBidangActivity" />
-        <activity android:name=".admin.composer.ManageKelasActivity" />
-        <activity android:name=".admin.composer.AddOrEditBidangActivity" />
-        <activity android:name=".admin.composer.AddOrEditSiswaActivity" />
-        <activity android:name=".admin.composer.AddOrEditJadwalKelasActivity" />
-        <activity android:name=".admin.composer.AddOrEditSekolahActivity" />
-        <activity android:name=".admin.composer.AddOrEditKelasActivity" />
-        <activity android:name=".admin.composer.ManageSekolahActivity" />
+        <activity android:name=".admin.siswa.composer.ManageSiswaActivity" />
+        <activity android:name=".admin.jadwalkelas.composer.ManageJadwalKelasActivity" />
+        <activity android:name=".admin.bidang.composer.ManageBidangActivity" />
+        <activity android:name=".admin.kelas.composer.ManageKelasActivity" />
+        <activity
+            android:name=".admin.bidang.composer.AddOrEditBidangActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".admin.siswa.composer.AddOrEditSiswaActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".admin.jadwalkelas.composer.AddOrEditJadwalKelasActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".admin.sekolah.composer.AddOrEditSekolahActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".admin.kelas.composer.AddOrEditKelasActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".admin.sekolah.composer.ManageSekolahActivity" />
+        <activity android:name=".journal.composer.JournalActivity" />
+        <activity
+            android:name=".journal.composer.AddOrEditJournalActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
-    //todo fix activity input settings before release
+
 </manifest>

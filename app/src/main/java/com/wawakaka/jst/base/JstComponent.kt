@@ -14,6 +14,8 @@ import com.wawakaka.jst.datasource.local.preference.PreferenceApiModule
 import com.wawakaka.jst.datasource.server.ServerRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestModule
 import com.wawakaka.jst.datasource.server.retrofit.RetrofitModule
+import com.wawakaka.jst.journal.JournalModule
+import com.wawakaka.jst.journal.presenter.JournalPresenter
 import com.wawakaka.jst.kelas.PresensiModule
 import com.wawakaka.jst.login.LoginModule
 import com.wawakaka.jst.login.presenter.LoginPresenter
@@ -46,8 +48,9 @@ import javax.inject.Singleton
     NavigationModule::class,
     JobModule::class,
     PresensiModule::class,
-        TesHarianModule::class,
-        AdminModule::class
+    TesHarianModule::class,
+    AdminModule::class,
+    JournalModule::class
 ))
 interface JstComponent {
 
@@ -61,6 +64,7 @@ interface JstComponent {
     fun providePresensiPresenter(): PresensiPresenter
     fun provideTesHarianPresenter(): TesHarianPresenter
     fun provideAdminPresenter(): AdminPresenter
+    fun provideJournalPresenter(): JournalPresenter
 
     @Named("lower_case_with_underscores_gson")
     fun provideGson(): Gson

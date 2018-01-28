@@ -8,8 +8,10 @@ import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.dashboard.model.Kelas
+import com.wawakaka.jst.journal.composer.JournalActivity
 import com.wawakaka.jst.presensi.composer.PresensiActivity
 import com.wawakaka.jst.tesHarian.composer.TesHarianActivity
+import com.wawakaka.jst.tesHarian.composer.TesHarianActivity.Companion.EXTRA_ID_KELAS
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_kelas.*
 
@@ -28,6 +30,7 @@ class KelasActivity : BaseActivity() {
         initLayout()
         initPresensiButton()
         initDailyTestButton()
+        initJournalButton()
     }
 
     private fun initLayout() {
@@ -43,6 +46,11 @@ class KelasActivity : BaseActivity() {
             }
     }
 
+    private fun initToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
     private fun initPresensiButton() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
@@ -56,8 +64,8 @@ class KelasActivity : BaseActivity() {
 
     private fun launchPresensiActivity() {
         val intent = Intent(this, PresensiActivity::class.java)
-        intent.putExtra(PresensiActivity.EXTRA_KELAS, kelas)
-        intent.putExtra(PresensiActivity.EXTRA_ID_JADWAL, idJadwalKelas)
+        intent.putExtra(EXTRA_KELAS, kelas)
+        intent.putExtra(EXTRA_ID_JADWAL, idJadwalKelas)
         startActivity(intent)
     }
 
@@ -74,14 +82,26 @@ class KelasActivity : BaseActivity() {
 
     private fun launchDailyTestActivity() {
         val intent = Intent(this, TesHarianActivity::class.java)
-        intent.putExtra(TesHarianActivity.EXTRA_ID_KELAS, kelas?.id)
-        intent.putExtra(TesHarianActivity.EXTRA_ID_JADWAL, idJadwalKelas)
+        intent.putExtra(EXTRA_ID_KELAS, kelas?.id)
+        intent.putExtra(EXTRA_ID_JADWAL, idJadwalKelas)
         startActivity(intent)
     }
 
-    private fun initToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    private fun initJournalButton() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(journal) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                launchJournalActivity()
+            }
+    }
+
+    private fun launchJournalActivity() {
+        val intent = Intent(this, JournalActivity::class.java)
+        intent.putExtra(EXTRA_ID_JADWAL, idJadwalKelas)
+        startActivity(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

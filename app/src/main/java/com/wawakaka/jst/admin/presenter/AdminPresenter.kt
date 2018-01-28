@@ -1,6 +1,16 @@
 package com.wawakaka.jst.admin.presenter
 
-import com.wawakaka.jst.admin.model.*
+import com.wawakaka.jst.admin.bidang.model.BidangListRefreshEvent
+import com.wawakaka.jst.admin.bidang.model.BidangRequestWrapper
+import com.wawakaka.jst.admin.jadwalkelas.model.JadwalKelasRefreshListEvet
+import com.wawakaka.jst.admin.jadwalkelas.model.JadwalRequestWrapper
+import com.wawakaka.jst.admin.kelas.model.KelasRefreshListEvet
+import com.wawakaka.jst.admin.kelas.model.KelasRequestWrapper
+import com.wawakaka.jst.admin.sekolah.model.Sekolah
+import com.wawakaka.jst.admin.sekolah.model.SekolahRefreshListEvet
+import com.wawakaka.jst.admin.sekolah.model.SekolahRequestWrapper
+import com.wawakaka.jst.admin.siswa.model.SiswaRefreshListEvet
+import com.wawakaka.jst.admin.siswa.model.SiswaRequestWrapper
 import com.wawakaka.jst.base.presenter.BasePresenter
 import com.wawakaka.jst.base.utils.RxBus
 import com.wawakaka.jst.base.utils.toResultEmptyErrorIfEmpty
@@ -49,7 +59,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
     fun addJadwalKelasObservable(jadwalKelas: JadwalKelas): Observable<Boolean> {
         return serverRequestManager
                 .addJadwalKelasObservable(
-                        JadwalRequestWrapper(jadwalKelas)
+                    JadwalRequestWrapper(jadwalKelas)
                 )
                 .map { it.data!! }
     }
@@ -58,7 +68,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
         return serverRequestManager
                 .updateJadwalKelasObservable(
                         jadwalKelas.id ?: 0,
-                        JadwalRequestWrapper(jadwalKelas)
+                    JadwalRequestWrapper(jadwalKelas)
                 )
                 .map { it.data!! }
     }
@@ -90,7 +100,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
     fun addSiswaObservable(siswa: Siswa): Observable<Boolean> {
         return serverRequestManager
                 .addSiswaObservable(
-                        SiswaRequestWrapper(siswa)
+                    SiswaRequestWrapper(siswa)
                 )
                 .map { it.data!! }
     }
@@ -99,7 +109,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
         return serverRequestManager
                 .updateSiswaObservable(
                         siswa.id ?: "",
-                        SiswaRequestWrapper(siswa)
+                    SiswaRequestWrapper(siswa)
                 )
                 .map { it.data!! }
     }
@@ -132,7 +142,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
         return serverRequestManager
                 .updateKelasObservable(
                         id,
-                        KelasRequestWrapper(kelas)
+                    KelasRequestWrapper(kelas)
                 )
                 .map { it.data!! }
     }

@@ -2,7 +2,7 @@ package com.wawakaka.jst.admin.view
 
 import android.view.View
 import com.wawakaka.jst.R
-import com.wawakaka.jst.admin.model.Sekolah
+import com.wawakaka.jst.admin.sekolah.model.Sekolah
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible

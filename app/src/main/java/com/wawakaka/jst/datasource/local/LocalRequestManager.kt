@@ -1,10 +1,11 @@
 package com.wawakaka.jst.datasource.local
 
-import com.wawakaka.jst.admin.model.Sekolah
+import com.wawakaka.jst.admin.sekolah.model.Sekolah
 import com.wawakaka.jst.dashboard.model.Bidang
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.local.preference.PreferenceApi
+import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.login.model.User
 import com.wawakaka.jst.presensi.model.Presensi
 import com.wawakaka.jst.tesHarian.model.TesHarian
@@ -23,7 +24,7 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
         private const val KEY_TES_HARIAN = "tes-harian"
         private const val KEY_BIDANG = "bidang"
         private const val KEY_SEKOLAH = "sekolah"
-
+        private const val KEY_JOURNAL = "journal"
     }
 
     fun isLoggedIn(): Boolean {
@@ -102,6 +103,14 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
 
     fun getListSekolah(): List<Sekolah> {
         return preferenceApi.getListObject(KEY_SEKOLAH, listOf(), Sekolah::class.java)
+    }
+
+    fun saveListJournal(kegiatan: List<Kegiatan>) {
+        return preferenceApi.putListObject(KEY_JOURNAL, kegiatan)
+    }
+
+    fun getListJournal(): List<Kegiatan> {
+        return preferenceApi.getListObject(KEY_JOURNAL, listOf(), Kegiatan::class.java)
     }
 
 }

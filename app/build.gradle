@@ -11,7 +11,7 @@ android {
         release {
             keyAlias 'release'
             keyPassword '1234567890'
-            storeFile file('C:/Users/babang/Documents/JST-android/keystore/keystore-release.jks')
+            storeFile file('../keystore/keystore-release.jks')
             storePassword '1234567890'
         }
     }
@@ -47,7 +47,8 @@ android {
                     'src/main/res-kelas',
                     'src/main/res-presensi',
                     'src/main/res-tes-harian',
-                    'src/main/res-admin'
+                    'src/main/res-admin',
+                    'src/main/res-journal'
             ]
         }
     }
@@ -100,6 +101,8 @@ dependencies {
     implementation 'net.danlew:android.joda:2.9.9.1'
     implementation 'com.wdullaer:materialdatetimepicker:3.5.0'
 }
+
+
 
 
 

@@ -31,8 +31,6 @@ class PresensiActivity : BaseActivity() {
 
     companion object {
         private val TAG = PresensiActivity::class.java.simpleName
-        const val EXTRA_KELAS = "extra_kelas"
-        const val EXTRA_ID_JADWAL = "extra_id_jadwal"
     }
 
     private var kelas: Kelas? = null

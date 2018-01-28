@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/medium_margin">
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/sesi_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:text="sesi"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_font_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/sesi_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:text="sesi"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_font_size"
+        app:layout_constraintStart_toEndOf="@+id/sesi_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/materi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:text="materi"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_font_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sesi_start" />
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/keterangan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:text="etc..."
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_font_size"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materi"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:background="@color/light_grey"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keterangan" />
+
+</android.support.constraint.ConstraintLayout>

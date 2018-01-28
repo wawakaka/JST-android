@@ -1,10 +1,17 @@
 package com.wawakaka.jst.datasource.server.model
 
-import com.wawakaka.jst.admin.model.*
+import com.wawakaka.jst.admin.bidang.model.BidangRequestWrapper
+import com.wawakaka.jst.admin.jadwalkelas.model.JadwalRequestWrapper
+import com.wawakaka.jst.admin.kelas.model.KelasRequestWrapper
+import com.wawakaka.jst.admin.sekolah.model.Sekolah
+import com.wawakaka.jst.admin.sekolah.model.SekolahRequestWrapper
+import com.wawakaka.jst.admin.siswa.model.SiswaRequestWrapper
 import com.wawakaka.jst.dashboard.model.Bidang
 import com.wawakaka.jst.dashboard.model.JadwalKelas
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.Siswa
+import com.wawakaka.jst.journal.model.Kegiatan
+import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
 import com.wawakaka.jst.presensi.model.Presensi
 import com.wawakaka.jst.presensi.model.PresensiRequestWrapper
@@ -166,4 +173,25 @@ interface ServerApi {
     fun deleteSekolahObservable(@Header("Authorization") token: String,
                                 @Header("Content-Type") acceptFormat: String,
                                 @Path("nama") nama: String?): Observable<ServerResponseWrapper<Boolean>>
+
+    @GET("/kegiatan/{id}")
+    fun loadJournalObservable(@Header("Authorization") token: String,
+                              @Header("Content-Type") acceptFormat: String,
+                              @Path("id") id: Int?): Observable<ServerResponseWrapper<MutableList<Kegiatan>>>
+
+    @POST("/kegiatan/add")
+    fun createJournalObservable(@Header("Authorization") token: String,
+                                @Header("Content-Type") acceptFormat: String,
+                                @Body kegiatan: KegiatanRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+
+    @PUT("/kegiatan/{id}/update")
+    fun updateJournalObservable(@Header("Authorization") token: String,
+                                @Header("Content-Type") acceptFormat: String,
+                                @Path("id") id: Int?,
+                                @Body kegiatan: KegiatanRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+
+    @DELETE("/kegiatan/{id}/delete")
+    fun deleteJournalObservable(@Header("Authorization") token: String,
+                                @Header("Content-Type") acceptFormat: String,
+                                @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
 }

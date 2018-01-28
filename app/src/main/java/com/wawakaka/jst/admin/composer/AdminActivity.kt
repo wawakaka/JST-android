@@ -5,6 +5,11 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
+import com.wawakaka.jst.admin.bidang.composer.ManageBidangActivity
+import com.wawakaka.jst.admin.jadwalkelas.composer.ManageJadwalKelasActivity
+import com.wawakaka.jst.admin.kelas.composer.ManageKelasActivity
+import com.wawakaka.jst.admin.sekolah.composer.ManageSekolahActivity
+import com.wawakaka.jst.admin.siswa.composer.ManageSiswaActivity
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.navigation.composer.NavigationFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
