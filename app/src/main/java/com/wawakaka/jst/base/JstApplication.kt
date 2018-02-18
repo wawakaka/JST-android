@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
 import android.util.Log
+import com.cloudinary.android.MediaManager
 import com.wawakaka.jst.BuildConfig
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.utils.LogUtils
@@ -16,6 +17,9 @@ class JstApplication : Application() {
 
     companion object {
         lateinit var component: JstComponent
+        private const val CLOUD_NAME = "cloud_name"
+        private const val API_KEY = "api_key"
+        private const val API_SECRET = "api_secret"
     }
 
     override fun onCreate() {
@@ -23,6 +27,7 @@ class JstApplication : Application() {
         initLogging()
         initDagger()
         initJodaTime()
+        initCdn()
     }
 
     private fun initDagger() {
@@ -40,6 +45,14 @@ class JstApplication : Application() {
 
     private fun initJodaTime() {
         JodaTimeAndroid.init(this)
+    }
+
+    private fun initCdn() {
+        val config = HashMap<String, String>()
+        config[CLOUD_NAME] = "wawakaka"
+        config[API_KEY] = "773739176762496"
+        config[API_SECRET] = "GTZU-10cIjrQuasbwnOO8w0HLE0"
+        MediaManager.init(this, config)
     }
 
     override fun attachBaseContext(base: Context?) {

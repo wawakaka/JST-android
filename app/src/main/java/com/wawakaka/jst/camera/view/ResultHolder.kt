@@ -1,6 +1,5 @@
 package com.wawakaka.jst.camera.view
 
-import android.graphics.Bitmap
 import com.wonderkiln.camerakit.Size
 import java.io.File
 
@@ -10,7 +9,7 @@ import java.io.File
  */
 object ResultHolder {
 
-    var image: Bitmap? = null
+    var image: ByteArray? = null
     var video: File? = null
     var nativeCaptureSize: Size? = null
     var timeToCallback: Long = 0

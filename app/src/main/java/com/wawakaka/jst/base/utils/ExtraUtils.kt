@@ -13,5 +13,7 @@ class ExtraUtils {
         const val SISWA = "extra-siswa"
         const val KEGIATAN = "extra-kegiatan"
         const val SESI = "extra-sesi"
+        const val SECURE_IMAGE_URL = "secure-image-url"
+        const val PENGELUARAN = "pengeluaran"
     }
 }
