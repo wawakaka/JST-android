@@ -25,6 +25,11 @@
                 app:drawerItemTitle="@string/menu_kelas" />
 
             <com.wawakaka.jst.navigation.view.DrawerItemView
+                android:id="@+id/drawer_item_pengeluaran"
+                style="@style/NavigationMenuStyles"
+                app:drawerItemTitle="@string/menu_pengeluaran" />
+
+            <com.wawakaka.jst.navigation.view.DrawerItemView
                 android:id="@+id/drawer_item_admin"
                 style="@style/NavigationMenuStyles"
                 app:drawerItemTitle="@string/menu_admin" />

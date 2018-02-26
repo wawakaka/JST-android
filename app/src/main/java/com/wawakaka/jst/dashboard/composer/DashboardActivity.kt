@@ -226,6 +226,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
+            .filter { dashboardPresenter.getUser().isSuperUser == true }
             .doOnNext { showLoadProgress() }
             .observeOn(Schedulers.io())
             .flatMap { dashboardPresenter.loadSiswaObservable() }

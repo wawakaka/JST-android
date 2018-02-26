@@ -242,7 +242,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
     }
 
     private fun launchAddPengeluaranActivity() {
-        val intent = Intent(this, AddOrEditKelasActivity::class.java)
+        val intent = Intent(this, AddOrEditPengeluaranActivity::class.java)
         startActivity(intent)
     }
 

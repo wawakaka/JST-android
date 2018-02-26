@@ -21,6 +21,7 @@ import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.composer.DashboardActivity
 import com.wawakaka.jst.navigation.model.DrawerItemClickEvent
 import com.wawakaka.jst.navigation.presenter.NavigationPresenter
+import com.wawakaka.jst.pengeluaran.composer.PengeluaranActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_drawer.*
 import java.util.concurrent.TimeUnit
@@ -44,7 +45,8 @@ class NavigationFragment : BaseFragment() {
 
         const val DRAWER_TYPE_KELAS = 0
         const val DRAWER_TYPE_ADMIN = 1
-        const val DRAWER_TYPE_LOGOUT = 2
+        const val DRAWER_TYPE_PENGELUARAN = 2
+        const val DRAWER_TYPE_LOGOUT = 3
 
         fun newInstance(rxBusId: Int, activeDrawerType: Int): NavigationFragment {
             val bundle = Bundle()
@@ -68,6 +70,7 @@ class NavigationFragment : BaseFragment() {
     init {
         initSelectedButton()
         initKelasButton()
+        initPengeluaranButton()
         initAdminButton()
         initLogoutButton()
     }
@@ -134,6 +137,25 @@ class NavigationFragment : BaseFragment() {
 
     private fun launchAdminActivity() {
         val intent = Intent(activity, AdminActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun initPengeluaranButton() {
+        RxNavi
+            .observe(naviComponent, Event.VIEW_CREATED)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(drawer_item_pengeluaran) }
+            .doOnNext { RxBus.post(rxBusId, DrawerItemClickEvent(DRAWER_TYPE_KELAS)) }
+            .delay(DELAY_TIME, TimeUnit.MILLISECONDS)
+            .filter { activeDrawerType != DRAWER_TYPE_PENGELUARAN }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
+            .subscribe {
+                launchPengeluaranActivity()
+            }
+    }
+
+    private fun launchPengeluaranActivity() {
+        val intent = Intent(activity, PengeluaranActivity::class.java)
         startActivity(intent)
     }
 
