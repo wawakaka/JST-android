@@ -10,7 +10,7 @@
         android:id="@+id/hint_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="nama"
+        android:hint="@string/nama"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +20,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/primary_text"
             android:ems="10"
             android:inputType="textPersonName" />
 
@@ -29,8 +30,8 @@
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:text="save"
+        android:layout_marginBottom="@dimen/huger_margin"
+        android:text="@string/save"
         android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

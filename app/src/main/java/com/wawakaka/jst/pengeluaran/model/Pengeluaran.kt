@@ -10,10 +10,13 @@ data class Pengeluaran(val id: Int?,
                        val status: Boolean?,
                        val tanggal: String?,
                        val userEmail: String?,
-                       val detailPengeluaran: MutableList<DetailPengeluaran>?) : Serializable, Emptiable {
+                       val barang: String?,
+                       val biaya: Int?,
+                       val keterangan: String?,
+                       val gambar: String?) : Serializable, Emptiable {
 
     companion object {
-        val empty = Pengeluaran(null, null, null, null, null)
+        val empty = Pengeluaran(null, null, null, null, null, null, null, null)
     }
 
     override fun isEmpty(): Boolean = id != null

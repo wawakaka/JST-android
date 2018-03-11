@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     tools:context="com.wawakaka.jst.login.composer.LoginActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin"
+        android:padding="@dimen/medium_margin"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logo_two" />
+
     <com.wawakaka.jst.base.view.ProgressButton
         android:id="@+id/login_button"
         style="@style/ProgressButtonStyles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:buttonBackground="@drawable/button_primary"
-        app:buttonImage="@drawable/ic_google_plus"
+        app:buttonImage="@drawable/ic_logo_only"
         app:buttonText="google +"
         app:buttonTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

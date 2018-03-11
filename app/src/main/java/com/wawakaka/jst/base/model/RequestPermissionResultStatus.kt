@@ -19,7 +19,7 @@ class RequestPermissionResultStatus(var requestCode: Int,
 
     fun isDeniedNeverAsk(): Boolean? = status == DENIED_NEVER_ASK
 
-    @IntDef(DENIED.toLong(), DENIED_NEVER_ASK.toLong(), GRANTED.toLong())
+    @IntDef(DENIED, DENIED_NEVER_ASK, GRANTED)
     @Retention(AnnotationRetention.SOURCE)
     annotation class StatusDef
 

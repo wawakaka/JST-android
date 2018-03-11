@@ -1,6 +1,7 @@
 package com.wawakaka.jst.datasource.server.retrofit
 
 import com.google.gson.Gson
+import com.wawakaka.jst.BuildConfig
 import com.wawakaka.jst.datasource.server.model.ServerApi
 import com.wawakaka.jst.datasource.server.utils.enableTlsOnPreLollipop
 import dagger.Module
@@ -91,7 +92,7 @@ class RetrofitModule {
     @Provides
     @Named("base_url")
     fun provideBaseUrl(): String {
-        return "https://jst-api.herokuapp.com/"
+        return BuildConfig.BASE_URL
     }
 
     @Singleton

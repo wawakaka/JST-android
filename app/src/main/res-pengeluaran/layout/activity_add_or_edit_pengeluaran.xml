@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -48,21 +50,23 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/huger_margin_plus"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout style="@style/AddOrEditContainerStyles">
+        <LinearLayout style="@style/AddOrEditPengeluaranContainerStyles">
 
             <LinearLayout
                 android:id="@+id/edit_pengeluaran_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:padding="@dimen/medium_margin">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/id_container"
-                    style="@style/AddOrEditInputStyles"
-                    android:hint="@string/add_or_edit_id_hint">
+                    style="@style/AddOrEditPengeluaranInputStyles"
+                    android:hint="@string/add_or_edit_id_hint"
+                    app:errorEnabled="false">
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
                         android:id="@+id/id_text"
@@ -72,8 +76,9 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/tanggal_container"
-                    style="@style/AddOrEditInputStyles"
-                    android:hint="@string/add_or_edit_pengeluaran_tanggal_hint">
+                    android:visibility="gone"
+                    style="@style/AddOrEditPengeluaranInputStyles"
+                    android:hint="@string/add_or_edit_tanggal_hint">
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
                         android:id="@+id/tanggal_text"
@@ -82,55 +87,67 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/status_container"
-                    style="@style/AddOrEditInputStyles"
-                    android:hint="@string/add_or_edit_pengeluaran_status_hint">
+                    android:id="@+id/barang_container"
+                    style="@style/AddOrEditPengeluaranInputStyles"
+                    android:hint="@string/add_or_edit_barang_hint">
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
-                        android:id="@+id/status_text"
+                        android:id="@+id/barang_text"
+                        style="@style/AddOrEditTextInputStyles" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/biaya_container"
+                    style="@style/AddOrEditPengeluaranInputStyles"
+                    android:hint="@string/add_or_edit_biaya_hint">
+
+                    <com.wawakaka.jst.base.view.DefaultTextInputEditText
+                        android:id="@+id/biaya_text"
+                        style="@style/AddOrEditTextInputStyles" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/keterangan_container"
+                    style="@style/AddOrEditPengeluaranInputStyles"
+                    android:hint="@string/add_or_edit_keterangan_hint">
+
+                    <com.wawakaka.jst.base.view.DefaultTextInputEditText
+                        android:id="@+id/keterangan_text"
                         style="@style/AddOrEditTextInputStyles" />
 
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
-            <RelativeLayout
+            <com.wawakaka.jst.base.view.BoldButton
+                android:id="@+id/take_picture_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/pale_grey_48"
+                android:padding="@dimen/medium_margin"
+                android:text="@string/add_or_edit_gambar_hint"
+                android:textColor="@color/accent" />
+
+            <ImageView
+                android:id="@+id/gambar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.wawakaka.jst.base.view.DefaultTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:drawableEnd="@drawable/ic_add_24dp_accent"
-                    android:text="@string/add_or_edit_pengeluaran_add"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
-
-            <FrameLayout
-                android:id="@+id/list_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/pengeluaran_list_refresher"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/list_pengeluaran_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:overScrollMode="never" />
-
-                </android.support.v4.widget.SwipeRefreshLayout>
-
-            </FrameLayout>
+                android:layout_height="300dp"
+                android:padding="@dimen/medium_margin"
+                android:scaleType="centerInside"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </LinearLayout>
 
     </ScrollView>
+
+    <com.wawakaka.jst.base.view.BoldButton
+        android:id="@+id/save_button"
+        style="@style/SaveButtonStyles"
+        android:text="@string/add_or_edit_save_button" />
 
     <com.wawakaka.jst.base.view.ErrorView
         android:id="@+id/unknown_error_view"

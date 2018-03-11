@@ -84,7 +84,7 @@ class OnBoardingActivity : BaseActivity() {
     }
 
     private fun setUser(): User {
-        return User(onBoardingPresenter.getUser().email, getName(), null, null, null)
+        return User(onBoardingPresenter.getUser().email, getName(), null, null, null, null)
     }
 
     private fun getName(): String {

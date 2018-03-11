@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.navi2.Event
 import com.trello.navi2.NaviComponent
@@ -24,6 +25,7 @@ import com.wawakaka.jst.navigation.presenter.NavigationPresenter
 import com.wawakaka.jst.pengeluaran.composer.PengeluaranActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_drawer.*
+import kotlinx.android.synthetic.main.navigation_top_item.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -68,6 +70,7 @@ class NavigationFragment : BaseFragment() {
     }
 
     init {
+        initUserProfile()
         initSelectedButton()
         initKelasButton()
         initPengeluaranButton()
@@ -80,31 +83,55 @@ class NavigationFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_drawer, container, false)
     }
 
+    private fun initUserProfile() {
+        RxNavi
+            .observe(naviComponent, Event.VIEW_CREATED)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
+            .subscribe {
+                setUserImage()
+                setUserEmail()
+                setUserName()
+            }
+    }
+
+    private fun setUserImage() {
+        Glide.with(context).load(navigationPresenter.getUser().image).into(profile_image)
+    }
+
+    private fun setUserEmail() {
+        user_email.text = navigationPresenter.getUser().email
+    }
+
+    private fun setUserName() {
+        user_name.text = navigationPresenter.getUser().nama
+    }
+
     private fun initSelectedButton() {
         RxNavi
-                .observe(naviComponent, Event.VIEW_CREATED)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
-                .subscribe {
-                    when (activeDrawerType) {
-                        DRAWER_TYPE_KELAS -> drawer_item_kelas.isSelected = true
-                        DRAWER_TYPE_ADMIN -> drawer_item_admin.isSelected = true
-                    }
+            .observe(naviComponent, Event.VIEW_CREATED)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
+            .subscribe {
+                when (activeDrawerType) {
+                    DRAWER_TYPE_KELAS -> drawer_item_kelas.isSelected = true
+                    DRAWER_TYPE_ADMIN -> drawer_item_admin.isSelected = true
                 }
+            }
     }
 
     private fun initKelasButton() {
         RxNavi
-                .observe(naviComponent, Event.VIEW_CREATED)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(drawer_item_kelas) }
-                .doOnNext { RxBus.post(rxBusId, DrawerItemClickEvent(DRAWER_TYPE_KELAS)) }
-                .delay(DELAY_TIME, TimeUnit.MILLISECONDS)
-                .filter { activeDrawerType != DRAWER_TYPE_KELAS }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
-                .subscribe {
-                    launchDashboardActivity()
-                }
+            .observe(naviComponent, Event.VIEW_CREATED)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(drawer_item_kelas) }
+            .doOnNext { RxBus.post(rxBusId, DrawerItemClickEvent(DRAWER_TYPE_KELAS)) }
+            .delay(DELAY_TIME, TimeUnit.MILLISECONDS)
+            .filter { activeDrawerType != DRAWER_TYPE_KELAS }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
+            .subscribe {
+                launchDashboardActivity()
+            }
     }
 
     private fun launchDashboardActivity() {
@@ -114,17 +141,17 @@ class NavigationFragment : BaseFragment() {
 
     private fun initAdminButton() {
         RxNavi
-                .observe(naviComponent, Event.VIEW_CREATED)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { showThisMenuIfUserIsAdmin() }
-                .flatMap { RxView.clicks(drawer_item_admin) }
-                .doOnNext { RxBus.post(rxBusId, DrawerItemClickEvent(DRAWER_TYPE_ADMIN)) }
-                .delay(DELAY_TIME, TimeUnit.MILLISECONDS)
-                .filter { activeDrawerType != DRAWER_TYPE_ADMIN }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
-                .subscribe {
-                    launchAdminActivity()
-                }
+            .observe(naviComponent, Event.VIEW_CREATED)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showThisMenuIfUserIsAdmin() }
+            .flatMap { RxView.clicks(drawer_item_admin) }
+            .doOnNext { RxBus.post(rxBusId, DrawerItemClickEvent(DRAWER_TYPE_ADMIN)) }
+            .delay(DELAY_TIME, TimeUnit.MILLISECONDS)
+            .filter { activeDrawerType != DRAWER_TYPE_ADMIN }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
+            .subscribe {
+                launchAdminActivity()
+            }
     }
 
     private fun showThisMenuIfUserIsAdmin() {

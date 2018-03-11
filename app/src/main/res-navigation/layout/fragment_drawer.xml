@@ -14,27 +14,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/drawer_item_user_profile"
+                layout="@layout/navigation_top_item"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <com.wawakaka.jst.navigation.view.DrawerItemView
                 android:id="@+id/drawer_item_kelas"
                 style="@style/NavigationMenuStyles"
-                app:drawerItemTitle="@string/menu_kelas" />
+                app:drawerItemTitle="@string/menu_kelas"
+                app:layout_constraintTop_toBottomOf="@+id/drawer_item_user_profile" />
 
             <com.wawakaka.jst.navigation.view.DrawerItemView
                 android:id="@+id/drawer_item_pengeluaran"
                 style="@style/NavigationMenuStyles"
-                app:drawerItemTitle="@string/menu_pengeluaran" />
+                app:drawerItemTitle="@string/menu_pengeluaran"
+                app:layout_constraintTop_toBottomOf="@+id/drawer_item_kelas" />
 
             <com.wawakaka.jst.navigation.view.DrawerItemView
                 android:id="@+id/drawer_item_admin"
                 style="@style/NavigationMenuStyles"
-                app:drawerItemTitle="@string/menu_admin" />
+                app:drawerItemTitle="@string/menu_admin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/drawer_item_pengeluaran" />
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
 
@@ -48,6 +56,8 @@
     <com.wawakaka.jst.navigation.view.DrawerItemView
         android:id="@+id/drawer_item_logout"
         style="@style/NavigationMenuStyles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:drawerItemIcon="@drawable/ic_logout"
         app:drawerItemTitle="@string/menu_logout"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -13,8 +13,6 @@ import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
-import com.wawakaka.jst.pengeluaran.model.DetailPengeluaran
-import com.wawakaka.jst.pengeluaran.model.DetailPengeluaranRequestWrapper
 import com.wawakaka.jst.pengeluaran.model.Pengeluaran
 import com.wawakaka.jst.pengeluaran.model.PengeluaranRequestWrapper
 import com.wawakaka.jst.presensi.model.Presensi
@@ -223,27 +221,5 @@ interface ServerApi {
     fun deletePengeluaranObservable(@Header("Authorization") token: String,
                                     @Header("Content-Type") acceptFormat: String,
                                     @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
-
-    @GET("/detailpengeluaran/{id}")
-    fun loadDetailPengeluaranObservable(@Header("Authorization") token: String,
-                                        @Header("Content-Type") acceptFormat: String,
-                                        @Path("id") id: Int?): Observable<ServerResponseWrapper<MutableList<DetailPengeluaran>>>
-
-    @POST("/detailpengeluaran/add")
-    fun createDetailPengeluaranObservable(@Header("Authorization") token: String,
-                                          @Header("Content-Type") acceptFormat: String,
-                                          @Body detailPengeluaran: DetailPengeluaranRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
-
-    @PUT("/detailpengeluaran/{id}/update")
-    fun updateDetailPengeluaranObservable(@Header("Authorization") token: String,
-                                          @Header("Content-Type") acceptFormat: String,
-                                          @Path("id") id: Int?,
-                                          @Body detailPengeluaran: DetailPengeluaranRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
-
-    @DELETE("/detailpengeluaran/{id}/delete")
-    fun deleteDetailPengeluaranObservable(@Header("Authorization") token: String,
-                                          @Header("Content-Type") acceptFormat: String,
-                                          @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
-
 
 }

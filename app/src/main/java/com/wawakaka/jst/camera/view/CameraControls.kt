@@ -3,7 +3,6 @@ package com.wawakaka.jst.camera.view
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.content.Intent
 import android.support.annotation.DrawableRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -13,7 +12,8 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.wawakaka.jst.R
-import com.wawakaka.jst.camera.composer.PreviewActivity
+import com.wawakaka.jst.base.JstApplication
+import com.wawakaka.jst.camera.presenter.CameraPresenter
 import com.wonderkiln.camerakit.*
 import kotlinx.android.synthetic.main.camera_controls.view.*
 
@@ -31,6 +31,10 @@ class CameraControls @JvmOverloads constructor(context: Context,
     private var captureStartTime: Long = 0
     private var pendingVideoCapture: Boolean = false
     private var capturingVideo: Boolean = false
+
+    private val cameraPresenter: CameraPresenter by lazy {
+        JstApplication.component.provideCameraPresenter()
+    }
 
     init {
         LayoutInflater.from(getContext()).inflate(R.layout.camera_controls, this)
@@ -90,7 +94,7 @@ class CameraControls @JvmOverloads constructor(context: Context,
     }
 
     //@OnCameraKitEvent(CameraKitImage.class)
-    fun imageCaptured(image: CameraKitImage) {
+    private fun imageCaptured(image: CameraKitImage) {
         val jpeg: ByteArray = image.jpeg
 
         val callbackTime = System.currentTimeMillis()
@@ -98,19 +102,21 @@ class CameraControls @JvmOverloads constructor(context: Context,
         ResultHolder.image = jpeg
         ResultHolder.nativeCaptureSize = cameraView!!.captureSize
         ResultHolder.timeToCallback = callbackTime - captureStartTime
-        val intent = Intent(context, PreviewActivity::class.java)
-        context.startActivity(intent)
+//        val intent = Intent(context, AddOrEditPengeluaranActivity::class.java)
+//        context.startActivity(intent)
+        cameraPresenter.publishPictureTakenEvent()
     }
 
     @OnCameraKitEvent(CameraKitVideo::class)
-    fun videoCaptured(video: CameraKitVideo) {
+    private fun videoCaptured(video: CameraKitVideo) {
         val videoFile = video.videoFile
         if (videoFile != null) {
             ResultHolder.dispose()
             ResultHolder.video = videoFile
             ResultHolder.nativeCaptureSize = cameraView!!.captureSize
-            val intent = Intent(context, PreviewActivity::class.java)
-            context.startActivity(intent)
+//            val intent = Intent(context, PreviewActivity::class.java)
+//            context.startActivity(intent)
+            cameraPresenter.publishPictureTakenEvent()
         }
     }
 

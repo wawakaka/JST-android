@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+        app:srcCompat="@drawable/ic_logout" />
 
     <com.wawakaka.jst.base.view.DefaultTextView
         android:id="@+id/drawer_title"
@@ -23,9 +23,23 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/small_margin"
         android:paddingEnd="@dimen/medium_margin"
-        android:text="com.wawakaka.jst.base.view.DefaultTextView"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:paddingStart="@dimen/medium_margin"
+        android:text="@string/navigation_menu"
         app:layout_constraintBottom_toBottomOf="@+id/drawer_item_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/drawer_item_icon"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:background="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/drawer_item_icon" />
+
 </android.support.constraint.ConstraintLayout>

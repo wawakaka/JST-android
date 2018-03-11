@@ -37,7 +37,7 @@ class HasilTesHarianActivity : BaseActivity(), FlexibleAdapter.OnItemClickListen
     //todo add up and back button checking dialog
     companion object {
         private val TAG = TesHarianActivity::class.java.simpleName
-        const val EDIT_REQUEST = 2081
+        private const val EDIT_REQUEST = 2081
     }
 
     private val tesHarianPresenter: TesHarianPresenter by lazy {

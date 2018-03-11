@@ -6,9 +6,7 @@ import com.wawakaka.jst.base.utils.toResultEmptyErrorIfEmpty
 import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestManager
 import com.wawakaka.jst.login.model.User
-import com.wawakaka.jst.pengeluaran.model.Pengeluaran
-import com.wawakaka.jst.pengeluaran.model.PengeluaranListRefreshEvent
-import com.wawakaka.jst.pengeluaran.model.PengeluaranRequestWrapper
+import com.wawakaka.jst.pengeluaran.model.*
 import io.reactivex.Observable
 
 /**
@@ -53,6 +51,18 @@ class PengeluaranPresenter(private val serverRequestManager: ServerRequestManage
 
     fun listenRefreshListPengeluaranEvent() = RxBus.registerObservable<PengeluaranListRefreshEvent>()
 
-    private fun getUser(): User = localRequestManager.getUser()
+    fun publishUploadImageSuccessEvent() {
+        RxBus.post(UploadImageSuccessEvent())
+    }
+
+    fun listenUploadImageSuccessEvent() = RxBus.registerObservable<UploadImageSuccessEvent>()
+
+    fun publishUploadImageFailedEvent() {
+        RxBus.post(UploadImageFailedEvent())
+    }
+
+    fun listenUploadImageFailedEvent() = RxBus.registerObservable<UploadImageFailedEvent>()
+
+    fun getUser(): User = localRequestManager.getUser()
 
 }

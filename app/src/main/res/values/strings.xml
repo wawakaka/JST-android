@@ -27,4 +27,7 @@
     <string name="not_active">Not Active</string>
     <string name="kelas_private">Private</string>
     <string name="kelas_sekolah">SMAN 1</string>
+    <string name="nama">nama</string>
+    <string name="save">Simpan</string>
+    <string name="navigation_menu">navigation menu</string>
 </resources>
