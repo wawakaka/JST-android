@@ -18,7 +18,7 @@
         android:name=".base.JstApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_logo_only"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@drawable/ic_logo_only"

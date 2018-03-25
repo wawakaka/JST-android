@@ -66,11 +66,17 @@ android {
             applicationIdSuffix = devAppIdSuffix
 
             buildConfigField "String", "BASE_URL", base_url_dev
+            buildConfigField "String", "CDN_CLOUD_NAME", cdn_cloud_name
+            buildConfigField "String", "CDN_API_KEY", cdn_api_key
+            buildConfigField "String", "CDN_API_SECRET", cdn_api_secret
         }
         production {
             applicationIdSuffix = prodAppIdSuffix
 
             buildConfigField "String", "BASE_URL", base_url_prod
+            buildConfigField "String", "CDN_CLOUD_NAME", cdn_cloud_name
+            buildConfigField "String", "CDN_API_KEY", cdn_api_key
+            buildConfigField "String", "CDN_API_SECRET", cdn_api_secret
         }
     }
 }
@@ -87,8 +93,8 @@ dependencies {
     implementation 'com.android.support:exifinterface:27.1.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.google.firebase:firebase-auth:11.8.0'
-    implementation 'com.google.android.gms:play-services-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:12.0.0'
+    implementation 'com.google.android.gms:play-services-auth:12.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

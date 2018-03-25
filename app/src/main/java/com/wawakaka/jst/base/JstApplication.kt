@@ -49,9 +49,9 @@ class JstApplication : Application() {
 
     private fun initCdn() {
         val config = HashMap<String, String>()
-        config[CLOUD_NAME] = "wawakaka"
-        config[API_KEY] = "773739176762496"
-        config[API_SECRET] = "GTZU-10cIjrQuasbwnOO8w0HLE0"
+        config[CLOUD_NAME] = BuildConfig.CDN_CLOUD_NAME
+        config[API_KEY] = BuildConfig.CDN_API_KEY
+        config[API_SECRET] = BuildConfig.CDN_API_SECRET
         MediaManager.init(this, config)
     }
 
