@@ -66,10 +66,11 @@
                     android:id="@+id/id_container"
                     style="@style/AddOrEditPengeluaranInputStyles"
                     android:hint="@string/add_or_edit_id_hint"
-                    app:errorEnabled="false">
+                    android:visibility="gone">
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
                         android:id="@+id/id_text"
+                        android:enabled="false"
                         style="@style/AddOrEditTextInputStyles" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -104,6 +105,7 @@
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
                         android:id="@+id/biaya_text"
+                        android:inputType="number"
                         style="@style/AddOrEditTextInputStyles" />
 
                 </android.support.design.widget.TextInputLayout>

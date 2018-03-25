@@ -9,7 +9,6 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
-import com.wawakaka.jst.admin.kelas.composer.AddOrEditKelasActivity
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.ExtraUtils
@@ -285,7 +284,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
     }
 
     private fun launchEditPengeluaranActivity(pengeluaran: Pengeluaran) {
-        val intent = Intent(this, AddOrEditKelasActivity::class.java)
+        val intent = Intent(this, AddOrEditPengeluaranActivity::class.java)
         intent.putExtra(ExtraUtils.IS_EDIT, true)
         intent.putExtra(ExtraUtils.PENGELUARAN, pengeluaran)
         startActivity(intent)

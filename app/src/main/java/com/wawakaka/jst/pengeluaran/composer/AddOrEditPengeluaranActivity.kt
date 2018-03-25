@@ -84,12 +84,24 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
             .subscribe {
                 setContentView(R.layout.activity_add_or_edit_pengeluaran)
                 initToolbar()
+                initRequestPermission()
             }
     }
 
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun initRequestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                MY_WRITE_EXTERNAL_STORAGE
+            )
+        }
     }
 
     private fun initEditData() {
@@ -100,7 +112,7 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
                 id_text.setText(pengeluaran.id ?: 0)
-                id_text.isEnabled = false
+                id_text.makeVisible()
                 tanggal_text.setText(DateUtils.getFormattedDate(pengeluaran.tanggal ?: ""))
                 tanggal_text.isEnabled = false
                 barang_text.setText(pengeluaran.barang)
@@ -174,15 +186,73 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap { RxView.clicks(save_button) }
-            .filter { isValidData() }
+            .filter { showErrorIfNotValid() }
             .doOnNext { showProgressDialog() }
             .map { ResultHolder.image ?: ByteArray(0) }
-            .filter { it.isNotEmpty() }
+            .filter { continueSaveToServerIfNoImageTaken(it) }
             .map { BitmapFactory.decodeByteArray(it, 0, it.size) }
             .subscribeOn(Schedulers.io())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe { uploadImage(it) }
     }
+
+    private fun showErrorIfNotValid() =
+        when {
+            nameNotEmpty() && priceNotEmpty() -> {
+                hidePriceError()
+                hideNameError()
+                true
+            }
+            nameEmpty() -> {
+                showNameError()
+                false
+            }
+            priceEmpty() -> {
+                showPriceError()
+                false
+            }
+            else -> {
+                showNameError()
+                showPriceError()
+                false
+            }
+        }
+
+    private fun nameNotEmpty() = barang_text.text.isNotBlank()
+
+    private fun priceNotEmpty() = biaya_text.text.isNotBlank()
+
+    private fun nameEmpty() = barang_text.text.isNullOrBlank()
+
+    private fun priceEmpty() = biaya_text.text.isNullOrBlank()
+
+    private fun showNameError() {
+        barang_container.error = getString(R.string.add_or_edit_nama_barang_error)
+        barang_container.isErrorEnabled = true
+    }
+
+    private fun hideNameError() {
+        barang_container.error = null
+        barang_container.isErrorEnabled = false
+    }
+
+    private fun showPriceError() {
+        biaya_container.error = getString(R.string.add_or_edit_bidang_error)
+        biaya_container.isErrorEnabled = true
+    }
+
+    private fun hidePriceError() {
+        biaya_container.error = null
+        biaya_container.isErrorEnabled = false
+    }
+
+    private fun continueSaveToServerIfNoImageTaken(byteArray: ByteArray) =
+        if (byteArray.isNotEmpty()) {
+            true
+        } else {
+            saveToServer()
+            false
+        }
 
     private fun uploadImage(bitmap: Bitmap) {
         MediaManager.get()
@@ -230,30 +300,6 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
     }
 
     private fun saveImage(bitmap: Bitmap): Uri {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CONTACTS)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.READ_CONTACTS),
-                    MY_WRITE_EXTERNAL_STORAGE)
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
         val savedImageURL = MediaStore.Images.Media.insertImage(
             contentResolver,
             bitmap,
@@ -318,10 +364,6 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
                 hideProgressDialog()
                 showSnackbarError(getString(R.string.add_or_edit_Image_upload_failed))
             }
-    }
-
-    private fun isValidData(): Boolean {
-        return true
     }
 
     private fun buildPengeluaran(): PengeluaranRequestWrapper {

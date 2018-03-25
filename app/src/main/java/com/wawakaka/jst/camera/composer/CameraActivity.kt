@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_camera.*
 class CameraActivity : BaseActivity() {
 
     companion object {
-        private val TAG = CameraActivity::class.java!!.getSimpleName()
+        private val TAG = CameraActivity::class.java.simpleName
     }
 
     private val cameraPresenter: CameraPresenter by lazy {
@@ -79,14 +79,6 @@ class CameraActivity : BaseActivity() {
             .subscribe {
                 finish()
             }
-    }
-
-    private abstract class CameraSetting {
-
-        internal abstract val title: String?
-        internal abstract val value: String?
-        internal abstract fun toggle()
-
     }
 
 }
