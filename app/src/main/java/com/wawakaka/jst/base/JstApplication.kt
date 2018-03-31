@@ -5,9 +5,12 @@ import android.content.Context
 import android.support.multidex.MultiDex
 import android.util.Log
 import com.cloudinary.android.MediaManager
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
 import com.wawakaka.jst.BuildConfig
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.utils.LogUtils
+import io.fabric.sdk.android.Fabric
 import net.danlew.android.joda.JodaTimeAndroid
 
 /**
@@ -28,6 +31,7 @@ class JstApplication : Application() {
         initDagger()
         initJodaTime()
         initCdn()
+        initFabric()
     }
 
     private fun initDagger() {
@@ -53,6 +57,16 @@ class JstApplication : Application() {
         config[API_KEY] = BuildConfig.CDN_API_KEY
         config[API_SECRET] = BuildConfig.CDN_API_SECRET
         MediaManager.init(this, config)
+    }
+
+    private fun initFabric() {
+        // Set up Crashlytics, disabled for debug builds
+        val crashlyticsKit = Crashlytics.Builder()
+            .core(CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+            .build()
+
+        // Initialize Fabric with the debug-disabled crashlytics.
+        Fabric.with(this, crashlyticsKit)
     }
 
     override fun attachBaseContext(base: Context?) {

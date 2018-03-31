@@ -18,10 +18,10 @@
         android:name=".base.JstApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@drawable/ic_logo_only"
+        android:icon="@mipmap/ic_launcher_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@drawable/ic_logo_only"
+        android:roundIcon="@mipmap/ic_launcher_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:fullBackupContent">
@@ -47,7 +47,6 @@
         <activity android:name=".jadwal.composer.JadwalActivity" />
         <activity android:name=".kelas.composer.KelasActivity" />
         <activity android:name=".presensi.composer.PresensiActivity" />
-        <activity android:name=".tesHarian.composer.TesHarianActivity" />
         <activity android:name=".tesHarian.composer.HasilTesHarianActivity" />
         <activity android:name=".tesHarian.composer.HasilTesHarianAddOrEditActivity" />
         <activity android:name=".admin.composer.AdminActivity" />
@@ -78,6 +77,10 @@
         <activity android:name=".pengeluaran.composer.PengeluaranActivity" />
         <activity android:name=".camera.composer.PreviewActivity" />
         <activity android:name=".pengeluaran.composer.AddOrEditPengeluaranActivity" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e6659c1f07e1dec0a0a3b7762de4463e83d736dd" />
     </application>
 
 </manifest>

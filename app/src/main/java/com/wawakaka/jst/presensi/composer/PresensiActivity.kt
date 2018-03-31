@@ -184,6 +184,7 @@ class PresensiActivity : BaseActivity() {
                     LogUtils.debug(TAG, "Success in initSaveButton")
                     hideProgressDialog()
                     showSiswaListContainer()
+                    finish()
                 },
                 {
                     LogUtils.error(TAG, "Error in initSaveButton", it)

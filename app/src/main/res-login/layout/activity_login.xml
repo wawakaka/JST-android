@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:buttonBackground="@drawable/button_primary"
-        app:buttonImage="@drawable/ic_logo_only"
+        app:buttonImage="@drawable/ic_google_plus"
         app:buttonText="google +"
         app:buttonTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

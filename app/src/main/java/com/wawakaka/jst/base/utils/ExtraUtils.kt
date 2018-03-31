@@ -15,5 +15,7 @@ class ExtraUtils {
         const val SESI = "extra-sesi"
         const val SECURE_IMAGE_URL = "secure-image-url"
         const val PENGELUARAN = "pengeluaran"
+        const val EXTRA_ID_KELAS = "extra_id_kelas"
+        const val EXTRA_ID_JADWAL = "extra_id_jadwal"
     }
 }

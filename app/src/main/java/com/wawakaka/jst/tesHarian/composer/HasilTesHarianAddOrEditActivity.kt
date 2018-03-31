@@ -1,28 +1,31 @@
 package com.wawakaka.jst.tesHarian.composer
 
 import android.app.Activity
-import android.content.Intent
 import android.view.MenuItem
 import com.jakewharton.rxbinding2.view.RxView
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
+import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.tesHarian.model.HasilTesHarian
+import com.wawakaka.jst.tesHarian.presenter.TesHarianPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_test_result_add_or_edit.*
 
 
 class HasilTesHarianAddOrEditActivity : BaseActivity() {
-    //todo add field checking function
+
     companion object {
         private val TAG = HasilTesHarianAddOrEditActivity::class.java.simpleName
         const val EXTRA_DAILY_TEST_RESULT = "daily-test-result"
         const val EXTRA_DAILY_TEST_RESULT_NAME = "nama-daily-test-result"
-        const val EXTRA_DAILY_TEST_RESULT_EDIT = "edit"
-        const val EXTRA_ID_JADWAL_KELAS = "id-jadwal-kelas"
+    }
+
+    private val tesHarianPresenter: TesHarianPresenter by lazy {
+        JstApplication.component.provideTesHarianPresenter()
     }
 
     private val hasilTesHarian: HasilTesHarian? by lazy {
@@ -33,14 +36,10 @@ class HasilTesHarianAddOrEditActivity : BaseActivity() {
         intent.getSerializableExtra(EXTRA_DAILY_TEST_RESULT_NAME) as? String
     }
 
-    private val isEdit: Boolean? by lazy {
-        intent.getSerializableExtra(EXTRA_DAILY_TEST_RESULT_EDIT) as? Boolean
-    }
-
     init {
         initLayout()
         initData()
-        initAddButton()
+        initSaveButton()
     }
 
     private fun initLayout() {
@@ -63,38 +62,42 @@ class HasilTesHarianAddOrEditActivity : BaseActivity() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
-            .map { isEdit }
-            .filter { it }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
-                showDataIfInEditMode()
+                showData()
             }
     }
 
-    private fun showDataIfInEditMode() {
+    private fun showData() {
         nama_siswa.text = nama
         nilai.setText(hasilTesHarian?.hasil)
     }
 
-    private fun initAddButton() {
+    private fun initSaveButton() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap { RxView.clicks(save_button) }
+            .flatMap {
+                tesHarianPresenter
+                    .updateHasilTesHarian(getNilai())
+            }
+            .filter { it }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe { setResultSuccess(getNilai()) }
+            .subscribe(
+                {
+                    LogUtils.debug(TAG, "success in initAddButton")
+                    tesHarianPresenter.publishTesHarianRefreshListEvent()
+                    finish()
+                },
+                {
+                    LogUtils.error(TAG, "Error in initAddButton", it)
+                }
+            )
     }
 
     private fun getNilai(): HasilTesHarian {
         return HasilTesHarian(hasilTesHarian?.id, nilai.text.toString(), hasilTesHarian?.tesHarianId, hasilTesHarian?.siswaId)
-    }
-
-    private fun setResultSuccess(hasilTesHarian: HasilTesHarian) {
-        val data = Intent()
-        LogUtils.debug(TAG, hasilTesHarian.toString())
-        data.putExtra(EXTRA_DAILY_TEST_RESULT, hasilTesHarian)
-        setResult(Activity.RESULT_OK, data)
-        finish()
     }
 
     private fun showUnsavedConfirmationDialog(confirmedAction: () -> Unit) {
@@ -107,14 +110,16 @@ class HasilTesHarianAddOrEditActivity : BaseActivity() {
             }
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item?.itemId
         return if (id == android.R.id.home) {
-            showUnsavedConfirmationDialog {
-                setResult(Activity.RESULT_CANCELED)
-                finish()
+            if (isAnyChanges()) {
+                showUnsavedConfirmationDialog {
+                    setResult(Activity.RESULT_CANCELED)
+                    finish()
+                }
             }
+            finish()
             true
         } else {
             super.onOptionsItemSelected(item)
@@ -122,10 +127,16 @@ class HasilTesHarianAddOrEditActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        showUnsavedConfirmationDialog {
-            setResult(Activity.RESULT_CANCELED)
+        if (isAnyChanges()) {
+            showUnsavedConfirmationDialog {
+                setResult(Activity.RESULT_CANCELED)
+                super.onBackPressed()
+            }
+        } else {
             super.onBackPressed()
         }
     }
+
+    private fun isAnyChanges(): Boolean = nilai.text.toString() != hasilTesHarian?.hasil
 
 }

@@ -9,6 +9,7 @@
     <string name="delete">Hapus</string>
     <string name="update">Update Status</string>
     <string name="processing">Memproses</string>
+    <string name="force_crash">Force Crash!</string>
 
     <string name="retry_label">Coba Lagi</string>
     <string name="error_network">Tidak ada jaringan. Pastikan kamu terhubung ke internet.</string>

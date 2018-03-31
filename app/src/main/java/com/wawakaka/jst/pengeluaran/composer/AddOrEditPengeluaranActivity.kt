@@ -6,12 +6,17 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import android.view.View
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
@@ -24,8 +29,10 @@ import com.wawakaka.jst.base.composer.BaseActivity
 import com.wawakaka.jst.base.utils.DateUtils
 import com.wawakaka.jst.base.utils.ExtraUtils
 import com.wawakaka.jst.base.utils.LogUtils
+import com.wawakaka.jst.base.utils.setImage
 import com.wawakaka.jst.base.view.DefaultProgressDialog
 import com.wawakaka.jst.base.view.ViewUtils
+import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.camera.composer.CameraActivity
 import com.wawakaka.jst.camera.view.ResultHolder
@@ -109,17 +116,47 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
             .filter { isEdit }
+            .doOnNext { showProgressDialog() }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
-                id_text.setText(pengeluaran.id ?: 0)
-                id_text.makeVisible()
-                tanggal_text.setText(DateUtils.getFormattedDate(pengeluaran.tanggal ?: ""))
-                tanggal_text.isEnabled = false
-                barang_text.setText(pengeluaran.barang)
-                biaya_text.setText(pengeluaran.biaya ?: 0)
-                keterangan_text.setText(pengeluaran.keterangan ?: "")
-                tanggal_container.makeVisible()
+                showEditItem()
             }
+    }
+
+    private fun showEditItem() {
+        id_text.setText(pengeluaran.id.toString())
+        id_container.makeVisible()
+        tanggal_text.setText(DateUtils.getFormattedDate(pengeluaran.tanggal ?: ""))
+        tanggal_text.isEnabled = false
+        barang_text.setText(pengeluaran.barang)
+        biaya_text.setText(pengeluaran.biaya.toString())
+        keterangan_text.setText(pengeluaran.keterangan ?: "")
+        tanggal_container.makeVisible()
+        take_picture_button.makeGone()
+
+        val listener = object : RequestListener<Drawable> {
+            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                LogUtils.debug(TAG, "e " + e.toString())
+                LogUtils.debug(TAG, "model " + model.toString())
+                LogUtils.debug(TAG, "target " + target.toString())
+                LogUtils.debug(TAG, "isFirstResource " + isFirstResource.toString())
+                gambar.makeGone()
+                hideProgressDialog()
+                return false
+            }
+
+            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                LogUtils.debug(TAG, "resource " + resource.toString())
+                LogUtils.debug(TAG, "model " + model.toString())
+                LogUtils.debug(TAG, "target " + target.toString())
+                LogUtils.debug(TAG, "dataSource " + dataSource.toString())
+                LogUtils.debug(TAG, "isFirstResource " + isFirstResource.toString())
+                hideProgressDialog()
+                return false
+            }
+        }
+        gambar.setImage(pengeluaran.gambar ?: "", this, listener)
+        gambar.makeVisible()
     }
 
     private fun initImagePreview() {

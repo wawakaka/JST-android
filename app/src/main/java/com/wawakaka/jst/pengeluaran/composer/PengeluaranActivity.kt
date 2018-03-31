@@ -2,7 +2,6 @@ package com.wawakaka.jst.pengeluaran.composer
 
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
-import android.view.MenuItem
 import android.view.View
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.view.RxView
@@ -20,6 +19,7 @@ import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.datasource.model.ResultEmptyError
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
+import com.wawakaka.jst.navigation.composer.NavigationFragment
 import com.wawakaka.jst.pengeluaran.model.Pengeluaran
 import com.wawakaka.jst.pengeluaran.presenter.PengeluaranPresenter
 import com.wawakaka.jst.pengeluaran.view.PengeluaranHolder
@@ -48,6 +48,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     init {
         initLayout()
+        initNavigationDrawer()
         initNetworkErrorView()
         initUnknownErrorView()
         initSwipeRefreshPengeluaran()
@@ -63,13 +64,22 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
                 setContentView(R.layout.activity_pengeluaran)
-                initToolbar()
             }
     }
 
-    private fun initToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    private fun initNavigationDrawer() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                initNavigationDrawer(
+                    navigation_drawer_icon,
+                    navigation_drawer,
+                    R.id.dashboard_drawer_fragment,
+                    NavigationFragment.DRAWER_TYPE_PENGELUARAN
+                )
+            }
     }
 
     private fun initNetworkErrorView() {
@@ -203,6 +213,8 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
             }
             is ResultEmptyError -> {
                 //todo add empty screen or leave it blank
+                adapter.updateDataSet(list)
+                showListPengeluaran()
             }
             else -> {
                 if (list.isEmpty()) {
@@ -242,7 +254,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun launchAddPengeluaranActivity() {
         val intent = Intent(this, AddOrEditPengeluaranActivity::class.java)
-        intent.putExtra(ExtraUtils.IS_EDIT,false)
+        intent.putExtra(ExtraUtils.IS_EDIT, false)
         startActivity(intent)
     }
 
@@ -264,6 +276,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
         unknown_error_view.makeGone()
         network_error_view.makeGone()
         hideLoadProgress()
+        hideProgressDialog()
     }
 
     private fun showLoadProgress() {
@@ -272,6 +285,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun hideLoadProgress() {
         pengeluaran_list_refresher?.let { it.isRefreshing = false }
+        hideProgressDialog()
     }
 
     override fun onItemClick(position: Int): Boolean {
@@ -284,6 +298,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
     }
 
     private fun launchEditPengeluaranActivity(pengeluaran: Pengeluaran) {
+        LogUtils.debug(TAG, pengeluaran.toString())
         val intent = Intent(this, AddOrEditPengeluaranActivity::class.java)
         intent.putExtra(ExtraUtils.IS_EDIT, true)
         intent.putExtra(ExtraUtils.PENGELUARAN, pengeluaran)
@@ -332,11 +347,11 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun onUpdatePengeluaranSucceded() {
         pengeluaranPresenter.publishRefreshListPengeluaranEvent()
+        showListPengeluaran()
     }
 
     private fun onUpdatePengeluaranFailed(throwable: Throwable) {
-        hideProgressDialog()
-
+        hideLoadProgress()
         when (throwable) {
             is NetworkError -> showError(getString(R.string.error_network))
             is NoInternetError -> showError(getString(R.string.error_no_internet))
@@ -360,16 +375,6 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun hideProgressDialog() {
         progressDialog?.dismiss()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item?.itemId
-        return if (id == android.R.id.home) {
-            finish()
-            true
-        } else {
-            super.onOptionsItemSelected(item)
-        }
     }
 
 }
