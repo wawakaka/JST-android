@@ -33,11 +33,16 @@ class PresensiActivity : BaseActivity() {
         private val TAG = PresensiActivity::class.java.simpleName
     }
 
-    private var kelas: Kelas? = null
-    private var idJadwalKelas: Int? = null
-
     private val presensiPresenter: PresensiPresenter by lazy {
         JstApplication.component.providePresensiPresenter()
+    }
+
+    private val kelas: Kelas by lazy {
+        intent.getSerializableExtra(KelasActivity.EXTRA_KELAS) as Kelas
+    }
+
+    private val idJadwalKelas: Int by lazy {
+        intent.getSerializableExtra(KelasActivity.EXTRA_ID_JADWAL) as Int
     }
 
     init {
@@ -54,8 +59,6 @@ class PresensiActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
-                kelas = intent.getSerializableExtra(KelasActivity.EXTRA_KELAS) as Kelas
-                idJadwalKelas = intent.getSerializableExtra(KelasActivity.EXTRA_ID_JADWAL) as Int
                 setContentView(R.layout.activity_presensi)
                 initToolbar()
             }
@@ -93,7 +96,7 @@ class PresensiActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { showLoadingView() }
             .observeOn(Schedulers.computation())
-            .map { kelas?.listSiswa ?: mutableListOf() }
+            .map { kelas.listSiswa ?: mutableListOf() }
             .filter { it.isNotEmpty() }
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
@@ -200,7 +203,7 @@ class PresensiActivity : BaseActivity() {
             .forEachChild {
                 if (it is PresensiCheckView) {
                     if (it.isSiswaAttend()) {
-                        presensi.add(it.getPresensi(idJadwalKelas!!))
+                        presensi.add(it.getPresensi(idJadwalKelas))
                     }
                 }
             }

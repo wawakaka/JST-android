@@ -95,6 +95,8 @@
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
                         android:id="@+id/barang_text"
+                        android:inputType="text"
+                        android:maxLines="1"
                         style="@style/AddOrEditTextInputStyles" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -118,7 +120,9 @@
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
                         android:id="@+id/keterangan_text"
-                        style="@style/AddOrEditTextInputStyles" />
+                        style="@style/AddOrEditTextInputStyles"
+                        android:inputType="textMultiLine"
+                        android:maxLines="5" />
 
                 </android.support.design.widget.TextInputLayout>
 

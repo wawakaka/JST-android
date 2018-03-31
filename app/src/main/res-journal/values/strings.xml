@@ -3,9 +3,16 @@
     <string name="journal_title">Jadwal Kegiatan Harian</string>
     <string name="add_journal_title">Tambah Kegiatan</string>
     <string name="edit_journal_title">Ubah Kegiatan</string>
+    <string name="add_or_edit_session_start_error">Sesi Mulai Tidak Boleh Kosong</string>
+    <string name="add_or_edit_session_end_error">Sesi Selesai Tidak Boleh Kosong</string>
     <string name="add_or_edit_materi_error">Materi Tidak Boleh Kosong</string>
     <string name="delete_journal_title">Hapus Kegiatan</string>
     <string name="delete_journal_message">Apakah kamu yakin akan kegiatan ini?</string>
+
+    <string name="session_start">Sesi Mulai</string>
+    <string name="session_end">Sesi Selesai</string>
+    <string name="session_subject">Materi</string>
+    <string name="session_details">Keterangan</string>
 
     <string name="journal_edit_save_button">Simpan</string>
 </resources>

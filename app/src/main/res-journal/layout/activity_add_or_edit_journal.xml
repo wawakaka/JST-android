@@ -57,7 +57,7 @@
                 android:id="@+id/sesi_start_container"
                 style="@style/AddOrEditInputStyles"
                 android:focusable="false"
-                android:hint="sesi">
+                android:hint="@string/session_start">
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/sesi_start"
@@ -70,7 +70,7 @@
                 android:id="@+id/sesi_end_container"
                 style="@style/AddOrEditInputStyles"
                 android:focusable="false"
-                android:hint="sesi">
+                android:hint="@string/session_end">
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/sesi_end"
@@ -82,11 +82,12 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/materi_container"
                 style="@style/AddOrEditInputStyles"
-                android:hint="materi">
+                android:hint="@string/session_subject">
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/materi"
                     style="@style/AddOrEditTextInputStyles"
+                    android:maxLines="1"
                     android:inputType="text" />
 
             </android.support.design.widget.TextInputLayout>
@@ -94,7 +95,7 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/keterangan_container"
                 style="@style/AddOrEditInputStyles"
-                android:hint="keterangan">
+                android:hint="@string/session_details">
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/keterangan"
