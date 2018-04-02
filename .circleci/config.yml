@@ -31,8 +31,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: chmod +x ./gradlew
-          gradle dependencies
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
 
       - save_cache:
           paths:
