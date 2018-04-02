@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.wawakaka.jst.BuildConfig
 import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.base.utils.toResultEmptyErrorIfEmpty
 import com.wawakaka.jst.base.view.ViewUtils
@@ -27,6 +28,7 @@ class LoginPresenter(private val serverRequestManager: ServerRequestManager,
 
     companion object {
         private val TAG = LoginPresenter::class.java.simpleName
+        private const val ADMIN = "admin"
     }
 
     private var googleApiClient: GoogleApiClient? = null
@@ -96,7 +98,7 @@ class LoginPresenter(private val serverRequestManager: ServerRequestManager,
             googleSignInAccount.email,
             null,
             googleSignInAccount.photoUrl.toString(),
-            null,
+            isAdminBuild(),
             null,
             null
         )
@@ -106,6 +108,8 @@ class LoginPresenter(private val serverRequestManager: ServerRequestManager,
             .map { it.data!! }
             .doOnNext { saveUserLogin(it) }
     }
+
+    private fun isAdminBuild(): Boolean = BuildConfig.FLAVOR == ADMIN
 
     private fun saveUserLogin(user: User) {
         localRequestManager.saveUser(user)

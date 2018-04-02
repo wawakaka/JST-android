@@ -52,6 +52,50 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:220324769521:android:b5c55e83a80bdfbb",
+        "android_client_info": {
+          "package_name": "com.wawakaka.jst.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220324769521-jqrknredp931aapplng6bqhp6ovch0b8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wawakaka.jst.admin",
+            "certificate_hash": "0b3e03d030378ff3da64a8dc7f84dbe60d388e30"
+          }
+        },
+        {
+          "client_id": "220324769521-vt2u48qgr59t7bsuv5a0rikq8shs5kal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdlJcoxO7vagEuXhfOiNc8CpbJ-ZidWEA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220324769521-vt2u48qgr59t7bsuv5a0rikq8shs5kal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:220324769521:android:219c90e4ae8bfb05",
         "android_client_info": {
           "package_name": "com.wawakaka.jst.dev"
