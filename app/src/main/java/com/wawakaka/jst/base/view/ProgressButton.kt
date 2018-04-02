@@ -1,5 +1,6 @@
 package com.wawakaka.jst.base.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
@@ -38,6 +39,7 @@ class ProgressButton : LinearLayout {
         initView()
     }
 
+    @SuppressLint("ResourceAsColor")
     fun init(attrs: AttributeSet) {
         val typedArray = context.theme.obtainStyledAttributes(
             attrs, R.styleable.ProgressButton, 0, 0

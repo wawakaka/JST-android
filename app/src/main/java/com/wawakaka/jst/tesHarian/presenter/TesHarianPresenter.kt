@@ -19,15 +19,15 @@ class TesHarianPresenter(val serverRequestManager: ServerRequestManager,
                       tesHarian: TesHarian): Observable<TesHarian> {
         return serverRequestManager
             .loadTesHarianObservable(idJadwalKelas, TesHarianRequest(tesHarian))
-                .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
-                .map { it.data!! }
-                .doOnNext { saveTesHarian(it, idJadwalKelas) }
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
+            .map { it.data!! }
+            .doOnNext { saveTesHarian(it, idJadwalKelas) }
     }
 
     fun reloadTesHarian(idJadwalKelas: Int): Observable<TesHarian> {
         return serverRequestManager
-                .reloadTesHarianObservable(idJadwalKelas)
-                .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
+            .reloadTesHarianObservable(idJadwalKelas)
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data!! }
             .doOnNext { saveTesHarian(it, idJadwalKelas) }
     }
