@@ -38,7 +38,13 @@ open class BasePresenter {
     fun clearSaveData() {
         takeLocalRequestManager()?.let {
             it.saveUser(null)
+            it.saveListUser(mutableListOf())
             it.saveListKelas(mutableListOf())
+            it.savePresensiCheckedList(mutableListOf())
+            it.saveListSiswa(mutableListOf())
+            it.saveListBidang(mutableListOf())
+            it.saveListSekolah(mutableListOf())
+            it.saveListJournal(mutableListOf())
         }
     }
 

@@ -13,6 +13,8 @@ import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.pengeluaran.model.Pengeluaran
+import com.wawakaka.jst.pengeluaran.model.PengeluaranRequestWrapper
 import com.wawakaka.jst.presensi.model.Presensi
 import com.wawakaka.jst.presensi.model.PresensiRequestWrapper
 import com.wawakaka.jst.tesHarian.model.HasilTesHarianRequest
@@ -194,4 +196,30 @@ interface ServerApi {
     fun deleteJournalObservable(@Header("Authorization") token: String,
                                 @Header("Content-Type") acceptFormat: String,
                                 @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
+
+    @GET("/pengeluaran/all")
+    fun loadAllPengeluaranObservable(@Header("Authorization") token: String,
+                                     @Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>>
+
+    @GET("/pengeluaran/{email}")
+    fun loadPengeluaranObservable(@Header("Authorization") token: String,
+                                  @Header("Content-Type") acceptFormat: String,
+                                  @Path("email") email: String?): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>>
+
+    @POST("/pengeluaran/add")
+    fun createPengeluaranObservable(@Header("Authorization") token: String,
+                                    @Header("Content-Type") acceptFormat: String,
+                                    @Body pengeluaran: PengeluaranRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+
+    @PUT("/pengeluaran/{id}/update")
+    fun updatePengeluaranObservable(@Header("Authorization") token: String,
+                                    @Header("Content-Type") acceptFormat: String,
+                                    @Path("id") id: Int?,
+                                    @Body pengeluaran: PengeluaranRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+
+    @DELETE("/pengeluaran/{id}/delete")
+    fun deletePengeluaranObservable(@Header("Authorization") token: String,
+                                    @Header("Content-Type") acceptFormat: String,
+                                    @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
+
 }

@@ -6,15 +6,21 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
 android {
     signingConfigs {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('keystore.properties').newDataInputStream())
+
         release {
-            keyAlias 'release'
-            keyPassword '1234567890'
-            storeFile file('../keystore/keystore-release.jks')
-            storePassword '1234567890'
+            storeFile file("${properties.getProperty('RELEASE_STORE_FILE')}")
+            storePassword "${properties.getProperty('RELEASE_STORE_PASSWORD')}"
+            keyAlias "${properties.getProperty('RELEASE_KEY_ALIAS')}"
+            keyPassword "${properties.getProperty('RELEASE_KEY_PASSWORD')}"
         }
     }
+    buildToolsVersion '27.0.3'
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.wawakaka.jst"
@@ -30,6 +36,7 @@ android {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            proguardFile '../app/proguard-rules.pro'
         }
         debug {
             signingConfig signingConfigs.release
@@ -48,28 +55,48 @@ android {
                     'src/main/res-presensi',
                     'src/main/res-tes-harian',
                     'src/main/res-admin',
-                    'src/main/res-journal'
-                    , 'src/main/res-pengeluaran']
+                    'src/main/res-journal',
+                    'src/main/res-pengeluaran',
+                    'src/main/res-onboarding'
+            ]
         }
     }
+    flavorDimensions "default"
     productFlavors {
+        development {
+
+            applicationIdSuffix = devAppIdSuffix
+
+            buildConfigField "String", "BASE_URL", base_url_dev
+            buildConfigField "String", "CDN_CLOUD_NAME", cdn_cloud_name
+            buildConfigField "String", "CDN_API_KEY", cdn_api_key
+            buildConfigField "String", "CDN_API_SECRET", cdn_api_secret
+        }
+        production {
+            applicationIdSuffix = prodAppIdSuffix
+
+            buildConfigField "String", "BASE_URL", base_url_prod
+            buildConfigField "String", "CDN_CLOUD_NAME", cdn_cloud_name
+            buildConfigField "String", "CDN_API_KEY", cdn_api_key
+            buildConfigField "String", "CDN_API_SECRET", cdn_api_secret
+        }
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:support-v13:27.0.2'
-    implementation 'com.android.support:design:27.0.2'
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
-    implementation 'com.android.support:cardview-v7:27.0.2'
-    implementation 'com.android.support:support-annotations:27.0.2'
-    implementation 'com.android.support:exifinterface:27.0.2'
-    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support:support-v13:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.android.support:support-annotations:27.1.0'
+    implementation 'com.android.support:exifinterface:27.1.0'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.google.firebase:firebase-auth:11.8.0'
-    implementation 'com.google.android.gms:play-services-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:12.0.0'
+    implementation 'com.google.android.gms:play-services-auth:12.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -96,10 +123,14 @@ dependencies {
     implementation 'eu.davidea:flexible-adapter:5.0.0-rc3'
     implementation 'eu.davidea:flexible-adapter-livedata:1.0.0-b1'
     implementation 'eu.davidea:flexible-adapter-databinding:1.0.0-b2'
-    implementation 'com.wonderkiln:camerakit:0.12.0'
+    implementation 'com.wonderkiln:camerakit:0.13.1'
     implementation 'com.birbit:android-priority-jobqueue:2.0.1'
     implementation 'net.danlew:android.joda:2.9.9.1'
     implementation 'com.wdullaer:materialdatetimepicker:3.5.0'
+    implementation 'com.cloudinary:cloudinary-android:1.20.0'
+    implementation ('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+        transitive = true
+    }
 }
 
 

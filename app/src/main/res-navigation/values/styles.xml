@@ -4,11 +4,8 @@
     <style name="NavigationMenuStyles">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/large_font_size</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
-        <item name="android:paddingTop">@dimen/medium_small_margin</item>
-        <item name="android:paddingBottom">@dimen/medium_small_margin</item>
-        <item name="android:paddingStart">@dimen/medium_margin</item>
-        <item name="android:paddingEnd">@dimen/medium_margin</item>
     </style>
 
 </resources>

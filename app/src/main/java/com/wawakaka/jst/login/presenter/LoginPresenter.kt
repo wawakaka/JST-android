@@ -92,7 +92,14 @@ class LoginPresenter(private val serverRequestManager: ServerRequestManager,
     }
 
     fun loginInternalObservable(googleSignInAccount: GoogleSignInAccount): Observable<User> {
-        val user = User(googleSignInAccount.email, null, null, null, null)
+        val user = User(
+            googleSignInAccount.email,
+            null,
+            googleSignInAccount.photoUrl.toString(),
+            null,
+            null,
+            null
+        )
         return serverRequestManager
             .loginObservable(user)
             .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }

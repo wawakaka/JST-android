@@ -117,7 +117,7 @@ class AspectRatioImageView(context: Context, attrs: AttributeSet? = null) : AppC
         requestLayout()
     }
 
-    @IntDef(MEASUREMENT_WIDTH.toLong(), MEASUREMENT_HEIGHT.toLong())
+    @IntDef(MEASUREMENT_WIDTH, MEASUREMENT_HEIGHT)
     @Retention(AnnotationRetention.SOURCE)
     annotation class MeasurementDef
 

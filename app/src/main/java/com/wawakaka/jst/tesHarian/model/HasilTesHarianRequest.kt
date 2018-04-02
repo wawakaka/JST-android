@@ -5,4 +5,4 @@ import java.io.Serializable
 /**
  * Created by wawakaka on 12/27/2017.
  */
-data class HasilTesHarianRequest(val hasilTesHarian: MutableList<HasilTesHarian>) : Serializable
+data class HasilTesHarianRequest(val hasilTesHarian: HasilTesHarian) : Serializable

@@ -165,13 +165,15 @@ class AddOrEditJournalActivity : BaseActivity() {
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
             .flatMap { RxView.clicks(save_button) }
-            .filter { isValidMateri() }
+            .filter { isValidInput() }
             .doOnNext { showProgressDialog() }
             .observeOn(Schedulers.io())
             .flatMap {
                 if (isEdit == true) {
-                    journalPresenter.updateJournal(kegiatan?.jadwalKelaId
-                        ?: 0, KegiatanRequestWrapper(composeKegiatan()))
+                    journalPresenter.updateJournal(
+                        kegiatan?.jadwalKelaId ?: 0,
+                        KegiatanRequestWrapper(composeKegiatan())
+                    )
                 } else {
                     journalPresenter.createJournal(KegiatanRequestWrapper(composeKegiatan()))
                 }
@@ -189,6 +191,8 @@ class AddOrEditJournalActivity : BaseActivity() {
             )
     }
 
+    private fun isValidInput(): Boolean = isValidMateri() && isValidStartSession() && isValidEndSession()
+
     private fun isValidMateri(): Boolean {
         return if (materi.text.toString().isNotBlank()) {
             materi_container.isErrorEnabled = false
@@ -197,6 +201,30 @@ class AddOrEditJournalActivity : BaseActivity() {
         } else {
             materi_container.isErrorEnabled = true
             materi_container.error = getString(R.string.add_or_edit_materi_error)
+            false
+        }
+    }
+
+    private fun isValidStartSession(): Boolean {
+        return if (sesi_start.text.toString().isNotBlank()) {
+            sesi_start_container.isErrorEnabled = false
+            sesi_start_container.error = null
+            true
+        } else {
+            sesi_start_container.isErrorEnabled = true
+            sesi_start_container.error = getString(R.string.add_or_edit_session_start_error)
+            false
+        }
+    }
+
+    private fun isValidEndSession(): Boolean {
+        return if (sesi_end.text.toString().isNotBlank()) {
+            sesi_end_container.isErrorEnabled = false
+            sesi_end_container.error = null
+            true
+        } else {
+            sesi_end_container.isErrorEnabled = true
+            sesi_end_container.error = getString(R.string.add_or_edit_session_end_error)
             false
         }
     }

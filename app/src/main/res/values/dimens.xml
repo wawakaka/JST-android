@@ -36,6 +36,7 @@
     <dimen name="extra_big_margin_plus">40dp</dimen>
     <dimen name="huge_margin">48dp</dimen>
     <dimen name="huger_margin">60dp</dimen>
+    <dimen name="huger_margin_plus">64dp</dimen>
     <dimen name="very_huge_margin">72dp</dimen>
 
     <dimen name="shadow_thickness">1dp</dimen>

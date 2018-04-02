@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pengeluaran_title">Laporan Pengeluaran</string>
+    <string name="delete_pengeluaran_error_message">Gagal menghapus pengeluaran. Silahkan coba lagi</string>
+    <string name="delete_pengeluaran_title">Hapus Pengeluaran</string>
+    <string name="delete_pengeluaran_message">Apakah kamu yakin akan menghapus pengeluaran ini?</string>
+
+    <string name="add_or_edit_id_hint">Id</string>
+    <string name="add_or_edit_barang_hint">Nama Barang</string>
+    <string name="add_or_edit_biaya_hint">Biaya</string>
+    <string name="add_or_edit_keterangan_hint">Keterangan</string>
+    <string name="add_or_edit_gambar_hint">Ambil Gambar</string>
+
+    <string name="add_or_edit_Image_upload_failed">Gagal upload gambar</string>
+    <string name="add_or_edit_nama_barang_error">Nama barang tidak boleh kosong</string>
+    <string name="add_or_edit_harga_barang_error">Nama barang tidak boleh kosong</string>
+</resources>

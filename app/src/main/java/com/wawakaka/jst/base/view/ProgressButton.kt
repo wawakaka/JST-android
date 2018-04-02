@@ -2,6 +2,7 @@ package com.wawakaka.jst.base.view
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -44,7 +45,7 @@ class ProgressButton : LinearLayout {
 
         text = typedArray.getString(R.styleable.ProgressButton_buttonText)
         buttonBackground = typedArray.getDrawable(R.styleable.ProgressButton_buttonBackground)
-        textColor = typedArray.getColor(R.styleable.ProgressButton_buttonTextColor, R.color.black)
+        textColor = typedArray.getColor(R.styleable.ProgressButton_buttonTextColor, ContextCompat.getColor(context, R.color.primary_text))
         progressColor = typedArray.getInt(R.styleable.ProgressButton_progressColor, PROGRESS_COLOR_LIGHT)
         image = typedArray.getDrawable(R.styleable.ProgressButton_buttonImage)
 

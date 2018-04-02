@@ -9,6 +9,7 @@
     <string name="delete">Hapus</string>
     <string name="update">Update Status</string>
     <string name="processing">Memproses</string>
+    <string name="force_crash">Force Crash!</string>
 
     <string name="retry_label">Coba Lagi</string>
     <string name="error_network">Tidak ada jaringan. Pastikan kamu terhubung ke internet.</string>
@@ -27,4 +28,7 @@
     <string name="not_active">Not Active</string>
     <string name="kelas_private">Private</string>
     <string name="kelas_sekolah">SMAN 1</string>
+    <string name="nama">nama</string>
+    <string name="save">Simpan</string>
+    <string name="navigation_menu">navigation menu</string>
 </resources>

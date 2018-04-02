@@ -41,12 +41,10 @@ class TesHarianPresenter(val serverRequestManager: ServerRequestManager,
             .doOnNext { saveTesHarian(tesHarian, idJadwalKelas) }
     }
 
-    fun updateHasilTesHarian(idJadwalKelas: Int,
-                             idTesHarian: Int,
-                             hasilTesHarian: MutableList<HasilTesHarian>): Observable<Boolean> {
+    fun updateHasilTesHarian(hasilTesHarian: HasilTesHarian): Observable<Boolean> {
         return serverRequestManager
-                .updateHasilTesHarian(idTesHarian, HasilTesHarianRequest(hasilTesHarian))
-                .map { it.data!! }
+            .updateHasilTesHarian(hasilTesHarian.id ?: 0, HasilTesHarianRequest(hasilTesHarian))
+            .map { it.data!! }
 
     }
 
@@ -68,10 +66,10 @@ class TesHarianPresenter(val serverRequestManager: ServerRequestManager,
         return localRequestManager.getListSiswa()
     }
 
-    fun listenTesHarianUpdateEvent() = RxBus.registerObservable<TesHarianUpdateEvent>()
+    fun listenTesHarianRefreshListEvent() = RxBus.registerObservable<TesHarianRefreshListEvent>()
 
-    fun publishTesHarianUpdateEvent() {
-        RxBus.post(TesHarianUpdateEvent())
+    fun publishTesHarianRefreshListEvent() {
+        RxBus.post(TesHarianRefreshListEvent())
     }
 
 }

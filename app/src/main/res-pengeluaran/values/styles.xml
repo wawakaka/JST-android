@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AddOrEditPengeluaranContainerStyles">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingBottom">@dimen/small_margin</item>
+        <item name="android:paddingTop">@dimen/small_margin</item>
+    </style>
+
+    <style name="AddOrEditPengeluaranInputStyles">
+        <item name="android:textSize">@dimen/large_font_size</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>

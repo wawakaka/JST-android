@@ -63,7 +63,8 @@
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/nama_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters" />
 
             </android.support.design.widget.TextInputLayout>
 

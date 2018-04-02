@@ -19,6 +19,8 @@ import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorUnauthorized
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.pengeluaran.model.Pengeluaran
+import com.wawakaka.jst.pengeluaran.model.PengeluaranRequestWrapper
 import com.wawakaka.jst.presensi.model.Presensi
 import com.wawakaka.jst.presensi.model.PresensiRequestWrapper
 import com.wawakaka.jst.tesHarian.model.HasilTesHarianRequest
@@ -370,6 +372,57 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
     fun deleteJournalObservable(id: Int): Observable<ServerResponseWrapper<Boolean>> {
         return handleServerRequestError(
             serverApi.deleteJournalObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                id
+            )
+        )
+    }
+
+    fun loadAllPengeluaranObservable(): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>> {
+        return handleServerRequestError(
+            serverApi.loadAllPengeluaranObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader()
+            )
+        )
+    }
+
+    fun loadPengeluaranObservable(email: String): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>> {
+        return handleServerRequestError(
+            serverApi.loadPengeluaranObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                email
+            )
+        )
+    }
+
+    fun createPengeluaranObservable(pengeluaran: PengeluaranRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.createPengeluaranObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                pengeluaran
+            )
+        )
+    }
+
+    fun updatePengeluaranObservable(id: Int,
+                                    pengeluaran: PengeluaranRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.updatePengeluaranObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                id,
+                pengeluaran
+            )
+        )
+    }
+
+    fun deletePengeluaranObservable(id: Int): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.deletePengeluaranObservable(
                 getAccessTokenHeader(),
                 getAcceptApplicationJsonHeader(),
                 id

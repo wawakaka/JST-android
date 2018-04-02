@@ -3,9 +3,11 @@ package com.wawakaka.jst.dashboard.composer
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
+import com.wawakaka.jst.BuildConfig
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
@@ -33,6 +35,8 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
 
     companion object {
         private val TAG = DashboardActivity::class.java.simpleName
+        private const val DEVELOPMENT = "development"
+        private const val RELEASE = "release"
     }
 
     private val dashboardPresenter: DashboardPresenter by lazy {
@@ -44,6 +48,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
 
     init {
         initLayout()
+        initLogUser()
         initNetworkErrorView()
         initUnknownErrorView()
         initNavigationDrawer()
@@ -62,6 +67,23 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
                 setContentView(R.layout.activity_dashboard)
             }
     }
+
+    private fun initLogUser() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { isDevelopmentRelease() }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                Crashlytics.setUserIdentifier(dashboardPresenter.getUser().token)
+                Crashlytics.setUserEmail(dashboardPresenter.getUser().email)
+                Crashlytics.setUserName(dashboardPresenter.getUser().nama)
+            }
+    }
+
+    private fun isDevelopmentRelease(): Boolean =
+        BuildConfig.FLAVOR == DEVELOPMENT
+            && BuildConfig.BUILD_TYPE == RELEASE
 
     private fun initNetworkErrorView() {
         RxNavi
@@ -226,6 +248,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
+            .filter { dashboardPresenter.getUser().isSuperUser == true }
             .doOnNext { showLoadProgress() }
             .observeOn(Schedulers.io())
             .flatMap { dashboardPresenter.loadSiswaObservable() }

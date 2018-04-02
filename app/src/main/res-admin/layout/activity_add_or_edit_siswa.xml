@@ -62,7 +62,9 @@
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/nama_text"
-                    style="@style/AddOrEditTextInputStyles" />
+                    style="@style/AddOrEditTextInputStyles"
+                    android:inputType="textCapCharacters"
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -91,7 +93,9 @@
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/kelas_sekolah_text"
-                    style="@style/AddOrEditTextInputStyles" />
+                    style="@style/AddOrEditTextInputStyles"
+                    android:inputType="textCapCharacters"
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 

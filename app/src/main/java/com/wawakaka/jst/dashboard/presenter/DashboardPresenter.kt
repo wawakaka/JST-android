@@ -38,7 +38,7 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
             .doOnNext { saveSiswa(it) }
     }
 
-    private fun getUser(): User = localRequestManager.getUser()
+    fun getUser(): User = localRequestManager.getUser()
 
     private fun saveKelas(listKelas: List<Kelas>) {
         localRequestManager.saveListKelas(listKelas)

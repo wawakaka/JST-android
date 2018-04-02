@@ -1,30 +1,40 @@
 package com.wawakaka.jst.camera.composer
 
-import android.os.Bundle
-import com.jakewharton.rxbinding2.view.RxView
+import android.widget.ArrayAdapter
 import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
+import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
-import com.wonderkiln.camerakit.CameraKitEventCallback
+import com.wawakaka.jst.camera.presenter.CameraPresenter
+import com.wonderkiln.camerakit.CameraKit
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_camera.*
 
 /**
  * Created by wawakaka on 10/11/2017.
  */
 class CameraActivity : BaseActivity() {
-    //todo try to do camera app
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+
+    companion object {
+        private val TAG = CameraActivity::class.java.simpleName
     }
+
+    private val cameraPresenter: CameraPresenter by lazy {
+        JstApplication.component.provideCameraPresenter()
+    }
+
+    private var drawerAdapter: ArrayAdapter<*>? = null
+
+    private var cameraMethod = CameraKit.Constants.METHOD_STANDARD
+    private var cropOutput = false
 
     init {
         initLayout()
         initOnResume()
         initOnPause()
-        initCaptureImage()
+        initListenPictureTakenEvent()
     }
 
     private fun initLayout() {
@@ -34,6 +44,8 @@ class CameraActivity : BaseActivity() {
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
                 setContentView(R.layout.activity_camera)
+                camera!!.setMethod(cameraMethod)
+                camera!!.setCropOutput(cropOutput)
             }
     }
 
@@ -43,8 +55,7 @@ class CameraActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
-                super.onResume()
-                camera.start()
+                camera!!.start()
             }
     }
 
@@ -54,21 +65,20 @@ class CameraActivity : BaseActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
-                camera.stop()
-                super.onPause()
+                camera!!.stop()
             }
     }
 
-    private fun initCaptureImage(){
+    private fun initListenPictureTakenEvent() {
         RxNavi
-            .observe(naviComponent, Event.PAUSE)
+            .observe(this, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap { cameraPresenter.listenPictureTakenEvent() }
             .observeOn(AndroidSchedulers.mainThread())
-            .flatMap { RxView.clicks(capture) }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
-                camera.captureImage(CameraKitEventCallback { t ->  })
-
-//                camera.captureImage(CameraKitEventCallback<CameraKitImage> { event -> imageCaptured(event) })
+                finish()
             }
     }
+
 }

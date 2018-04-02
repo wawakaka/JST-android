@@ -15,9 +15,7 @@ import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
 import com.wawakaka.jst.login.model.User
 import com.wawakaka.jst.onboarding.presenter.OnBoardingPresenter
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_onboarding.*
 
@@ -62,37 +60,31 @@ class OnBoardingActivity : BaseActivity() {
             .flatMap {
                 onBoardingPresenter
                     .updateUserObservable(it)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .onErrorResumeNext(Function {
-                        LogUtils.error(TAG, "error in initSaveButton.updateUserObservable ", it)
-                        onSaveFailed(it)
-                        Observable.just(null)
-                    })
             }
             .filter { it.isNotEmpty() }
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe(
                 {
-                    LogUtils.debug(TAG, "finish login, start next activity")
+                    LogUtils.debug(TAG, "success update username, start next activity")
                     progressDialog.dismiss()
                     launchDashboardActivity()
                 },
                 {
-                    LogUtils.error(TAG, "onError in initLogin", it)
+                    LogUtils.error(TAG, "onError in initSaveButton", it)
                     onSaveFailed(it)
                 },
-                { LogUtils.debug(TAG, "onComplete in initLogin") }
+                { LogUtils.debug(TAG, "onComplete in initSaveButton") }
             )
     }
 
     private fun isValidName(): Boolean {
         //todo update this method to display error message
-        return !getName().isNullOrBlank()
+        return getName().isNotBlank()
     }
 
     private fun setUser(): User {
-        return User(onBoardingPresenter.getUser().email, getName(), null, null, null)
+        return User(onBoardingPresenter.getUser().email, getName(), onBoardingPresenter.getUser().image, null, null, null)
     }
 
     private fun getName(): String {

@@ -5,10 +5,11 @@
     <color name="colorAccent">@color/accent</color>
 
     <color name="primary">#FFEB3B</color>
-    <color name="primary_dark">#FBC02D</color>
-    <color name="primary_light">#FFF9C4</color>
-    <color name="accent">#ff5722</color>
-    <color name="accent_dark">#D93602</color>
+    <color name="primary_dark">#c8b900</color>
+    <color name="primary_light">#ffff72</color>
+    <color name="accent">#e53935</color>
+    <color name="accent_dark">#ab000d</color>
+    <color name="accent_light">#ff6f60</color>
     <color name="primary_text">@color/black</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>
