@@ -18,7 +18,9 @@ import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestManager
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.login.model.UserLoginRequest
 import io.reactivex.Observable
+import java.util.*
 
 /**
  * Created by wawakaka on 10/11/2017.
@@ -96,14 +98,14 @@ class LoginPresenter(private val serverRequestManager: ServerRequestManager,
     fun loginInternalObservable(googleSignInAccount: GoogleSignInAccount): Observable<User> {
         val user = User(
             googleSignInAccount.email,
-            null,
+            googleSignInAccount.displayName,
             googleSignInAccount.photoUrl.toString(),
             isAdminBuild(),
-            null,
-            null
+            true,
+            UUID.randomUUID().toString()
         )
         return serverRequestManager
-            .loginObservable(user)
+            .loginObservable(UserLoginRequest(user))
             .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() ?: true }
             .map { it.data!! }
             .doOnNext { saveUserLogin(it) }

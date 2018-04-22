@@ -181,7 +181,6 @@ class ManageSekolahActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickLis
         list_sekolah_container.adapter = adapter
     }
 
-    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -201,7 +200,8 @@ class ManageSekolahActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickLis
                 }
             }
             is ResultEmptyError -> {
-                //todo add empty screen or leave it blank
+                adapter.updateDataSet(mutableListOf())
+                showListSekolah()
             }
             else -> {
                 if (list.isEmpty()) {

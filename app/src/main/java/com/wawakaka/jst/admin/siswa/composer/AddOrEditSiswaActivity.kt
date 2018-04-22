@@ -290,11 +290,10 @@ class AddOrEditSiswaActivity : BaseActivity() {
 
             }
             is ResultEmptyError -> {
-                //todo do something or leave it blank
+                showSnackbarError(getString(R.string.error_unknown))
             }
             else -> {
                 showSnackbarError(getString(R.string.error_unknown))
-
             }
         }
     }

@@ -61,7 +61,6 @@ class TesHarianPresenter(val serverRequestManager: ServerRequestManager,
         return getSiswa().find { it.id == siswaId } ?: Siswa.empty
     }
 
-    //todo change this method to get siswa from kelas because this call need administrative privilege
     fun getSiswa(): List<Siswa> {
         return localRequestManager.getListSiswa()
     }

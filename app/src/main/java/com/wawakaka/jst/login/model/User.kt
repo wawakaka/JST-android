@@ -21,5 +21,4 @@ data class User(val email: String?,
 
     override fun isNotEmpty(): Boolean = !isEmpty()
 
-
 }

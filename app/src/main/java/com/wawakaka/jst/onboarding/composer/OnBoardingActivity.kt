@@ -28,7 +28,7 @@ class OnBoardingActivity : BaseActivity() {
     private val onBoardingPresenter: OnBoardingPresenter by lazy {
         JstApplication.component.provideOnBoardingPresenter()
     }
-    //todo add all string to resource
+
     private val progressDialog: DefaultProgressDialog by lazy {
         DefaultProgressDialog(this, "memperoses", false)
     }
@@ -99,7 +99,7 @@ class OnBoardingActivity : BaseActivity() {
 
     private fun onSaveFailed(throwable: Throwable) {
         progressDialog.dismiss()
-        //todo add all strings to resource
+
         when (throwable) {
             is NetworkError -> showError("error network")
             is NoInternetError -> showError("no internet error")

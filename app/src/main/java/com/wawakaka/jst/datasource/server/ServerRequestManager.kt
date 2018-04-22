@@ -19,6 +19,7 @@ import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorUnauthorized
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.login.model.UserLoginRequest
 import com.wawakaka.jst.pengeluaran.model.Pengeluaran
 import com.wawakaka.jst.pengeluaran.model.PengeluaranRequestWrapper
 import com.wawakaka.jst.presensi.model.Presensi
@@ -48,11 +49,11 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         )
     }
 
-    fun loginObservable(user: User): Observable<ServerResponseWrapper<User>> {
+    fun loginObservable(user: UserLoginRequest): Observable<ServerResponseWrapper<User>> {
         return handleServerRequestError(
             serverApi.loginObservable(
                 getAcceptApplicationJsonHeader(),
-                user.email,
+                user.user?.email,
                 user
             )
         )

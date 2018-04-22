@@ -194,7 +194,6 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                 }
     }
 
-    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -214,7 +213,8 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                 }
             }
             is ResultEmptyError -> {
-                //todo add empty screen or leave it blank
+                adapter.updateDataSet(mutableListOf())
+                showListSiswa()
             }
             else -> {
                 if (list.isEmpty()) {

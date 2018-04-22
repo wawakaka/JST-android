@@ -31,7 +31,6 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
         return !getUser().isEmpty()
     }
 
-    //todo load list user in admin activity if user is admin
     fun saveListUser(user: List<User>?) {
         if (user != null) {
             preferenceApi.putListObject(KEY_LIST_USER, user)

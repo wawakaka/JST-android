@@ -436,7 +436,7 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
 
             }
             is ResultEmptyError -> {
-                //todo add empty screen or leave it blank
+                showSnackbarError(getString(R.string.error_unknown))
             }
             else -> {
                 showSnackbarError(getString(R.string.error_unknown))

@@ -181,7 +181,6 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
         list_bidang_container.adapter = adapter
     }
 
-    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -201,7 +200,8 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
                 }
             }
             is ResultEmptyError -> {
-                //todo add empty screen or leave it blank
+                adapter.updateDataSet(mutableListOf())
+                showListBidang()
             }
             else -> {
                 if (list.isEmpty()) {

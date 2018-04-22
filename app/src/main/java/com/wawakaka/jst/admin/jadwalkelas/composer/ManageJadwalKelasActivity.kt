@@ -183,7 +183,6 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
         list_schedule_container.adapter = adapter
     }
 
-    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -203,7 +202,8 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
                 }
             }
             is ResultEmptyError -> {
-                //todo add empty screen or leave it blank
+                adapter.updateDataSet(mutableListOf())
+                showListJadwalKelas()
             }
             else -> {
                 if (list.isEmpty()) {

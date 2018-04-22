@@ -2,6 +2,7 @@ package com.wawakaka.jst.pengeluaran.view
 
 import android.view.View
 import com.wawakaka.jst.R
+import com.wawakaka.jst.base.utils.DateUtils
 import com.wawakaka.jst.pengeluaran.model.Pengeluaran
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
@@ -31,7 +32,7 @@ data class PengeluaranHolder(private val model: Pengeluaran) : AbstractFlexibleI
     }
 
     private fun setTanggal(holder: PengeluaranViewHolder) {
-        holder.itemView.tanggal.text = model.tanggal.toString()
+        holder.itemView.tanggal.text = DateUtils.getFormattedDate(model.tanggal ?: "")
     }
 
     private fun setStatus(holder: PengeluaranViewHolder) {

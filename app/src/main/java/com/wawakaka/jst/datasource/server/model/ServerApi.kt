@@ -13,6 +13,7 @@ import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
+import com.wawakaka.jst.login.model.UserLoginRequest
 import com.wawakaka.jst.pengeluaran.model.Pengeluaran
 import com.wawakaka.jst.pengeluaran.model.PengeluaranRequestWrapper
 import com.wawakaka.jst.presensi.model.Presensi
@@ -36,7 +37,7 @@ interface ServerApi {
     @POST("user/login/{email}")
     fun loginObservable(@Header("Content-Type") acceptFormat: String,
                         @Path("email") email: String?,
-                        @Body user: User): Observable<ServerResponseWrapper<User>>
+                        @Body user: UserLoginRequest): Observable<ServerResponseWrapper<User>>
 
     @PUT("user/{email}")
     fun updateUserObservable(@Header("Authorization") token: String,

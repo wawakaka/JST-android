@@ -128,13 +128,6 @@ class PreviewActivity : BaseActivity() {
             .dispatch()
     }
 
-    private fun launchCreateReportActivity(url: String) {
-        //todo create activity
-//        val intent = Intent(this, )
-//        intent.putExtra(SECURE_IMAGE_URL,url)
-//        startactivity(intent)
-    }
-
     private fun getApproximateFileMegabytes(bitmap: Bitmap): Float {
         return (bitmap.rowBytes * bitmap.height / 1024 / 1024).toFloat()
     }

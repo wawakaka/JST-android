@@ -67,7 +67,6 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
         }
     }
 
-    //todo implement login filter for unauthenticated access
     private fun initLogin() {
         RxNavi
             .observe(naviComponent, Event.CREATE)

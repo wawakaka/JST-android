@@ -30,7 +30,6 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
     }
 
     fun loadSiswaObservable(): Observable<MutableList<Siswa>> {
-        //todo change this method
         return serverRequestManager
             .loadAllSiswaObservable()
             .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }

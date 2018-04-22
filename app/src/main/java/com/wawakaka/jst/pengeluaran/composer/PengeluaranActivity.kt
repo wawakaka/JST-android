@@ -192,7 +192,6 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
         list_pengeluaran_container.adapter = adapter
     }
 
-    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadPengeluaranError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -212,8 +211,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                 }
             }
             is ResultEmptyError -> {
-                //todo add empty screen or leave it blank
-                adapter.updateDataSet(list)
+                adapter.updateDataSet(mutableListOf())
                 showListPengeluaran()
             }
             else -> {
@@ -312,7 +310,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                 .showOptionsObservable(
                     this,
                     null,
-                    listOf(getString(R.string.update))
+                    listOf(getString(R.string.delete))
                 )
                 .filter { it.isNotBlank() }
                 .flatMap {

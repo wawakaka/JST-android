@@ -182,7 +182,6 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
         list_kelas_container.adapter = adapter
     }
 
-    //todo update result empty error view to display add button rather than error view
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
 
@@ -202,7 +201,8 @@ class ManageKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
                 }
             }
             is ResultEmptyError -> {
-                //todo add empty screen or leave it blank
+                adapter.updateDataSet(mutableListOf())
+                showListKelas()
             }
             else -> {
                 if (list.isEmpty()) {
