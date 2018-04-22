@@ -24,7 +24,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.wawakaka.jst"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         multiDexEnabled true
         versionCode 1
