@@ -68,7 +68,7 @@
             <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/tanggal_error"
                 style="@style/AddOrEditErrorStyles"
-                android:text="@string/add_or_edit_tanggal_error"
+                android:text="@string/add_or_edit_tanggal_mulai_error"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -85,14 +85,14 @@
             <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/waktu_error"
                 style="@style/AddOrEditErrorStyles"
-                android:text="@string/add_or_edit_waktu_error"
+                android:text="@string/add_or_edit_tanggal_selesai_error"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
             <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/kelas_hint"
                 style="@style/AddOrEditTextInputStyles"
-                android:text="@string/add_or_edit_kelas_hint" />
+                android:text="@string/add_or_edit_kelas_bimbingan_hint" />
 
             <Spinner
                 android:id="@+id/kelas_spinner"

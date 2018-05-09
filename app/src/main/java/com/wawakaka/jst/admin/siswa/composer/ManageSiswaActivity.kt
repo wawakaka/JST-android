@@ -59,13 +59,13 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun initLayout() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    setContentView(R.layout.activity_manage_siswa)
-                    initToolbar()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                setContentView(R.layout.activity_manage_siswa)
+                initToolbar()
+            }
     }
 
     private fun initToolbar() {
@@ -75,106 +75,106 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun initNetworkErrorView() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    network_error_view.setActionOnClickListener(View.OnClickListener {
-                        network_error_view.isEnabled = false
-                        adminPresenter.publishRefreshListSiswaEvent()
-                    })
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                network_error_view.setActionOnClickListener(View.OnClickListener {
+                    network_error_view.isEnabled = false
+                    adminPresenter.publishRefreshListSiswaEvent()
+                })
+            }
     }
 
     private fun initUnknownErrorView() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    unknown_error_view.setActionOnClickListener(View.OnClickListener {
-                        unknown_error_view.isEnabled = false
-                        adminPresenter.publishRefreshListSiswaEvent()
-                    })
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                unknown_error_view.setActionOnClickListener(View.OnClickListener {
+                    unknown_error_view.isEnabled = false
+                    adminPresenter.publishRefreshListSiswaEvent()
+                })
+            }
     }
 
     private fun initListenToRefreshListEvent() {
         RxNavi
-                .observe(this, Event.CREATE)
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.listenRefreshListSiswaEvent() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { retryLoadSiswa() }
+            .observe(this, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.listenRefreshListSiswaEvent() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { retryLoadSiswa() }
     }
 
     private fun initSwipeRefreshSiswa() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap {
-                    siswa_list_refresher.setColorSchemeResources(R.color.colorPrimary)
-                    RxSwipeRefreshLayout.refreshes(siswa_list_refresher)
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    adminPresenter.publishRefreshListSiswaEvent()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap {
+                siswa_list_refresher.setColorSchemeResources(R.color.colorPrimary)
+                RxSwipeRefreshLayout.refreshes(siswa_list_refresher)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                adminPresenter.publishRefreshListSiswaEvent()
+            }
     }
 
     private fun retryLoadSiswa() {
         Observable
-                .just(true)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { showLoadProgress() }
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.loadAllSiswaObservable() }
-                .filter { it.isNotEmpty() }
-                .observeOn(Schedulers.computation())
-                .doOnNext {
-                    createSiswaHolderList(it)
+            .just(true)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showLoadProgress() }
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.loadAllSiswaObservable() }
+            .filter { it.isNotEmpty() }
+            .observeOn(Schedulers.computation())
+            .doOnNext {
+                createSiswaHolderList(it)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    adapter.updateDataSet(list)
+                    showListSiswa()
+                },
+                {
+                    LogUtils.error(TAG, "error in retryLoadSiswa", it)
+                    onLoadLoadKelasError(it)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            adapter.updateDataSet(list)
-                            showListSiswa()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in retryLoadSiswa", it)
-                            onLoadLoadKelasError(it)
-                        }
-                )
+            )
     }
 
     private fun initListSiswa() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { showLoadProgress() }
-                .doOnNext { initLayoutManager() }
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.loadAllSiswaObservable() }
-                .filter { it.isNotEmpty() }
-                .observeOn(Schedulers.computation())
-                .doOnNext {
-                    createSiswaHolderList(it)
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showLoadProgress() }
+            .doOnNext { initLayoutManager() }
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.loadAllSiswaObservable() }
+            .filter { it.isNotEmpty() }
+            .observeOn(Schedulers.computation())
+            .doOnNext {
+                createSiswaHolderList(it)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    adapter.updateDataSet(list)
+                    showListSiswa()
+                },
+                {
+                    LogUtils.error(TAG, "error in initListSiswa", it)
+                    onLoadLoadKelasError(it)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            adapter.updateDataSet(list)
-                            showListSiswa()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in initListSiswa", it)
-                            onLoadLoadKelasError(it)
-                        }
-                )
+            )
     }
 
     private fun initLayoutManager() {
@@ -185,13 +185,13 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun initAddButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(add_siswa) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    launchAddOrEditActivity(Siswa.empty, false)
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(add_siswa) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                launchAddOrEditActivity(Siswa.empty, false)
+            }
     }
 
     private fun onLoadLoadKelasError(throwable: Throwable) {
@@ -214,7 +214,7 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
             }
             is ResultEmptyError -> {
                 adapter.updateDataSet(mutableListOf())
-                showListSiswa()
+                showResultEmptyErrorView()
             }
             else -> {
                 if (list.isEmpty()) {
@@ -243,21 +243,29 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun showNetworkErrorView() {
         hideAllViews()
+        add_siswa.makeGone()
         network_error_view.makeVisible()
         network_error_view.isEnabled = true
     }
 
     private fun showUnknownErrorView() {
         hideAllViews()
+        add_siswa.makeGone()
         unknown_error_view.makeVisible()
         unknown_error_view.isEnabled = true
     }
 
+    private fun showResultEmptyErrorView() {
+        hideAllViews()
+        result_empty_error_view.makeVisible()
+        result_empty_error_view.isEnabled = true
+    }
+
     private fun hideAllViews() {
-        add_siswa.makeGone()
         list_siswa_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()
+        result_empty_error_view.makeGone()
         hideLoadProgress()
     }
 
@@ -290,39 +298,39 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
         val item = adapter.getItem(position)
         if (item is SiswaHolder) {
             ViewUtils
-                    .showOptionsObservable(
+                .showOptionsObservable(
+                    this,
+                    null,
+                    listOf(getString(R.string.update))
+                )
+                .filter { it.isNotBlank() }
+                .flatMap {
+                    ViewUtils
+                        .showConfirmationObservable(
                             this,
-                            null,
-                            listOf(getString(R.string.update))
-                    )
-                    .filter { it.isNotBlank() }
-                    .flatMap {
-                        ViewUtils
-                                .showConfirmationObservable(
-                                        this,
-                                        getString(R.string.delete_siswa_title),
-                                        getString(R.string.delete_siswa_message)
-                                )
-                    }
-                    .filter { it }
-                    .doOnNext { showProgressDialog() }
-                    .observeOn(Schedulers.io())
-                    .flatMap {
-                        adminPresenter
-                                .updateStatusSiswaObservable(item.model)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .onErrorResumeNext(Function {
-                                    onUpdateSiswaFailed(it)
-                                    Observable.just(false)
-                                })
-                    }
-                    .filter { it }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                    .subscribe(
-                            { onUpdateSiswaSucceded() },
-                            { onUpdateSiswaFailed(it) }
-                    )
+                            getString(R.string.delete_siswa_title),
+                            getString(R.string.delete_siswa_message)
+                        )
+                }
+                .filter { it }
+                .doOnNext { showProgressDialog() }
+                .observeOn(Schedulers.io())
+                .flatMap {
+                    adminPresenter
+                        .updateStatusSiswaObservable(item.model)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(Function {
+                            onUpdateSiswaFailed(it)
+                            Observable.just(false)
+                        })
+                }
+                .filter { it }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe(
+                    { onUpdateSiswaSucceded() },
+                    { onUpdateSiswaFailed(it) }
+                )
         }
     }
 
@@ -343,9 +351,9 @@ class ManageSiswaActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     private fun showError(errorMessage: String) {
         ViewUtils
-                .showInfoDialogObservable(this, errorMessage)
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe()
+            .showInfoDialogObservable(this, errorMessage)
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe()
     }
 
     private fun showProgressDialog() {

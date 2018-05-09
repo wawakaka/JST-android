@@ -7,7 +7,7 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.composer.BaseActivity
-import com.wawakaka.jst.base.utils.ExtraUtils.Companion.EXTRA_ID_KELAS
+import com.wawakaka.jst.base.utils.ExtraUtils.Companion.ID_KELAS
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.journal.composer.JournalActivity
 import com.wawakaka.jst.presensi.composer.PresensiActivity
@@ -82,7 +82,7 @@ class KelasActivity : BaseActivity() {
 
     private fun launchDailyTestActivity() {
         val intent = Intent(this, HasilTesHarianActivity::class.java)
-        intent.putExtra(EXTRA_ID_KELAS, kelas?.id)
+        intent.putExtra(ID_KELAS, kelas?.id)
         intent.putExtra(EXTRA_ID_JADWAL, idJadwalKelas)
         startActivity(intent)
     }

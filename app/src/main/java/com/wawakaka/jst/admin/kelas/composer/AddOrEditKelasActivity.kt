@@ -7,10 +7,11 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.admin.bidang.composer.AddOrEditBidangActivity
+import com.wawakaka.jst.admin.event.model.EventSpinnerItem
 import com.wawakaka.jst.admin.presenter.AdminPresenter
-import com.wawakaka.jst.admin.sekolah.model.Sekolah
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
+import com.wawakaka.jst.base.utils.DateUtils
 import com.wawakaka.jst.base.utils.ExtraUtils
 import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.base.view.DefaultProgressDialog
@@ -33,6 +34,7 @@ class AddOrEditKelasActivity : BaseActivity() {
 
     companion object {
         val TAG = AddOrEditBidangActivity::class.java.simpleName!!
+
     }
 
     private val isEdit: Boolean? by lazy {
@@ -50,29 +52,26 @@ class AddOrEditKelasActivity : BaseActivity() {
     private var progressDialog: DefaultProgressDialog? = null
     private val listUser: MutableList<String> = mutableListOf()
     private val listBidang: MutableList<String> = mutableListOf()
-    private val listSekolah: MutableList<String> = mutableListOf()
+    private val listEvent: MutableList<String> = mutableListOf()
+    private var listSpinnerItem: MutableList<EventSpinnerItem> = mutableListOf()
 
     init {
         initLayout()
         initUserSpinner()
         initBidangSpinner()
-        initSekolahSpinner()
-        initKelasStatus()
-        initIsPrivateKelas()
+        initEventSpinner()
         initSaveButton()
     }
 
     private fun initLayout() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    setContentView(R.layout.activity_add_or_edit_kelas)
-                    initToolbar()
-
-                    LogUtils.debug("isEdit", isEdit.toString())
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                setContentView(R.layout.activity_add_or_edit_kelas)
+                initToolbar()
+            }
     }
 
     private fun initToolbar() {
@@ -82,22 +81,33 @@ class AddOrEditKelasActivity : BaseActivity() {
 
     private fun initUserSpinner() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(Schedulers.io())
-                .flatMap {
-                    adminPresenter
-                            .loadAllUser()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .onErrorResumeNext(Function {
-                                LogUtils.error(TAG, "Error in adminPresenter.loadAllUser", it)
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap {
+                adminPresenter
+                    .loadAllUser()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorResumeNext(Function {
+                        LogUtils.error(AddOrEditKelasActivity.TAG, "Error in adminPresenter.loadAllUser", it)
 
-                                Observable.just(mutableListOf())
-                            })
-                }
-                .filter { it.isNotEmpty() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { populateUserSpinner(it) }
+                        Observable.just(mutableListOf())
+                    })
+            }
+            .filter { it.isNotEmpty() }
+            .flatMap {
+                adminPresenter
+                    .loadAllUser()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorResumeNext(Function {
+                        LogUtils.error(TAG, "Error in adminPresenter.loadAllUser", it)
+
+                        Observable.just(mutableListOf())
+                    })
+            }
+            .filter { it.isNotEmpty() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { populateUserSpinner(it) }
     }
 
     private fun populateUserSpinner(user: MutableList<User>) {
@@ -107,9 +117,9 @@ class AddOrEditKelasActivity : BaseActivity() {
             listUser.add(it.nama ?: "")
         }
         val adapter = ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_spinner_item,
-                listUser
+            this,
+            android.R.layout.simple_spinner_item,
+            listUser
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         user_spinner.adapter = adapter
@@ -122,34 +132,34 @@ class AddOrEditKelasActivity : BaseActivity() {
 
     private fun initBidangSpinner() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(Schedulers.io())
-                .flatMap {
-                    adminPresenter
-                            .loadAllBidangObservable()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .onErrorResumeNext(Function {
-                                LogUtils.error(TAG, "Error in adminPresenter.loadAllBidangObservable", it)
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap {
+                adminPresenter
+                    .loadAllBidangObservable()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorResumeNext(Function {
+                        LogUtils.error(TAG, "Error in adminPresenter.loadAllBidangObservable", it)
 
-                                Observable.just(mutableListOf())
-                            })
-                }
-                .filter { it.isNotEmpty() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { populateBidangSpinner(it) }
+                        Observable.just(mutableListOf())
+                    })
+            }
+            .filter { it.isNotEmpty() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { populateBidangSpinner(it) }
     }
 
-    private fun populateBidangSpinner(sekolah: MutableList<Bidang>) {
+    private fun populateBidangSpinner(bidang: MutableList<Bidang>) {
         listBidang.clear()
         listBidang.add("")
-        sekolah.forEach {
+        bidang.forEach {
             listBidang.add(it.nama ?: "")
         }
         val adapter = ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_spinner_item,
-                listBidang
+            this,
+            android.R.layout.simple_spinner_item,
+            listBidang
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         bidang_spinner.adapter = adapter
@@ -160,124 +170,127 @@ class AddOrEditKelasActivity : BaseActivity() {
         }
     }
 
-    private fun initSekolahSpinner() {
+    private fun initEventSpinner() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(Schedulers.io())
-                .flatMap {
-                    adminPresenter
-                            .loadAllSekolah()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .onErrorResumeNext(Function {
-                                LogUtils.error(TAG, "Error in adminPresenter.loadAllSekolah", it)
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap {
+                adminPresenter
+                    .loadAllEvent()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorResumeNext(Function {
+                        LogUtils.error(TAG, "Error in adminPresenter.loadAllEvent", it)
 
-                                Observable.just(mutableListOf())
-                            })
-                }
-                .filter { it.isNotEmpty() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { populateSekolahSpinner(it) }
+                        Observable.just(mutableListOf())
+                    })
+            }
+            .filter { it.isNotEmpty() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { populateEventSpinner(it) }
     }
 
-    private fun populateSekolahSpinner(sekolah: MutableList<Sekolah>) {
-        listSekolah.clear()
-        listSekolah.add("")
-        sekolah.forEach {
-            listSekolah.add(it.nama ?: "")
+    private fun populateEventSpinner(event: MutableList<com.wawakaka.jst.event.model.Event>) {
+        listEvent.clear()
+        listSpinnerItem.clear()
+        listEvent.add("")
+        listSpinnerItem.add(EventSpinnerItem(0, ""))
+        event.forEach {
+            listEvent.add(
+                it.sekolahNama +
+                    " " +
+                    DateUtils.getShortDate(it.tanggalMulai ?: "") +
+                    "-" +
+                    DateUtils.getShortDate(it.tanggalSelesai ?: "")
+            )
+            listSpinnerItem.add(
+                EventSpinnerItem(it.id,
+                    it.sekolahNama +
+                        " " +
+                        DateUtils.getShortDate(it.tanggalMulai ?: "") +
+                        "-" +
+                        DateUtils.getShortDate(it.tanggalSelesai ?: "")
+                )
+            )
         }
+
         val adapter = ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_spinner_item,
-                listSekolah
+            this,
+            android.R.layout.simple_spinner_item,
+            listEvent
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        sekolah_spinner.adapter = adapter
+        event_spinner.adapter = adapter
+        LogUtils.debug("ketemu", listSpinnerItem.find {
+            it.id == kelas?.eventId
+        }?.text.toString())
         if (isEdit == true) {
-            val sekolah = adminPresenter.getSekolah().find { it.nama == kelas?.sekolahNama ?: "" }?.nama
-            val position = adapter.getPosition(sekolah)
-            sekolah_spinner.setSelection(position)
+            val position = adapter.getPosition(
+                listEvent.find {
+                    it == listSpinnerItem.find {
+                        it.id == kelas?.eventId
+                    }?.text
+                }
+            )
+            LogUtils.debug("posisinya", position.toString())
+
+            event_spinner.setSelection(position)
         }
-    }
-
-    private fun initKelasStatus() {
-        RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { isEdit == true }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { is_kelas_active.isChecked = kelas?.isActive ?: false }
-    }
-
-    private fun initIsPrivateKelas() {
-        RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { isEdit == true }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { is_kelas_private.isChecked = kelas?.isPrivate ?: false }
     }
 
     private fun initSaveButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(save_button) }
-                .map { isErrorShown() }
-                .filter { !it }
-                .doOnNext { showProgressDialog() }
-                .observeOn(Schedulers.io())
-                .flatMap {
-                    if (isEdit == true) {
-                        adminPresenter.updateKelasObservable(kelas?.id ?: 0, composeKelas())
-                    } else {
-                        adminPresenter.addKelasObservable(composeKelas())
-                    }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(save_button) }
+            .map { isErrorShown() }
+            .filter { !it }
+            .doOnNext { showProgressDialog() }
+            .observeOn(Schedulers.io())
+            .flatMap {
+                if (isEdit == true) {
+                    adminPresenter.updateKelasObservable(kelas?.id ?: 0, composeKelas())
+                } else {
+                    adminPresenter.addKelasObservable(composeKelas())
                 }
-                .filter { it }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            onSaveKelasSucceed()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in initSaveButton", it)
-                            onSaveKelasError(it)
-                        }
-                )
+            }
+            .filter { it }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    onSaveKelasSucceed()
+                },
+                {
+                    LogUtils.error(TAG, "error in initSaveButton", it)
+                    onSaveKelasError(it)
+                }
+            )
     }
 
     private fun isErrorShown(): Boolean {
         hideAllError()
         val user = user_spinner.selectedItem.toString().isBlank()
-        val sekolah = sekolah_spinner.selectedItem.toString().isBlank()
         val bidang = bidang_spinner.selectedItem.toString().isBlank()
         if (user) {
             user_error.makeVisible()
         }
-        if (sekolah) {
-            sekolah_error.makeVisible()
-        }
         if (bidang) {
             bidang_error.makeVisible()
         }
-        return (user || sekolah || bidang)
+        return (user || bidang)
     }
 
     private fun composeKelas(): Kelas {
         val email = adminPresenter.getUsers().find { it.nama == user_spinner.selectedItem.toString() }
         return Kelas(
-                kelas?.id,
-                is_kelas_private.isChecked,
-                is_kelas_active.isChecked,
-                bidang_spinner.selectedItem.toString(),
-                sekolah_spinner.selectedItem.toString(),
-                email?.email,
-                kelas?.jadwalKelas,
-                kelas?.listSiswa
+            kelas?.id,
+            true,
+            bidang_spinner.selectedItem.toString(),
+            email?.email,
+            kelas?.jadwalKelas,
+            kelas?.listSiswa,
+            listSpinnerItem.find { it.text == event_spinner.selectedItem.toString() }?.id
         )
     }
 
@@ -310,7 +323,6 @@ class AddOrEditKelasActivity : BaseActivity() {
     }
 
     private fun hideAllError() {
-        sekolah_error.makeGone()
         bidang_error.makeGone()
         user_error.makeGone()
     }

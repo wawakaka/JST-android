@@ -28,7 +28,7 @@ data class PengeluaranHolder(private val model: Pengeluaran) : AbstractFlexibleI
     }
 
     private fun setId(holder: PengeluaranViewHolder) {
-        holder.itemView.id_pengeluaran.text = model.id.toString()
+        holder.itemView.nama_barang.text = model.barang.toString()
     }
 
     private fun setTanggal(holder: PengeluaranViewHolder) {
@@ -36,6 +36,10 @@ data class PengeluaranHolder(private val model: Pengeluaran) : AbstractFlexibleI
     }
 
     private fun setStatus(holder: PengeluaranViewHolder) {
-        holder.itemView.status.text = model.status.toString()
+        if (model.biaya ?: 0 <= 0) {
+            holder.itemView.biaya.text = "Rp 0"
+        } else {
+            holder.itemView.biaya.text = "Rp " + model.biaya.toString()
+        }
     }
 }

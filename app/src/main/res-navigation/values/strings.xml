@@ -2,7 +2,7 @@
 <resources>
     <string name="menu_kelas">Kelas</string>
     <string name="menu_admin">Admin</string>
-    <string name="menu_pengeluaran">Pengeluaran</string>
+    <string name="menu_event">Event</string>
     <string name="menu_logout">Logout</string>
 
     <string name="logout_dialog_title_message">Konfirmasi Logout</string>

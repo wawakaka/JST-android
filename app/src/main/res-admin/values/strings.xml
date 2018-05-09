@@ -4,17 +4,22 @@
     <string name="menu_sekolah">Sekolah</string>
     <string name="menu_siswa">Siswa</string>
     <string name="menu_bidang">Bidang</string>
+    <string name="menu_event_subtitle">Tambah dan ubah event</string>
     <string name="menu_kelas_subtitle">Tambah dan ubah kelas</string>
     <string name="menu_jadwal_kelas_subtitle">Tambah dan ubah jadwal kelas</string>
     <string name="menu_sekolah_subtitle">Tambah dan ubah sekolah</string>
     <string name="menu_siswa_subtitle">Tambah dan ubdah siswa</string>
     <string name="menu_bidang_subtitle">Tambah dan ubah bidang</string>
+    <string name="manage_event_title">Kelola Event</string>
     <string name="manage_jadwal_kelas_title">Kelola Jadwal Kelas</string>
     <string name="manage_kelas_title">Kelola Kelas</string>
     <string name="manage_siswa_title">Kelola Siswa</string>
     <string name="manage_bidang_title">Kelola Bidang</string>
     <string name="manage_sekolah_title">Kelola Sekolah</string>
 
+    <string name="delete_event_title">Hapus event</string>
+    <string name="delete_event_message">Apakah kamu yakin akan menghapus event ini?</string>
+    <string name="delete_event_error_message">Gagal menghapus event. Silahkan coba kembali?</string>
     <string name="delete_bidang_title">Hapus bidang</string>
     <string name="delete_bidang_message">Apakah kamu yakin akan menghapus bidang ini?</string>
     <string name="delete_bidang_error_message">Gagal menghapus bidang. Silahkan coba kembali?</string>
@@ -31,6 +36,7 @@
     <string name="delete_siswa_message">Apakah kamu yakin akan mengubah status siswa ini?</string>
     <string name="delete_siswa_error_message">Gagal menonaktifkan sekolah. Silahkan coba kembali?</string>
 
+    <string name="add_event_title">Tambah Event Baru</string>
     <string name="add_bidang_title">Tambah Bidang Baru</string>
     <string name="edit_bidang_title">Ubdah Bidang</string>
     <string name="add_kelas_title">Tambah Kelas Baru</string>
@@ -44,7 +50,9 @@
 
     <string name="add_or_edit_user_hint">Guru</string>
     <string name="add_or_edit_nama_hint">Nama</string>
-    <string name="add_or_edit_kelas_hint">Kelas</string>
+    <string name="add_or_edit_event_hint">Event</string>
+    <string name="add_or_edit_kelas_sekolah_hint">Kelas</string>
+    <string name="add_or_edit_kelas_bimbingan_hint">Kelas Bimbingan</string>
     <string name="add_or_edit_status_hint">Status</string>
     <string name="add_or_edit_bidang_hint">Bidang</string>
     <string name="add_or_edit_sekolah_hint">Sekolah</string>
@@ -55,11 +63,14 @@
 
     <string name="add_or_edit_user_error">Nama guru tidak boleh kosong</string>
     <string name="add_or_edit_nama_error">Nama tidak boleh kosong</string>
+    <string name="add_or_edit_event_error">Event tidak boleh kosong</string>
     <string name="add_or_edit_kelas_error">Kelas tidak boleh kosong</string>
     <string name="add_or_edit_status_error">Status</string>
     <string name="add_or_edit_bidang_error">Bidang tidak boleh kosong</string>
     <string name="add_or_edit_sekolah_error">Sekolah tidak boleh kosong</string>
     <string name="add_or_edit_tanggal_error">Tanggal tidak boleh kosong</string>
+    <string name="add_or_edit_tanggal_mulai_error">Tanggal mulai tidak boleh kosong</string>
+    <string name="add_or_edit_tanggal_selesai_error">Tanggal selesai tidak boleh kosong</string>
     <string name="add_or_edit_waktu_error">Waktu tidak boleh kosong</string>
 
 </resources>

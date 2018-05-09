@@ -16,6 +16,8 @@ import com.wawakaka.jst.datasource.server.model.*
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorNetwork
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorNoInternet
 import com.wawakaka.jst.datasource.server.utils.isServerRequestErrorUnauthorized
+import com.wawakaka.jst.event.model.Event
+import com.wawakaka.jst.event.model.EventRequestWrapper
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
@@ -389,12 +391,12 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         )
     }
 
-    fun loadPengeluaranObservable(email: String): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>> {
+    fun loadPengeluaranObservable(eventId: Int): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>> {
         return handleServerRequestError(
             serverApi.loadPengeluaranObservable(
                 getAccessTokenHeader(),
                 getAcceptApplicationJsonHeader(),
-                email
+                eventId
             )
         )
     }
@@ -430,6 +432,108 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
             )
         )
     }
+
+    fun loadEventObservable(): Observable<ServerResponseWrapper<MutableList<Event>>> {
+        return handleServerRequestError(
+            serverApi.loadEventObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader()
+            )
+        )
+    }
+
+    fun loadEventObservable(id: Int): Observable<ServerResponseWrapper<Event>> {
+        return handleServerRequestError(
+            serverApi.loadEventObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                id
+            )
+        )
+    }
+
+    fun createEventObservable(pengeluaran: EventRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.createEventObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                pengeluaran
+            )
+        )
+    }
+
+    fun updateEventObservable(id: Int,
+                              pengeluaran: EventRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.updateEventObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                id,
+                pengeluaran
+            )
+        )
+    }
+
+    fun deleteEventObservable(id: Int): Observable<ServerResponseWrapper<Boolean>> {
+        return handleServerRequestError(
+            serverApi.deleteEventObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                id
+            )
+        )
+    }
+//
+//    fun loadAllBidangUserObservable(): Observable<ServerResponseWrapper<MutableList<BidangUser>>> {
+//        return handleServerRequestError(
+//            serverApi.loadBidangUserObservable(
+//                getAccessTokenHeader(),
+//                getAcceptApplicationJsonHeader()
+//            )
+//        )
+//    }
+//
+//    fun loadBidangUserObservable(email: String): Observable<ServerResponseWrapper<MutableList<BidangUser>>> {
+//        return handleServerRequestError(
+//            serverApi.loadBidangUserObservable(
+//                getAccessTokenHeader(),
+//                getAcceptApplicationJsonHeader(),
+//                email
+//            )
+//        )
+//    }
+//
+//    fun createBidangUserObservable(bidangUserRequestWrapper: BidangUserRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+//        return handleServerRequestError(
+//            serverApi.createBidangUserObservable(
+//                getAccessTokenHeader(),
+//                getAcceptApplicationJsonHeader(),
+//                bidangUserRequestWrapper
+//            )
+//        )
+//    }
+//
+//    fun updateBidangUserObservable(id: Int,
+//                                   bidangUserRequestWrapper: BidangUserRequestWrapper): Observable<ServerResponseWrapper<Boolean>> {
+//        return handleServerRequestError(
+//            serverApi.updateBidangUserObservable(
+//                getAccessTokenHeader(),
+//                getAcceptApplicationJsonHeader(),
+//                id,
+//                bidangUserRequestWrapper
+//            )
+//        )
+//    }
+//
+//    fun deleteBidangUserObservable(id: Int): Observable<ServerResponseWrapper<Boolean>> {
+//        return handleServerRequestError(
+//            serverApi.deleteBidangUserObservable(
+//                getAccessTokenHeader(),
+//                getAcceptApplicationJsonHeader(),
+//                id
+//            )
+//        )
+//    }
 
     /**
      * Handle error occurred from original observable.

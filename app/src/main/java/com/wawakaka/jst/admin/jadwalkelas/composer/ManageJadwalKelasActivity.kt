@@ -59,13 +59,13 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
 
     private fun initLayout() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    setContentView(R.layout.activity_manage_jadwal_kelas)
-                    initToolbar()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                setContentView(R.layout.activity_manage_jadwal_kelas)
+                initToolbar()
+            }
     }
 
     private fun initToolbar() {
@@ -75,106 +75,106 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
 
     private fun initNetworkErrorView() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    network_error_view.setActionOnClickListener(View.OnClickListener {
-                        network_error_view.isEnabled = false
-                        adminPresenter.publishRefreshListJadwalKelasEvent()
-                    })
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                network_error_view.setActionOnClickListener(View.OnClickListener {
+                    network_error_view.isEnabled = false
+                    adminPresenter.publishRefreshListJadwalKelasEvent()
+                })
+            }
     }
 
     private fun initUnknownErrorView() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    unknown_error_view.setActionOnClickListener(View.OnClickListener {
-                        unknown_error_view.isEnabled = false
-                        adminPresenter.publishRefreshListJadwalKelasEvent()
-                    })
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                unknown_error_view.setActionOnClickListener(View.OnClickListener {
+                    unknown_error_view.isEnabled = false
+                    adminPresenter.publishRefreshListJadwalKelasEvent()
+                })
+            }
     }
 
     private fun initListenToRefreshListEvent() {
         RxNavi
-                .observe(this, Event.CREATE)
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.listenRefreshListJadwalKelasEvent() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { retryLoadJadwalKelas() }
+            .observe(this, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.listenRefreshListJadwalKelasEvent() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { retryLoadJadwalKelas() }
     }
 
     private fun initSwipeRefreshJadwalKelas() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap {
-                    jadwal_list_refresher.setColorSchemeResources(R.color.colorPrimary)
-                    RxSwipeRefreshLayout.refreshes(jadwal_list_refresher)
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    adminPresenter.publishRefreshListJadwalKelasEvent()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap {
+                jadwal_list_refresher.setColorSchemeResources(R.color.colorPrimary)
+                RxSwipeRefreshLayout.refreshes(jadwal_list_refresher)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                adminPresenter.publishRefreshListJadwalKelasEvent()
+            }
     }
 
     private fun retryLoadJadwalKelas() {
         Observable
-                .just(true)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { showLoadProgress() }
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.loadAllJadwalKelasObservable() }
-                .filter { it.isNotEmpty() }
-                .observeOn(Schedulers.computation())
-                .doOnNext {
-                    createJadwalKelasHolderList(it)
+            .just(true)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showLoadProgress() }
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.loadAllJadwalKelasObservable() }
+            .filter { it.isNotEmpty() }
+            .observeOn(Schedulers.computation())
+            .doOnNext {
+                createJadwalKelasHolderList(it)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    adapter.updateDataSet(list)
+                    showListJadwalKelas()
+                },
+                {
+                    LogUtils.error(TAG, "error in retryLoadJadwalKelas", it)
+                    onLoadLoadKelasError(it)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            adapter.updateDataSet(list)
-                            showListJadwalKelas()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in retryLoadJadwalKelas", it)
-                            onLoadLoadKelasError(it)
-                        }
-                )
+            )
     }
 
     private fun initListJadwalKelas() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { showLoadProgress() }
-                .doOnNext { initLayoutManager() }
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.loadAllJadwalKelasObservable() }
-                .filter { it.isNotEmpty() }
-                .observeOn(Schedulers.computation())
-                .doOnNext {
-                    createJadwalKelasHolderList(it)
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showLoadProgress() }
+            .doOnNext { initLayoutManager() }
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.loadAllJadwalKelasObservable() }
+            .filter { it.isNotEmpty() }
+            .observeOn(Schedulers.computation())
+            .doOnNext {
+                createJadwalKelasHolderList(it)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    adapter.updateDataSet(list)
+                    showListJadwalKelas()
+                },
+                {
+                    LogUtils.error(TAG, "error in initListJadwalKelas", it)
+                    onLoadLoadKelasError(it)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            adapter.updateDataSet(list)
-                            showListJadwalKelas()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in initListJadwalKelas", it)
-                            onLoadLoadKelasError(it)
-                        }
-                )
+            )
     }
 
     private fun initLayoutManager() {
@@ -203,7 +203,7 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
             }
             is ResultEmptyError -> {
                 adapter.updateDataSet(mutableListOf())
-                showListJadwalKelas()
+                showResultEmptyErrorView()
             }
             else -> {
                 if (list.isEmpty()) {
@@ -232,32 +232,40 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
 
     private fun initAddButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(add_jadwal_kelas) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    launchAddOrEditActivity(JadwalKelas.empty, false)
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(add_jadwal_kelas) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                launchAddOrEditActivity(JadwalKelas.empty, false)
+            }
     }
 
     private fun showNetworkErrorView() {
         hideAllViews()
+        add_jadwal_kelas.makeGone()
         network_error_view.makeVisible()
         network_error_view.isEnabled = true
     }
 
     private fun showUnknownErrorView() {
         hideAllViews()
+        add_jadwal_kelas.makeGone()
         unknown_error_view.makeVisible()
         unknown_error_view.isEnabled = true
     }
 
+    private fun showResultEmptyErrorView() {
+        hideAllViews()
+        result_empty_error_view.makeVisible()
+        result_empty_error_view.isEnabled = true
+    }
+
     private fun hideAllViews() {
-        add_jadwal_kelas.makeGone()
         list_schedule_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()
+        result_empty_error_view.makeGone()
         hideLoadProgress()
     }
 
@@ -290,39 +298,39 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
         val item = adapter.getItem(position)
         if (item is JadwalHolder) {
             ViewUtils
-                    .showOptionsObservable(
+                .showOptionsObservable(
+                    this,
+                    null,
+                    listOf(getString(R.string.delete))
+                )
+                .filter { it.isNotBlank() }
+                .flatMap {
+                    ViewUtils
+                        .showConfirmationObservable(
                             this,
-                            null,
-                            listOf(getString(R.string.delete))
-                    )
-                    .filter { it.isNotBlank() }
-                    .flatMap {
-                        ViewUtils
-                                .showConfirmationObservable(
-                                        this,
-                                        getString(R.string.delete_jadwal_title),
-                                        getString(R.string.delete_jadwal_message)
-                                )
-                    }
-                    .filter { it }
-                    .doOnNext { showProgressDialog() }
-                    .observeOn(Schedulers.io())
-                    .flatMap {
-                        adminPresenter
-                                .deleteJadwalKelasObservable(item.model)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .onErrorResumeNext(Function {
-                                    onDeleteJadwalKelasFailed(it)
-                                    Observable.just(false)
-                                })
-                    }
-                    .filter { it }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                    .subscribe(
-                            { onDeleteJadwalKelasSucceded() },
-                            { onDeleteJadwalKelasFailed(it) }
-                    )
+                            getString(R.string.delete_jadwal_title),
+                            getString(R.string.delete_jadwal_message)
+                        )
+                }
+                .filter { it }
+                .doOnNext { showProgressDialog() }
+                .observeOn(Schedulers.io())
+                .flatMap {
+                    adminPresenter
+                        .deleteJadwalKelasObservable(item.model)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(Function {
+                            onDeleteJadwalKelasFailed(it)
+                            Observable.just(false)
+                        })
+                }
+                .filter { it }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe(
+                    { onDeleteJadwalKelasSucceded() },
+                    { onDeleteJadwalKelasFailed(it) }
+                )
         }
     }
 
@@ -343,9 +351,9 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
 
     private fun showError(errorMessage: String) {
         ViewUtils
-                .showInfoDialogObservable(this, errorMessage)
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe()
+            .showInfoDialogObservable(this, errorMessage)
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe()
     }
 
     private fun showProgressDialog() {

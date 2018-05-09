@@ -89,7 +89,7 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/kelas_sekolah_hint"
                 style="@style/AddOrEditInputStyles"
-                android:hint="@string/add_or_edit_kelas_hint">
+                android:hint="@string/add_or_edit_kelas_sekolah_hint">
 
                 <com.wawakaka.jst.base.view.DefaultTextInputEditText
                     android:id="@+id/kelas_sekolah_text"
@@ -99,15 +99,10 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Switch
-                android:id="@+id/is_siswa_active"
-                style="@style/AddOrEditInputStyles"
-                android:text="@string/add_or_edit_status_hint" />
-
             <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/kelas_hint"
                 style="@style/AddOrEditTextInputStyles"
-                android:text="@string/add_or_edit_kelas_hint" />
+                android:text="@string/add_or_edit_kelas_bimbingan_hint" />
 
             <Spinner
                 android:id="@+id/kelas_spinner"

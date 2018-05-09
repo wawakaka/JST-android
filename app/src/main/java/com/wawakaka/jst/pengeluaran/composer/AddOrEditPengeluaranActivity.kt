@@ -59,12 +59,16 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
         JstApplication.component.providePengeluaranPresenter()
     }
 
-    private val isEdit: Boolean by lazy {
-        intent.getSerializableExtra(ExtraUtils.IS_EDIT) as Boolean
+    private val eventId: Int? by lazy {
+        intent.getSerializableExtra(ExtraUtils.ID_EVENT) as? Int
     }
 
-    private val pengeluaran: Pengeluaran by lazy {
-        intent.getSerializableExtra(ExtraUtils.PENGELUARAN) as Pengeluaran
+    private val isEdit: Boolean? by lazy {
+        intent.getSerializableExtra(ExtraUtils.IS_EDIT) as? Boolean
+    }
+
+    private val pengeluaran: Pengeluaran? by lazy {
+        intent.getSerializableExtra(ExtraUtils.PENGELUARAN) as? Pengeluaran
     }
 
     private var progressDialog: DefaultProgressDialog? = null
@@ -115,7 +119,7 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
         RxNavi
             .observe(naviComponent, Event.CREATE)
             .observeOn(AndroidSchedulers.mainThread())
-            .filter { isEdit }
+            .filter { isEdit == true }
             .doOnNext { showProgressDialog() }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
@@ -124,13 +128,13 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
     }
 
     private fun showEditItem() {
-        id_text.setText(pengeluaran.id.toString())
+        id_text.setText(pengeluaran?.id.toString())
         id_container.makeVisible()
-        tanggal_text.setText(DateUtils.getFormattedDate(pengeluaran.tanggal ?: ""))
+        tanggal_text.setText(DateUtils.getFormattedDate(pengeluaran?.tanggal ?: ""))
         tanggal_text.isEnabled = false
-        barang_text.setText(pengeluaran.barang)
-        biaya_text.setText(pengeluaran.biaya.toString())
-        keterangan_text.setText(pengeluaran.keterangan ?: "")
+        barang_text.setText(pengeluaran?.barang)
+        biaya_text.setText(pengeluaran?.biaya.toString())
+        keterangan_text.setText(pengeluaran?.keterangan ?: "")
         tanggal_container.makeVisible()
         take_picture_button.makeGone()
 
@@ -155,7 +159,7 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
                 return false
             }
         }
-        gambar.setImage(pengeluaran.gambar ?: "", this, listener)
+        gambar.setImage(pengeluaran?.gambar ?: "", this, listener)
         gambar.makeVisible()
     }
 
@@ -264,7 +268,7 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
     private fun priceEmpty() = biaya_text.text.isNullOrBlank()
 
     private fun showNameError() {
-        barang_container.error = getString(R.string.add_or_edit_nama_barang_error)
+        barang_container.error = getString(R.string.add_or_edit_barang_error)
         barang_container.isErrorEnabled = true
     }
 
@@ -274,7 +278,7 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
     }
 
     private fun showPriceError() {
-        biaya_container.error = getString(R.string.add_or_edit_bidang_error)
+        biaya_container.error = getString(R.string.add_or_edit_biaya_error)
         biaya_container.isErrorEnabled = true
     }
 
@@ -375,7 +379,31 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
     }
 
     private fun saveToServer() {
+        if (isEdit == true) {
+            updatePengeluaran()
+        } else {
+            addPengeluaran()
+        }
+    }
+
+    private fun addPengeluaran() {
         pengeluaranPresenter.createPengeluaranObservable(buildPengeluaran())
+            .filter { it }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    onSavePengeluaranSucceed()
+                },
+                {
+                    LogUtils.error(TAG, "error in initSaveButton", it)
+                    onSavePengeluaranError(it)
+                }
+            )
+    }
+
+    private fun updatePengeluaran() {
+        pengeluaranPresenter.updatePengeluaranObservable(pengeluaran?.id ?: 0, buildPengeluaran())
             .filter { it }
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
@@ -403,6 +431,7 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
             }
     }
 
+    //todo edit event id
     private fun buildPengeluaran(): PengeluaranRequestWrapper {
         return PengeluaranRequestWrapper(
             Pengeluaran(
@@ -413,10 +442,13 @@ class AddOrEditPengeluaranActivity : BaseActivity() {
                 barang_text.text.toString(),
                 biaya_text.text.toString().toInt(),
                 keterangan_text.text.toString(),
-                imageSecureUrl
+                imageSecureUrl,
+                getEventId()
             )
         )
     }
+
+    private fun getEventId(): Int = pengeluaran?.eventId ?: eventId ?: 0
 
     private fun onSavePengeluaranSucceed() {
         hideProgressDialog()

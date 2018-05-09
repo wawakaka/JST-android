@@ -51,19 +51,19 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
         initUnknownErrorView()
         initSwipeRefreshBidang()
         initListenToRefreshListEvent()
-        initListKelas()
+        initListBidang()
         initAddButton()
     }
 
     private fun initLayout() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    setContentView(R.layout.activity_manage_bidang)
-                    initToolbar()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                setContentView(R.layout.activity_manage_bidang)
+                initToolbar()
+            }
     }
 
     private fun initToolbar() {
@@ -73,106 +73,106 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
 
     private fun initNetworkErrorView() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    network_error_view.setActionOnClickListener(View.OnClickListener {
-                        network_error_view.isEnabled = false
-                        adminPresenter.publishRefreshListBidangEvent()
-                    })
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                network_error_view.setActionOnClickListener(View.OnClickListener {
+                    network_error_view.isEnabled = false
+                    adminPresenter.publishRefreshListBidangEvent()
+                })
+            }
     }
 
     private fun initUnknownErrorView() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    unknown_error_view.setActionOnClickListener(View.OnClickListener {
-                        unknown_error_view.isEnabled = false
-                        adminPresenter.publishRefreshListBidangEvent()
-                    })
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                unknown_error_view.setActionOnClickListener(View.OnClickListener {
+                    unknown_error_view.isEnabled = false
+                    adminPresenter.publishRefreshListBidangEvent()
+                })
+            }
     }
 
     private fun initListenToRefreshListEvent() {
         RxNavi
-                .observe(this, Event.CREATE)
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.listenRefreshListBidangEvent() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { retryLoadBidang() }
+            .observe(this, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.listenRefreshListBidangEvent() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { retryLoadBidang() }
     }
 
     private fun initSwipeRefreshBidang() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap {
-                    bidang_list_refresher.setColorSchemeResources(R.color.colorPrimary)
-                    RxSwipeRefreshLayout.refreshes(bidang_list_refresher)
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    adminPresenter.publishRefreshListBidangEvent()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap {
+                bidang_list_refresher.setColorSchemeResources(R.color.colorPrimary)
+                RxSwipeRefreshLayout.refreshes(bidang_list_refresher)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                adminPresenter.publishRefreshListBidangEvent()
+            }
     }
 
     private fun retryLoadBidang() {
         Observable
-                .just(true)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { showLoadProgress() }
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.loadAllBidangObservable() }
-                .filter { it.isNotEmpty() }
-                .observeOn(Schedulers.computation())
-                .doOnNext {
-                    createBidangHolderList(it)
+            .just(true)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showLoadProgress() }
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.loadAllBidangObservable() }
+            .filter { it.isNotEmpty() }
+            .observeOn(Schedulers.computation())
+            .doOnNext {
+                createBidangHolderList(it)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    adapter.updateDataSet(list)
+                    showListBidang()
+                },
+                {
+                    LogUtils.error(TAG, "error in retryLoadBidang", it)
+                    onLoadLoadKelasError(it)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            adapter.updateDataSet(list)
-                            showListBidang()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in retryLoadBidang", it)
-                            onLoadLoadKelasError(it)
-                        }
-                )
+            )
     }
 
-    private fun initListKelas() {
+    private fun initListBidang() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { showLoadProgress() }
-                .doOnNext { initLayoutManager() }
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.loadAllBidangObservable() }
-                .filter { it.isNotEmpty() }
-                .observeOn(Schedulers.computation())
-                .doOnNext {
-                    createBidangHolderList(it)
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { showLoadProgress() }
+            .doOnNext { initLayoutManager() }
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.loadAllBidangObservable() }
+            .filter { it.isNotEmpty() }
+            .observeOn(Schedulers.computation())
+            .doOnNext {
+                createBidangHolderList(it)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    adapter.updateDataSet(list)
+                    showListBidang()
+                },
+                {
+                    LogUtils.error(TAG, "error in initListKelas", it)
+                    onLoadLoadKelasError(it)
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            adapter.updateDataSet(list)
-                            showListBidang()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in initListKelas", it)
-                            onLoadLoadKelasError(it)
-                        }
-                )
+            )
     }
 
     private fun initLayoutManager() {
@@ -201,7 +201,7 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
             }
             is ResultEmptyError -> {
                 adapter.updateDataSet(mutableListOf())
-                showListBidang()
+                showResultEmptyErrorView()
             }
             else -> {
                 if (list.isEmpty()) {
@@ -230,32 +230,40 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
 
     private fun initAddButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(add_bidang) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    launchAddOrEditActivity()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(add_bidang) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                launchAddOrEditActivity()
+            }
     }
 
     private fun showNetworkErrorView() {
         hideAllViews()
+        add_bidang.makeGone()
         network_error_view.makeVisible()
         network_error_view.isEnabled = true
     }
 
     private fun showUnknownErrorView() {
         hideAllViews()
+        add_bidang.makeGone()
         unknown_error_view.makeVisible()
         unknown_error_view.isEnabled = true
     }
 
+    private fun showResultEmptyErrorView() {
+        hideAllViews()
+        result_empty_error_view.makeVisible()
+        result_empty_error_view.isEnabled = true
+    }
+
     private fun hideAllViews() {
-        add_bidang.makeGone()
         list_bidang_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()
+        result_empty_error_view.makeGone()
         hideLoadProgress()
     }
 
@@ -276,39 +284,39 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
         val item = adapter.getItem(position)
         if (item is BidangHolder) {
             ViewUtils
-                    .showOptionsObservable(
+                .showOptionsObservable(
+                    this,
+                    null,
+                    listOf(getString(R.string.delete))
+                )
+                .filter { it.isNotBlank() }
+                .flatMap {
+                    ViewUtils
+                        .showConfirmationObservable(
                             this,
-                            null,
-                            listOf(getString(R.string.delete))
-                    )
-                    .filter { it.isNotBlank() }
-                    .flatMap {
-                        ViewUtils
-                                .showConfirmationObservable(
-                                        this,
-                                        getString(R.string.delete_bidang_title),
-                                        getString(R.string.delete_bidang_message)
-                                )
-                    }
-                    .filter { it }
-                    .doOnNext { showProgressDialog() }
-                    .observeOn(Schedulers.io())
-                    .flatMap {
-                        adminPresenter
-                                .deleteBidangObservable(item.model.nama ?: "")
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .onErrorResumeNext(Function {
-                                    onDeleteBidangFailed(it)
-                                    Observable.just(false)
-                                })
-                    }
-                    .filter { it }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                    .subscribe(
-                            { onDeleteBidangSucceded() },
-                            { onDeleteBidangFailed(it) }
-                    )
+                            getString(R.string.delete_bidang_title),
+                            getString(R.string.delete_bidang_message)
+                        )
+                }
+                .filter { it }
+                .doOnNext { showProgressDialog() }
+                .observeOn(Schedulers.io())
+                .flatMap {
+                    adminPresenter
+                        .deleteBidangObservable(item.model.nama ?: "")
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onErrorResumeNext(Function {
+                            onDeleteBidangFailed(it)
+                            Observable.just(false)
+                        })
+                }
+                .filter { it }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+                .subscribe(
+                    { onDeleteBidangSucceded() },
+                    { onDeleteBidangFailed(it) }
+                )
         }
     }
 
@@ -329,9 +337,9 @@ class ManageBidangActivity : BaseActivity(), FlexibleAdapter.OnItemLongClickList
 
     private fun showError(errorMessage: String) {
         ViewUtils
-                .showInfoDialogObservable(this, errorMessage)
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe()
+            .showInfoDialogObservable(this, errorMessage)
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe()
     }
 
     private fun showProgressDialog() {

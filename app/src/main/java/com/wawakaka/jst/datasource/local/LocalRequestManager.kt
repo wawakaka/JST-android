@@ -5,6 +5,7 @@ import com.wawakaka.jst.dashboard.model.Bidang
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.local.preference.PreferenceApi
+import com.wawakaka.jst.event.model.Event
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.login.model.User
 import com.wawakaka.jst.presensi.model.Presensi
@@ -20,6 +21,7 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
         private const val KEY_LIST_USER = "list-user"
         private const val KEY_LIST_SISWA = "list-siswa"
         private const val KEY_KELAS = "kelas"
+        private const val KEY_EVENT = "event"
         private const val KEY_PRESENSI_CHECKED_LIST = "presensi-checked-list"
         private const val KEY_TES_HARIAN = "tes-harian"
         private const val KEY_BIDANG = "bidang"
@@ -65,6 +67,18 @@ class LocalRequestManager(private val preferenceApi: PreferenceApi) {
 
     fun getListKelas(): List<Kelas> {
         return preferenceApi.getListObject(KEY_KELAS, listOf(), Kelas::class.java)
+    }
+
+    fun saveListEvent(event: List<Event>?) {
+        if (event != null) {
+            preferenceApi.putListObject(KEY_EVENT, event)
+        } else {
+            preferenceApi.removePreference(KEY_EVENT)
+        }
+    }
+
+    fun getListEvent(): List<Event> {
+        return preferenceApi.getListObject(KEY_EVENT, listOf(), Event::class.java)
     }
 
     fun savePresensiCheckedList(presensi: List<Presensi>?) {

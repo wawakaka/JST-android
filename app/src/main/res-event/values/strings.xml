@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="event_title">Event</string>
+    <string name="event_empty">Belum Diisi</string>
+    <string name="event_menu_kelas">Jadwal Kelas</string>
+    <string name="event_menu_kelas_subtitle">Lihat jadwal kelas presensi, nilai harian dan laporan kegiatan</string>
+    <string name="event_menu_expense_report">Laporan Pengeluaran</string>
+    <string name="event_menu_expense_report_subtitle">Laporan Pengeluaran</string>
+</resources>

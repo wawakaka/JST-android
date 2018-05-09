@@ -13,10 +13,11 @@ data class Pengeluaran(val id: Int?,
                        val barang: String?,
                        val biaya: Int?,
                        val keterangan: String?,
-                       val gambar: String?) : Serializable, Emptiable {
+                       val gambar: String?,
+                       val eventId: Int?) : Serializable, Emptiable {
 
     companion object {
-        val empty = Pengeluaran(null, null, null, null, null, null, null, null)
+        val empty = Pengeluaran(null, null, null, null, null, null, null, null, null)
     }
 
     override fun isEmpty(): Boolean = id != null

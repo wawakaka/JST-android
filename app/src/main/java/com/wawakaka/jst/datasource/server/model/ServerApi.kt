@@ -10,6 +10,8 @@ import com.wawakaka.jst.dashboard.model.Bidang
 import com.wawakaka.jst.dashboard.model.JadwalKelas
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.Siswa
+import com.wawakaka.jst.event.model.Event
+import com.wawakaka.jst.event.model.EventRequestWrapper
 import com.wawakaka.jst.journal.model.Kegiatan
 import com.wawakaka.jst.journal.model.KegiatanRequestWrapper
 import com.wawakaka.jst.login.model.User
@@ -202,10 +204,10 @@ interface ServerApi {
     fun loadAllPengeluaranObservable(@Header("Authorization") token: String,
                                      @Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>>
 
-    @GET("/pengeluaran/{email}")
+    @GET("/pengeluaran/{id}")
     fun loadPengeluaranObservable(@Header("Authorization") token: String,
                                   @Header("Content-Type") acceptFormat: String,
-                                  @Path("email") email: String?): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>>
+                                  @Path("id") id: Int?): Observable<ServerResponseWrapper<MutableList<Pengeluaran>>>
 
     @POST("/pengeluaran/add")
     fun createPengeluaranObservable(@Header("Authorization") token: String,
@@ -222,5 +224,55 @@ interface ServerApi {
     fun deletePengeluaranObservable(@Header("Authorization") token: String,
                                     @Header("Content-Type") acceptFormat: String,
                                     @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
+
+    @GET("/event/all")
+    fun loadEventObservable(@Header("Authorization") token: String,
+                            @Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<Event>>>
+
+    @GET("/event/{id}")
+    fun loadEventObservable(@Header("Authorization") token: String,
+                            @Header("Content-Type") acceptFormat: String,
+                            @Path("id") id: Int?): Observable<ServerResponseWrapper<Event>>
+
+    @POST("/event/create")
+    fun createEventObservable(@Header("Authorization") token: String,
+                              @Header("Content-Type") acceptFormat: String,
+                              @Body pengeluaran: EventRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+
+    @PUT("/event/{id}/update")
+    fun updateEventObservable(@Header("Authorization") token: String,
+                              @Header("Content-Type") acceptFormat: String,
+                              @Path("id") id: Int?,
+                              @Body pengeluaran: EventRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+
+    @DELETE("/event/{id}/delete")
+    fun deleteEventObservable(@Header("Authorization") token: String,
+                              @Header("Content-Type") acceptFormat: String,
+                              @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
+
+//    @GET("/bidanguser/all")
+//    fun loadBidangUserObservable(@Header("Authorization") token: String,
+//                                 @Header("Content-Type") acceptFormat: String): Observable<ServerResponseWrapper<MutableList<BidangUser>>>
+//
+//    @GET("/bidanguser/{email}")
+//    fun loadBidangUserObservable(@Header("Authorization") token: String,
+//                                 @Header("Content-Type") acceptFormat: String,
+//                                 @Path("email") email: String?): Observable<ServerResponseWrapper<MutableList<BidangUser>>>
+//
+//    @POST("/bidanguser/create")
+//    fun createBidangUserObservable(@Header("Authorization") token: String,
+//                                   @Header("Content-Type") acceptFormat: String,
+//                                   @Body bidanguser: BidangUserRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+//
+//    @PUT("/bidanguser/{id}/update")
+//    fun updateBidangUserObservable(@Header("Authorization") token: String,
+//                                   @Header("Content-Type") acceptFormat: String,
+//                                   @Path("id") id: Int?,
+//                                   @Body bidanguser: BidangUserRequestWrapper?): Observable<ServerResponseWrapper<Boolean>>
+//
+//    @DELETE("/bidanguser/{id}/delete")
+//    fun deleteBidangUserObservable(@Header("Authorization") token: String,
+//                                   @Header("Content-Type") acceptFormat: String,
+//                                   @Path("id") id: Int?): Observable<ServerResponseWrapper<Boolean>>
 
 }

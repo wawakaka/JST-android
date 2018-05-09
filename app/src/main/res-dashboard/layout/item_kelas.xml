@@ -7,7 +7,7 @@
     android:padding="@dimen/medium_margin">
 
     <com.wawakaka.jst.base.view.DefaultTextView
-        android:id="@+id/id_kelas"
+        android:id="@+id/guru_kelas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="id"
@@ -28,18 +28,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.wawakaka.jst.base.view.DefaultTextView
-        android:id="@+id/private_kelas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/kelas_private"
-        android:textColor="@color/black"
-        android:textSize="@dimen/large_font_size"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/sekolah_kelas"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible" />
-
-    <com.wawakaka.jst.base.view.DefaultTextView
         android:id="@+id/sekolah_kelas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +37,7 @@
         android:textSize="@dimen/large_font_size"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bidang_kelas"
+        app:layout_constraintTop_toBottomOf="@+id/guru_kelas"
         tools:visibility="visible" />
 
     <View

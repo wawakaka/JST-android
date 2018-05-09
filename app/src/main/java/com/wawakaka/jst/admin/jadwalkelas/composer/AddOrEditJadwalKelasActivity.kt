@@ -7,6 +7,8 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.admin.bidang.composer.AddOrEditBidangActivity
+import com.wawakaka.jst.admin.jadwalkelas.model.KelasSpinnerItem
+import com.wawakaka.jst.admin.kelas.composer.AddOrEditKelasActivity
 import com.wawakaka.jst.admin.presenter.AdminPresenter
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
@@ -62,16 +64,17 @@ class AddOrEditJadwalKelasActivity : BaseActivity() {
     private var dailyTimePicker: TimePickerDialog? = null
     private val indonesiaLocale = Locale("in")
     private val simpleDateFormatter = DateTimeFormat
-            .forPattern(SIMPLE_DATE_FORMAT_PATTERN)
-            .withLocale(indonesiaLocale)
+        .forPattern(SIMPLE_DATE_FORMAT_PATTERN)
+        .withLocale(indonesiaLocale)
     private val dateFormatter = DateTimeFormat
-            .forPattern(DATE_FORMAT_PATTERN)
-            .withLocale(indonesiaLocale)
+        .forPattern(DATE_FORMAT_PATTERN)
+        .withLocale(indonesiaLocale)
     private val simpleTimeFormatter = DateTimeFormat.forPattern(SIMPLE_TIME_FORMAT_PATTERN)
     private val timeFormatter = DateTimeFormat.forPattern(TIME_FORMAT_PATTERN)
     private var hours: Int = 0
     private var minutes: Int = 0
     private val listKelas: MutableList<String> = mutableListOf()
+    private var listSpinnerItem: MutableList<KelasSpinnerItem> = mutableListOf()
 
     init {
         initLayout()
@@ -85,13 +88,13 @@ class AddOrEditJadwalKelasActivity : BaseActivity() {
 
     private fun initLayout() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    setContentView(R.layout.activity_add_or_edit_jadwal_kelas)
-                    initToolbar()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                setContentView(R.layout.activity_add_or_edit_jadwal_kelas)
+                initToolbar()
+            }
     }
 
     private fun initToolbar() {
@@ -101,11 +104,11 @@ class AddOrEditJadwalKelasActivity : BaseActivity() {
 
     private fun initTanggal() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { isEdit == true }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { setTanggal() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { isEdit == true }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { setTanggal() }
     }
 
     private fun setTanggal() {
@@ -114,11 +117,11 @@ class AddOrEditJadwalKelasActivity : BaseActivity() {
 
     private fun initTime() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter { isEdit == true }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { setTime() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { isEdit == true }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { setTime() }
     }
 
     private fun setTime() {
@@ -127,21 +130,21 @@ class AddOrEditJadwalKelasActivity : BaseActivity() {
 
     private fun initDatePicker() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(tanggal_text) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { showDatePickerDialog() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(tanggal_text) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { showDatePickerDialog() }
     }
 
     private fun showDatePickerDialog() {
         val now = Calendar.getInstance()
 
         if (now != null) datePicker = DatePickerDialog.newInstance(
-                { _, year, monthOfYear, dayOfMonth -> onDateSelected(year, monthOfYear, dayOfMonth) },
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
+            { _, year, monthOfYear, dayOfMonth -> onDateSelected(year, monthOfYear, dayOfMonth) },
+            now.get(Calendar.YEAR),
+            now.get(Calendar.MONTH),
+            now.get(Calendar.DAY_OF_MONTH)
         )
 
         datePicker!!.version = DatePickerDialog.Version.VERSION_2
@@ -167,25 +170,25 @@ class AddOrEditJadwalKelasActivity : BaseActivity() {
 
     private fun initTimePicker() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(waktu_text) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { showTimePickerDialog() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(waktu_text) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { showTimePickerDialog() }
     }
 
     private fun showTimePickerDialog() {
         val now = Calendar.getInstance()
 
         if (now != null) dailyTimePicker = TimePickerDialog.newInstance(
-                { _, hourOfDay, minute, _ ->
-                    hours = hourOfDay
-                    minutes = minute
-                    waktu_text.setText(beautifyTime(hourOfDay, minute))
-                },
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
-                now.get(Calendar.SECOND),
+            { _, hourOfDay, minute, _ ->
+                hours = hourOfDay
+                minutes = minute
+                waktu_text.setText(beautifyTime(hourOfDay, minute))
+            },
+            now.get(Calendar.HOUR_OF_DAY),
+            now.get(Calendar.MINUTE),
+            now.get(Calendar.SECOND),
             TWENTY_FOUR_HOURS_ENABLED
         )
 
@@ -201,88 +204,110 @@ class AddOrEditJadwalKelasActivity : BaseActivity() {
 
     private fun initKelasSpinner() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(Schedulers.io())
-                .flatMap {
-                    adminPresenter
-                            .loadAllKelasObservable()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .onErrorResumeNext(Function {
-                                LogUtils.error(TAG, "Error in adminPresenter.loadAllKelasObservable", it)
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(Schedulers.io())
+            .flatMap {
+                adminPresenter
+                    .loadAllUser()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorResumeNext(Function {
+                        LogUtils.error(AddOrEditKelasActivity.TAG, "Error in adminPresenter.loadAllUser", it)
 
-                                Observable.just(mutableListOf())
-                            })
-                }
-                .filter { it.isNotEmpty() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { populateKelasSpinner(it) }
+                        Observable.just(mutableListOf())
+                    })
+            }
+            .filter { it.isNotEmpty() }
+            .flatMap {
+                adminPresenter
+                    .loadAllKelasObservable()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .onErrorResumeNext(Function {
+                        LogUtils.error(TAG, "Error in adminPresenter.loadAllKelasObservable", it)
+
+                        Observable.just(mutableListOf())
+                    })
+            }
+            .filter { it.isNotEmpty() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { populateKelasSpinner(it) }
     }
 
     private fun populateKelasSpinner(kelas: MutableList<Kelas>) {
         listKelas.clear()
+        listSpinnerItem.clear()
         listKelas.add("")
+        listSpinnerItem.add(KelasSpinnerItem(0, ""))
         kelas.forEach {
-            listKelas.add(it.id.toString())
+            listKelas.add(it.bidangNama + " - " + getNamaGuru(it.userEmail ?: ""))
+            listSpinnerItem.add(KelasSpinnerItem(it.id,
+                it.bidangNama + " - " + getNamaGuru(it.userEmail ?: "")))
         }
         val adapter = ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_spinner_item,
-                listKelas
+            this,
+            android.R.layout.simple_spinner_item,
+            listKelas
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         kelas_spinner.adapter = adapter
         if (isEdit == true) {
-            val kelas = adminPresenter.getKelas().find { it.id == jadwalKelas?.kelaId ?: "" }?.id.toString()
-            val position = adapter.getPosition(kelas)
+            val position = adapter.getPosition(
+                listKelas.find {
+                    it == listSpinnerItem.find {
+                        it.kelasId == jadwalKelas?.kelaId
+                    }?.text
+                }
+            )
             kelas_spinner.setSelection(position)
         }
     }
 
+    private fun getNamaGuru(email: String) = adminPresenter.getUsers().find { it.email == email }?.nama
+
     private fun initSaveButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(save_button) }
-                .filter { isDateNotEmpty() && isTimeNotEmpty() && isKelasNotEmpty() }
-                .map { getDateTime(tanggal_text.text.toString()) }
-                .doOnNext { showProgressDialog() }
-                .observeOn(Schedulers.io())
-                .flatMap {
-                    if (isEdit == true) {
-                        adminPresenter.updateJadwalKelasObservable(compseJadwalKelas(it))
-                    } else {
-                        adminPresenter.addJadwalKelasObservable(compseJadwalKelas(it))
-                    }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(save_button) }
+            .filter { isDateNotEmpty() && isTimeNotEmpty() && isKelasNotEmpty() }
+            .map { getDateTime(tanggal_text.text.toString()) }
+            .doOnNext { showProgressDialog() }
+            .observeOn(Schedulers.io())
+            .flatMap {
+                if (isEdit == true) {
+                    adminPresenter.updateJadwalKelasObservable(compseJadwalKelas(it))
+                } else {
+                    adminPresenter.addJadwalKelasObservable(compseJadwalKelas(it))
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            onSaveBidangSucceed()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in initSaveButton", it)
-                            onSaveBidangError(it)
-                        }
-                )
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    onSaveBidangSucceed()
+                },
+                {
+                    LogUtils.error(TAG, "error in initSaveButton", it)
+                    onSaveBidangError(it)
+                }
+            )
     }
 
     private fun getDateTime(date: String): String {
         return DateUtils.getIso8601String(
-                dateFormatter.parseDateTime(date)
-                        .withHourOfDay(hours)
-                        .withMinuteOfHour(minutes)
-                        .withSecondOfMinute(LAST_SECOND_OF_MINUTE)
+            dateFormatter.parseDateTime(date)
+                .withHourOfDay(hours)
+                .withMinuteOfHour(minutes)
+                .withSecondOfMinute(LAST_SECOND_OF_MINUTE)
         )
     }
 
     private fun compseJadwalKelas(date: String): JadwalKelas {
         return JadwalKelas(
-                jadwalKelas?.id,
-                date,
-                kelas_spinner.selectedItem.toString().toInt(),
-                jadwalKelas?.listSiswa
+            jadwalKelas?.id,
+            date,
+            listSpinnerItem.find { it.text == kelas_spinner.selectedItem.toString() }?.kelasId,
+            jadwalKelas?.listSiswa
         )
     }
 

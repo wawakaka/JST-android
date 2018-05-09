@@ -7,16 +7,15 @@ import java.io.Serializable
  * Created by wawakaka on 11/13/2017.
  */
 data class Kelas(val id: Int?,
-                 val isPrivate: Boolean = false,
                  val isActive: Boolean = true,
                  val bidangNama: String?,
-                 val sekolahNama: String?,
                  val userEmail: String?,
                  val jadwalKelas: MutableList<JadwalKelas>?,
-                 val listSiswa: MutableList<Siswa>?) : Serializable, Emptiable {
+                 val listSiswa: MutableList<Siswa>?,
+                 val eventId: Int?) : Serializable, Emptiable {
 
     companion object {
-        val empty = Kelas(null, false, false, null, null, null, mutableListOf(), mutableListOf())
+        val empty = Kelas(null, false, null, null, mutableListOf(), mutableListOf(), null)
     }
 
     override fun isEmpty(): Boolean = id == null

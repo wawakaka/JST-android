@@ -50,7 +50,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/huger_margin_plus"
+        android:paddingBottom="@dimen/very_huge_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout style="@style/AddOrEditPengeluaranContainerStyles">
@@ -67,6 +67,7 @@
                     android:id="@+id/id_container"
                     style="@style/AddOrEditPengeluaranInputStyles"
                     android:hint="@string/add_or_edit_id_hint"
+                    app:errorEnabled="true"
                     android:visibility="gone">
 
                     <com.wawakaka.jst.base.view.DefaultTextInputEditText
@@ -141,7 +142,7 @@
             <ImageView
                 android:id="@+id/gambar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="360dp"
                 android:padding="@dimen/medium_margin"
                 android:scaleType="centerInside"
                 android:visibility="gone"

@@ -11,6 +11,7 @@ import com.wawakaka.jst.BuildConfig
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
+import com.wawakaka.jst.base.utils.ExtraUtils
 import com.wawakaka.jst.base.utils.LogUtils
 import com.wawakaka.jst.base.view.ViewUtils
 import com.wawakaka.jst.base.view.makeGone
@@ -37,6 +38,10 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
         private val TAG = DashboardActivity::class.java.simpleName
         private const val DEVELOPMENT = "development"
         private const val RELEASE = "release"
+    }
+
+    private val eventId: Int? by lazy {
+        intent.getSerializableExtra(ExtraUtils.ID_EVENT) as? Int
     }
 
     private val dashboardPresenter: DashboardPresenter by lazy {
@@ -184,7 +189,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             .doOnNext { showLoadProgress() }
             .doOnNext { initLayoutManager() }
             .observeOn(Schedulers.io())
-            .flatMap { dashboardPresenter.loadClassObservable() }
+            .flatMap { loadEventIfFromEvent(eventId) }
             .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
@@ -202,6 +207,14 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
                     onLoadLoadKelasError(it)
                 }
             )
+    }
+
+    private fun loadEventIfFromEvent(eventId: Int?): Observable<MutableList<Kelas>> {
+        return if (eventId == null) {
+            dashboardPresenter.loadClassObservable()
+        } else {
+            dashboardPresenter.loadEventObservable(eventId).map { it.listKelas }
+        }
     }
 
     private fun onLoadLoadKelasError(throwable: Throwable) {
@@ -223,7 +236,8 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
                 }
             }
             is ResultEmptyError -> {
-                showKelasView()
+                adapter.updateDataSet(mutableListOf())
+                showResultEmptyErrorView()
             }
             else -> {
                 if (list.isEmpty()) {
@@ -284,10 +298,17 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
         unknown_error_view.isEnabled = true
     }
 
+    private fun showResultEmptyErrorView() {
+        hideAllViews()
+        result_empty_error_view.makeVisible()
+        result_empty_error_view.isEnabled = true
+    }
+
     private fun hideAllViews() {
         class_list_container.makeGone()
         network_error_view.makeGone()
         unknown_error_view.makeGone()
+        result_empty_error_view.makeGone()
         hideLoadProgress()
     }
 

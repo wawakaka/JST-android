@@ -19,7 +19,6 @@ import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.datasource.model.ResultEmptyError
 import com.wawakaka.jst.datasource.server.model.NetworkError
 import com.wawakaka.jst.datasource.server.model.NoInternetError
-import com.wawakaka.jst.navigation.composer.NavigationFragment
 import com.wawakaka.jst.pengeluaran.model.Pengeluaran
 import com.wawakaka.jst.pengeluaran.presenter.PengeluaranPresenter
 import com.wawakaka.jst.pengeluaran.view.PengeluaranHolder
@@ -37,6 +36,10 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
         private val TAG = PengeluaranActivity::class.java.simpleName
     }
 
+    private val eventId: Int? by lazy {
+        intent.getSerializableExtra(ExtraUtils.ID_EVENT) as? Int
+    }
+
     private val pengeluaranPresenter: PengeluaranPresenter by lazy {
         JstApplication.component.providePengeluaranPresenter()
     }
@@ -48,7 +51,6 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
 
     init {
         initLayout()
-        initNavigationDrawer()
         initNetworkErrorView()
         initUnknownErrorView()
         initSwipeRefreshPengeluaran()
@@ -64,22 +66,13 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
             .subscribe {
                 setContentView(R.layout.activity_pengeluaran)
+                initToolbar()
             }
     }
 
-    private fun initNavigationDrawer() {
-        RxNavi
-            .observe(naviComponent, Event.CREATE)
-            .observeOn(AndroidSchedulers.mainThread())
-            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-            .subscribe {
-                initNavigationDrawer(
-                    navigation_drawer_icon,
-                    navigation_drawer,
-                    R.id.dashboard_drawer_fragment,
-                    NavigationFragment.DRAWER_TYPE_PENGELUARAN
-                )
-            }
+    private fun initToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initNetworkErrorView() {
@@ -139,7 +132,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { showLoadProgress() }
             .observeOn(Schedulers.io())
-            .flatMap { pengeluaranPresenter.loadUserPengeluaranObservable() }
+            .flatMap { pengeluaranPresenter.loadPengeluaranEventObservable(eventId) }
             .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
@@ -166,7 +159,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
             .doOnNext { showLoadProgress() }
             .doOnNext { initLayoutManager() }
             .observeOn(Schedulers.io())
-            .flatMap { pengeluaranPresenter.loadUserPengeluaranObservable() }
+            .flatMap { pengeluaranPresenter.loadPengeluaranEventObservable(eventId) }
             .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
@@ -212,7 +205,7 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
             }
             is ResultEmptyError -> {
                 adapter.updateDataSet(mutableListOf())
-                showListPengeluaran()
+                showResultEmptyErrorView()
             }
             else -> {
                 if (list.isEmpty()) {
@@ -253,26 +246,35 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
     private fun launchAddPengeluaranActivity() {
         val intent = Intent(this, AddOrEditPengeluaranActivity::class.java)
         intent.putExtra(ExtraUtils.IS_EDIT, false)
+        intent.putExtra(ExtraUtils.ID_EVENT, eventId)
         startActivity(intent)
     }
 
     private fun showNetworkErrorView() {
+        add_pengeluaran.makeGone()
         hideAllViews()
         network_error_view.makeVisible()
         network_error_view.isEnabled = true
     }
 
     private fun showUnknownErrorView() {
+        add_pengeluaran.makeGone()
         hideAllViews()
         unknown_error_view.makeVisible()
         unknown_error_view.isEnabled = true
     }
 
+    private fun showResultEmptyErrorView() {
+        hideAllViews()
+        result_empty_error_view.makeVisible()
+        result_empty_error_view.isEnabled = true
+    }
+
     private fun hideAllViews() {
-        add_pengeluaran.makeGone()
         list_pengeluaran_container.makeGone()
         unknown_error_view.makeGone()
         network_error_view.makeGone()
+        result_empty_error_view.makeGone()
         hideLoadProgress()
         hideProgressDialog()
     }

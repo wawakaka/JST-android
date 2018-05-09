@@ -195,7 +195,8 @@ class JournalActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener, Fle
                 }
             }
             is ResultEmptyError -> {
-                showList()
+                adapter.updateDataSet(mutableListOf())
+                showResultEmptyErrorView()
             }
             else -> {
                 if (list.isEmpty()) {
@@ -225,14 +226,23 @@ class JournalActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener, Fle
 
     private fun showNetworkErrorView() {
         hideAllViews()
+        add_journal.makeGone()
         network_error_view.makeVisible()
         network_error_view.isEnabled = true
     }
 
     private fun showUnknownErrorView() {
         hideAllViews()
+        add_journal.makeGone()
         unknown_error_view.makeVisible()
         unknown_error_view.isEnabled = true
+    }
+
+    private fun showResultEmptyErrorView() {
+        hideAllViews()
+        add_journal.makeVisible()
+        result_empty_error_view.makeVisible()
+        result_empty_error_view.isEnabled = true
     }
 
     private fun showList() {
@@ -243,9 +253,9 @@ class JournalActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener, Fle
 
     private fun hideAllViews() {
         list_journal.makeGone()
-        add_journal.makeGone()
         network_error_view.makeGone()
         unknown_error_view.makeGone()
+        result_empty_error_view.makeGone()
         hideLoadProgress()
     }
 

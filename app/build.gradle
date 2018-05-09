@@ -58,7 +58,7 @@ android {
                     'src/main/res-journal',
                     'src/main/res-pengeluaran',
                     'src/main/res-onboarding'
-            ]
+                    , 'src/main/res-event']
         }
     }
     flavorDimensions "default"
@@ -138,7 +138,7 @@ dependencies {
     implementation 'net.danlew:android.joda:2.9.9.1'
     implementation 'com.wdullaer:materialdatetimepicker:3.5.0'
     implementation 'com.cloudinary:cloudinary-android:1.20.0'
-    implementation ('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
         transitive = true
     }
 }

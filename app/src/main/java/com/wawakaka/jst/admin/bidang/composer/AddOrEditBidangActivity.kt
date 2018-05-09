@@ -97,15 +97,12 @@ class AddOrEditBidangActivity : BaseActivity() {
         when (throwable) {
             is NetworkError -> {
                 showSnackbarError(getString(R.string.error_network))
-
             }
             is NoInternetError -> {
                 showSnackbarError(getString(R.string.error_no_internet))
-
             }
             else -> {
                 showSnackbarError(getString(R.string.error_unknown))
-
             }
         }
     }

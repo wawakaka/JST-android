@@ -8,6 +8,8 @@ import com.wawakaka.jst.dashboard.model.KelasListRefreshEvent
 import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestManager
+import com.wawakaka.jst.event.model.Event
+import com.wawakaka.jst.event.presenter.EventPresenter
 import com.wawakaka.jst.login.model.User
 import io.reactivex.Observable
 
@@ -15,7 +17,8 @@ import io.reactivex.Observable
  * Created by wawakaka on 11/13/2017.
  */
 class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
-                         private val localRequestManager: LocalRequestManager) : BasePresenter() {
+                         private val localRequestManager: LocalRequestManager,
+                         private val eventPresenter: EventPresenter) : BasePresenter() {
 
     companion object {
         private val TAG = DashboardPresenter::class.java.simpleName
@@ -35,6 +38,22 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
             .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data?.sortedBy { it.id }?.toMutableList() ?: mutableListOf() }
             .doOnNext { saveSiswa(it) }
+    }
+
+//    fun loadBidangUserObservable(): Observable<MutableList<BidangUser>> {
+//        return serverRequestManager
+//            .loadBidangUserObservable(getUser().email ?: "")
+//            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
+//            .map { it.data ?: mutableListOf() }
+//    }
+
+    fun loadEventObservable(eventId: Int): Observable<Event> {
+        return eventPresenter.loadEventObservable(eventId)
+            .doOnNext { saveKelas(it.listKelas ?: listOf()) }
+    }
+
+    fun getEventList(): MutableList<Event> {
+        return eventPresenter.getListEvent()
     }
 
     fun getUser(): User = localRequestManager.getUser()

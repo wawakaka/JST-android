@@ -27,12 +27,14 @@
                 android:id="@+id/drawer_item_kelas"
                 style="@style/NavigationMenuStyles"
                 app:drawerItemTitle="@string/menu_kelas"
+                app:drawerItemIcon="@drawable/ic_book"
                 app:layout_constraintTop_toBottomOf="@+id/drawer_item_user_profile" />
 
             <com.wawakaka.jst.navigation.view.DrawerItemView
-                android:id="@+id/drawer_item_pengeluaran"
+                android:id="@+id/drawer_item_event"
                 style="@style/NavigationMenuStyles"
-                app:drawerItemTitle="@string/menu_pengeluaran"
+                app:drawerItemIcon="@drawable/ic_calendar"
+                app:drawerItemTitle="@string/menu_event"
                 app:layout_constraintTop_toBottomOf="@+id/drawer_item_kelas" />
 
             <com.wawakaka.jst.navigation.view.DrawerItemView
@@ -40,7 +42,8 @@
                 style="@style/NavigationMenuStyles"
                 app:drawerItemTitle="@string/menu_admin"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/drawer_item_pengeluaran" />
+                app:drawerItemIcon="@drawable/ic_admin"
+                app:layout_constraintTop_toBottomOf="@+id/drawer_item_event" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -50,7 +53,7 @@
         android:id="@+id/bottom_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_above="@+id/drawer_item_logout"
+        app:layout_constraintBottom_toTopOf="@+id/drawer_item_logout"
         android:background="@color/light_grey" />
 
     <com.wawakaka.jst.navigation.view.DrawerItemView

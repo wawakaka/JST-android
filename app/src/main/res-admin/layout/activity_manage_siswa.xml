@@ -90,4 +90,12 @@
         android:orientation="vertical"
         android:visibility="gone" />
 
+    <com.wawakaka.jst.base.view.ErrorView
+        android:id="@+id/result_empty_error_view"
+        style="@style/ResultEmptyErrorStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" />
+
 </android.support.design.widget.CoordinatorLayout>

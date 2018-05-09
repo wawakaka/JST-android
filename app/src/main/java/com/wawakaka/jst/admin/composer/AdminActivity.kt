@@ -6,6 +6,7 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.admin.bidang.composer.ManageBidangActivity
+import com.wawakaka.jst.admin.event.composer.ManageEventActivity
 import com.wawakaka.jst.admin.jadwalkelas.composer.ManageJadwalKelasActivity
 import com.wawakaka.jst.admin.kelas.composer.ManageKelasActivity
 import com.wawakaka.jst.admin.sekolah.composer.ManageSekolahActivity
@@ -25,41 +26,41 @@ class AdminActivity : BaseActivity() {
         initManageSekolahButton()
         initManageSiswaButton()
         initManageBidangButton()
+        initManageEventButton()
     }
 
     private fun initLayout() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    setContentView(R.layout.activity_admin)
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                setContentView(R.layout.activity_admin)
+            }
     }
 
     private fun initNavigationDrawer() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    initNavigationDrawer(
-                            navigation_drawer_icon,
-                            navigation_drawer,
-                            R.id.dashboard_drawer_fragment,
-                            NavigationFragment.DRAWER_TYPE_ADMIN
-                    )
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                initNavigationDrawer(
+                    navigation_drawer_icon,
+                    navigation_drawer,
+                    R.id.dashboard_drawer_fragment,
+                    NavigationFragment.DRAWER_TYPE_ADMIN
+                )
+            }
     }
-
 
     private fun initManageKelasButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(admin_kelas) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { launchManageKelasActivity() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(admin_kelas) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { launchManageKelasActivity() }
     }
 
     private fun launchManageKelasActivity() {
@@ -70,11 +71,11 @@ class AdminActivity : BaseActivity() {
 
     private fun initManageJadwalKelasButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(admin_jadwal_kelas) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { launchManageJadwalKelasActivity() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(admin_jadwal_kelas) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { launchManageJadwalKelasActivity() }
     }
 
     private fun launchManageJadwalKelasActivity() {
@@ -84,11 +85,11 @@ class AdminActivity : BaseActivity() {
 
     private fun initManageSekolahButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(admin_sekolah) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { launchManageSekolahActivity() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(admin_sekolah) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { launchManageSekolahActivity() }
     }
 
     private fun launchManageSekolahActivity() {
@@ -99,11 +100,11 @@ class AdminActivity : BaseActivity() {
 
     private fun initManageSiswaButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(admin_siswa) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { launchManageSiswaActivity() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(admin_siswa) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { launchManageSiswaActivity() }
     }
 
     private fun launchManageSiswaActivity() {
@@ -113,15 +114,29 @@ class AdminActivity : BaseActivity() {
 
     private fun initManageBidangButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(admin_bidang) }
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { launchManageBidangActivity() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(admin_bidang) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { launchManageBidangActivity() }
     }
 
     private fun launchManageBidangActivity() {
         val intent = Intent(this, ManageBidangActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun initManageEventButton() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(admin_event) }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { launchManageEventActivity() }
+    }
+
+    private fun launchManageEventActivity() {
+        val intent = Intent(this, ManageEventActivity::class.java)
         startActivity(intent)
     }
 

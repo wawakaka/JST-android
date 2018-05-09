@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/medium_margin">
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/nama_sekolah"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SMAN 1 JAKARTA"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_font_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/tanggal_mulai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Selasa, 01 Januari 2019"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nama_sekolah"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.wawakaka.jst.base.view.DefaultTextView
+        android:id="@+id/tanggal_selesai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selasa, 01 Januari 2019"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tanggal_mulai" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:background="@color/light_grey"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tanggal_selesai" />
+
+</android.support.constraint.ConstraintLayout>

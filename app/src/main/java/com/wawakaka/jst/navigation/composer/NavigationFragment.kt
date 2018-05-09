@@ -20,9 +20,9 @@ import com.wawakaka.jst.base.utils.RxBus
 import com.wawakaka.jst.base.view.makeGone
 import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.composer.DashboardActivity
+import com.wawakaka.jst.event.composer.EventActivity
 import com.wawakaka.jst.navigation.model.DrawerItemClickEvent
 import com.wawakaka.jst.navigation.presenter.NavigationPresenter
-import com.wawakaka.jst.pengeluaran.composer.PengeluaranActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_drawer.*
 import kotlinx.android.synthetic.main.navigation_top_item.*
@@ -47,7 +47,7 @@ class NavigationFragment : BaseFragment() {
 
         const val DRAWER_TYPE_KELAS = 0
         const val DRAWER_TYPE_ADMIN = 1
-        const val DRAWER_TYPE_PENGELUARAN = 2
+        const val DRAWER_TYPE_EVENT = 2
         const val DRAWER_TYPE_LOGOUT = 3
 
         fun newInstance(rxBusId: Int, activeDrawerType: Int): NavigationFragment {
@@ -73,7 +73,7 @@ class NavigationFragment : BaseFragment() {
         initUserProfile()
         initSelectedButton()
         initKelasButton()
-        initPengeluaranButton()
+        initEventButton()
         initAdminButton()
         initLogoutButton()
     }
@@ -167,22 +167,22 @@ class NavigationFragment : BaseFragment() {
         startActivity(intent)
     }
 
-    private fun initPengeluaranButton() {
+    private fun initEventButton() {
         RxNavi
             .observe(naviComponent, Event.VIEW_CREATED)
             .observeOn(AndroidSchedulers.mainThread())
-            .flatMap { RxView.clicks(drawer_item_pengeluaran) }
+            .flatMap { RxView.clicks(drawer_item_event) }
             .doOnNext { RxBus.post(rxBusId, DrawerItemClickEvent(DRAWER_TYPE_KELAS)) }
             .delay(DELAY_TIME, TimeUnit.MILLISECONDS)
-            .filter { activeDrawerType != DRAWER_TYPE_PENGELUARAN }
+            .filter { activeDrawerType != DRAWER_TYPE_EVENT }
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY_VIEW))
             .subscribe {
-                launchPengeluaranActivity()
+                launchEventActivity()
             }
     }
 
-    private fun launchPengeluaranActivity() {
-        val intent = Intent(activity, PengeluaranActivity::class.java)
+    private fun launchEventActivity() {
+        val intent = Intent(activity, EventActivity::class.java)
         startActivity(intent)
     }
 

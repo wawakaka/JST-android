@@ -91,31 +91,21 @@
                 tools:visibility="visible" />
 
             <com.wawakaka.jst.base.view.DefaultTextView
-                android:id="@+id/sekolah_hint"
+                android:id="@+id/event_hint"
                 style="@style/AddOrEditInputStyles"
-                android:text="@string/add_or_edit_sekolah_hint" />
+                android:text="@string/add_or_edit_event_hint" />
 
             <Spinner
-                android:id="@+id/sekolah_spinner"
+                android:id="@+id/event_spinner"
                 style="@style/AddOrEditInputStyles"
                 android:spinnerMode="dialog" />
 
             <com.wawakaka.jst.base.view.DefaultTextView
-                android:id="@+id/sekolah_error"
+                android:id="@+id/event_error"
                 style="@style/AddOrEditErrorStyles"
-                android:text="@string/add_or_edit_sekolah_error"
+                android:text="@string/add_or_edit_event_error"
                 android:visibility="gone"
                 tools:visibility="visible" />
-
-            <Switch
-                android:id="@+id/is_kelas_active"
-                style="@style/AddOrEditInputStyles"
-                android:text="@string/add_or_edit_status_hint" />
-
-            <Switch
-                android:id="@+id/is_kelas_private"
-                style="@style/AddOrEditInputStyles"
-                android:text="@string/kelas_private" />
 
         </LinearLayout>
 

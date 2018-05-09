@@ -7,6 +7,8 @@ import com.trello.navi2.Event
 import com.trello.navi2.rx.RxNavi
 import com.wawakaka.jst.R
 import com.wawakaka.jst.base.composer.BaseActivity
+import com.wawakaka.jst.base.view.makeGone
+import com.wawakaka.jst.base.view.makeVisible
 import com.wawakaka.jst.dashboard.model.JadwalKelas
 import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.jadwal.view.JadwalHolder
@@ -56,6 +58,7 @@ class JadwalActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             .doOnNext { initLayoutManager() }
             .observeOn(Schedulers.io())
             .map { kelas?.jadwalKelas?.sortedBy { it.tanggal }?.toMutableList() }
+            .doOnNext { showResultEmptyErrorIfEmpty(it) }
             .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext { scheduleHolderList(it ?: mutableListOf()) }
@@ -64,6 +67,24 @@ class JadwalActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             .subscribe {
                 adapter.updateDataSet(list)
             }
+    }
+
+    private fun showResultEmptyErrorIfEmpty(listJadwalKelas: MutableList<JadwalKelas>?) {
+        if (listJadwalKelas?.isEmpty() == true) {
+            showResultEmptyError()
+        } else {
+            hideResultEmptyError()
+        }
+    }
+
+    private fun showResultEmptyError() {
+        list_wrapper.makeGone()
+        result_empty_error_view.makeVisible()
+    }
+
+    private fun hideResultEmptyError() {
+        list_wrapper.makeVisible()
+        result_empty_error_view.makeGone()
     }
 
     private fun initLayoutManager() {

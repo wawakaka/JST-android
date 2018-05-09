@@ -215,7 +215,7 @@ class PresensiActivity : BaseActivity() {
         when (throwable) {
             is NetworkError -> showNetworkErrorView()
             is NoInternetError -> showNetworkErrorView()
-            is ResultEmptyError -> showSiswaListContainer()
+            is ResultEmptyError -> showResultEmptyErrorErrorView()
             else -> showUnknownErrorView()
         }
     }
@@ -237,6 +237,12 @@ class PresensiActivity : BaseActivity() {
         unknown_error_view.isEnabled = true
     }
 
+    private fun showResultEmptyErrorErrorView() {
+        hideAllViews()
+        result_empty_error_view.makeVisible()
+        result_empty_error_view.isEnabled = true
+    }
+
     private fun showLoadingView() {
         hideAllViews()
         loading_view.makeVisible()
@@ -256,6 +262,7 @@ class PresensiActivity : BaseActivity() {
         content_container.makeGone()
         network_error_view.makeGone()
         unknown_error_view.makeGone()
+        result_empty_error_view.makeGone()
     }
 
     private fun initToolbar() {

@@ -19,7 +19,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:ckCropOutput="false"
+                app:ckCropOutput="true"
                 app:ckFacing="back"
                 app:ckFlash="off"
                 app:ckFocus="tapWithMarker"

@@ -2,6 +2,7 @@ package com.wawakaka.jst.admin.presenter
 
 import com.wawakaka.jst.admin.bidang.model.BidangListRefreshEvent
 import com.wawakaka.jst.admin.bidang.model.BidangRequestWrapper
+import com.wawakaka.jst.admin.event.model.RefreshListAdminEvent
 import com.wawakaka.jst.admin.jadwalkelas.model.JadwalKelasRefreshListEvet
 import com.wawakaka.jst.admin.jadwalkelas.model.JadwalRequestWrapper
 import com.wawakaka.jst.admin.kelas.model.KelasRefreshListEvet
@@ -20,6 +21,9 @@ import com.wawakaka.jst.dashboard.model.Kelas
 import com.wawakaka.jst.dashboard.model.Siswa
 import com.wawakaka.jst.datasource.local.LocalRequestManager
 import com.wawakaka.jst.datasource.server.ServerRequestManager
+import com.wawakaka.jst.event.model.Event
+import com.wawakaka.jst.event.model.EventRequestWrapper
+import com.wawakaka.jst.event.presenter.EventPresenter
 import com.wawakaka.jst.login.model.User
 import io.reactivex.Observable
 
@@ -27,7 +31,8 @@ import io.reactivex.Observable
  * Created by wawakaka on 12/29/2017.
  */
 class AdminPresenter(private val serverRequestManager: ServerRequestManager,
-                     private val localRequestManager: LocalRequestManager) : BasePresenter() {
+                     private val localRequestManager: LocalRequestManager,
+                     private val eventPresenter: EventPresenter) : BasePresenter() {
 
     fun loadAllBidangObservable(): Observable<MutableList<Bidang>> {
         return serverRequestManager
@@ -86,6 +91,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
             .loadJadwalUserObservable(
                 jadwalKelas.id ?: 0
             )
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data!! }
     }
 
@@ -156,6 +162,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
     fun loadAllUser(): Observable<MutableList<User>> {
         return serverRequestManager
             .loadAllUserObservable()
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data!! }
             .doOnNext { saveUsers(it) }
     }
@@ -163,6 +170,7 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
     fun loadAllSekolah(): Observable<MutableList<Sekolah>> {
         return serverRequestManager
             .loadAllSekolahObservable()
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data!! }
             .doOnNext { saveSekolah(it) }
     }
@@ -177,6 +185,22 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
         return serverRequestManager
             .deleteSekolahObservable(sekolah)
             .map { it.data!! }
+    }
+
+    fun loadAllEvent(): Observable<MutableList<Event>> {
+        return eventPresenter.loadAllEventObservable()
+    }
+
+    fun createEventObservable(event: EventRequestWrapper): Observable<Boolean> {
+        return eventPresenter.createEventObservable(event)
+    }
+
+    fun updateEventObservable(id: Int, event: EventRequestWrapper): Observable<Boolean> {
+        return eventPresenter.updateEventObservable(id, event)
+    }
+
+    fun deleteEventObservable(id: Int): Observable<Boolean> {
+        return eventPresenter.deleteEventObservable(id)
     }
 
     fun getSiswa(): MutableList<Siswa> {
@@ -219,6 +243,14 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
         localRequestManager.saveListKelas(kelas)
     }
 
+    private fun saveEvent(event: MutableList<Event>) {
+        localRequestManager.saveListEvent(event)
+    }
+
+    fun getListEvent(): MutableList<Event> {
+        return localRequestManager.getListEvent().toMutableList()
+    }
+
     fun publishRefreshListBidangEvent() {
         RxBus.post(BidangListRefreshEvent())
     }
@@ -248,5 +280,11 @@ class AdminPresenter(private val serverRequestManager: ServerRequestManager,
     }
 
     fun listenRefreshListSekolahEvent() = RxBus.registerObservable<SekolahRefreshListEvet>()
+
+    fun publishRefreshListAdminEvent() {
+        RxBus.post(RefreshListAdminEvent())
+    }
+
+    fun listenRefreshListAdminEvent() = RxBus.registerObservable<RefreshListAdminEvent>()
 
 }

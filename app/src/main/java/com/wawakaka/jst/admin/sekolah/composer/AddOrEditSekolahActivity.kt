@@ -43,13 +43,13 @@ class AddOrEditSekolahActivity : BaseActivity() {
 
     private fun initLayout() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe {
-                    setContentView(R.layout.activity_add_or_edit_sekolah)
-                    initToolbar()
-                }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                setContentView(R.layout.activity_add_or_edit_sekolah)
+                initToolbar()
+            }
     }
 
     private fun initToolbar() {
@@ -59,10 +59,10 @@ class AddOrEditSekolahActivity : BaseActivity() {
 
     private fun initSekolah() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe { setSekolah() }
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe { setSekolah() }
     }
 
     private fun setSekolah() {
@@ -71,24 +71,24 @@ class AddOrEditSekolahActivity : BaseActivity() {
 
     private fun initSaveButton() {
         RxNavi
-                .observe(naviComponent, Event.CREATE)
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap { RxView.clicks(save_button) }
-                .filter { isValidName() }
-                .doOnNext { showProgressDialog() }
-                .observeOn(Schedulers.io())
-                .flatMap { adminPresenter.addSekolahObservable(Sekolah(nama_text.text.toString())) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
-                .subscribe(
-                        {
-                            onSaveSekolahSucceed()
-                        },
-                        {
-                            LogUtils.error(TAG, "error in initSaveButton", it)
-                            onSaveSekolahError(it)
-                        }
-                )
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap { RxView.clicks(save_button) }
+            .filter { isValidName() }
+            .doOnNext { showProgressDialog() }
+            .observeOn(Schedulers.io())
+            .flatMap { adminPresenter.addSekolahObservable(Sekolah(nama_text.text.toString())) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe(
+                {
+                    onSaveSekolahSucceed()
+                },
+                {
+                    LogUtils.error(TAG, "error in initSaveButton", it)
+                    onSaveSekolahError(it)
+                }
+            )
     }
 
     private fun isValidName(): Boolean {

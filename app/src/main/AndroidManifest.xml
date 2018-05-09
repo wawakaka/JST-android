@@ -18,6 +18,7 @@
         android:name=".base.JstApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -38,6 +39,7 @@
         <activity android:name=".login.composer.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -77,6 +79,10 @@
         <activity android:name=".pengeluaran.composer.PengeluaranActivity" />
         <activity android:name=".camera.composer.PreviewActivity" />
         <activity android:name=".pengeluaran.composer.AddOrEditPengeluaranActivity" />
+        <activity android:name=".event.composer.EventActivity" />
+        <activity android:name=".event.composer.EventMenuActivity" />
+        <activity android:name=".admin.event.composer.ManageEventActivity" />
+        <activity android:name=".admin.event.composer.AddOrEditEventActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

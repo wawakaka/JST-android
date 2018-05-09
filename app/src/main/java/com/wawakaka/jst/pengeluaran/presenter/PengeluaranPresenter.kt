@@ -19,9 +19,9 @@ class PengeluaranPresenter(private val serverRequestManager: ServerRequestManage
         private val TAG = PengeluaranPresenter::class.java.simpleName
     }
 
-    fun loadUserPengeluaranObservable(): Observable<MutableList<Pengeluaran>> {
+    fun loadPengeluaranEventObservable(eventId: Int?): Observable<MutableList<Pengeluaran>> {
         return serverRequestManager
-            .loadPengeluaranObservable(getUser().email ?: "")
+            .loadPengeluaranObservable(eventId ?: 0)
             .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data!! }
     }

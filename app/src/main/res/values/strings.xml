@@ -24,8 +24,8 @@
 
 
     <string name="invalid_data">Data tidak valid</string>
-    <string name="active">Active</string>
-    <string name="not_active">Not Active</string>
+    <string name="active">Aktif</string>
+    <string name="not_active">Non Aktif</string>
     <string name="kelas_private">Private</string>
     <string name="kelas_sekolah">SMAN 1</string>
     <string name="nama">nama</string>

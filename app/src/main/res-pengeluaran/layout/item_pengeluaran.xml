@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/medium_margin">
 
     <com.wawakaka.jst.base.view.DefaultTextView
-        android:id="@+id/id_pengeluaran"
+        android:id="@+id/nama_barang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="id"
+        android:text="barang"
         android:textColor="@color/black"
         android:textSize="@dimen/large_font_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.wawakaka.jst.base.view.DefaultTextView
-        android:id="@+id/status"
+        android:id="@+id/biaya"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="status"
+        android:text="biaya"
         android:textColor="@color/black"
         android:textSize="@dimen/large_font_size"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/id_pengeluaran"
-        app:layout_constraintTop_toBottomOf="@+id/id_pengeluaran"
-        tools:visibility="visible" />
+        app:layout_constraintStart_toStartOf="@+id/nama_barang"
+        app:layout_constraintTop_toBottomOf="@+id/nama_barang" />
 
     <com.wawakaka.jst.base.view.DefaultTextView
         android:id="@+id/tanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="tanggal"
-        android:textColor="@color/black"
         android:textSize="@dimen/large_font_size"
-        app:layout_constraintBottom_toBottomOf="@+id/status"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/id_pengeluaran" />
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view"
@@ -48,6 +44,6 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status" />
+        app:layout_constraintTop_toBottomOf="@+id/biaya" />
 
 </android.support.constraint.ConstraintLayout>
