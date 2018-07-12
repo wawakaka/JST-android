@@ -12,6 +12,7 @@
     <string name="add_or_edit_biaya_error">Biaya tidak Boleh Kosong</string>
     <string name="add_or_edit_keterangan_hint">Keterangan</string>
     <string name="add_or_edit_gambar_hint">Ambil Gambar</string>
+    <string name="total_pengeluaran">Total pengeluaran</string>
 
     <string name="add_or_edit_Image_upload_failed">Gagal upload gambar</string>
     <string name="add_or_edit_nama_barang_error">Nama barang tidak boleh kosong</string>

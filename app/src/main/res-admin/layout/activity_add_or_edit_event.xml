@@ -57,7 +57,7 @@
             <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/tanggal_mulai_hint"
                 style="@style/AddOrEditInputStyles"
-                android:text="@string/add_or_edit_tanggal_hint" />
+                android:text="@string/add_or_edit_event_start_hint" />
 
             <com.wawakaka.jst.base.view.DefaultEditText
                 android:id="@+id/tanggal_mulai_text"
@@ -74,7 +74,7 @@
             <com.wawakaka.jst.base.view.DefaultTextView
                 android:id="@+id/tanggal_selesai_hint"
                 style="@style/AddOrEditInputStyles"
-                android:text="@string/add_or_edit_tanggal_hint" />
+                android:text="@string/add_or_edit_event_end_hint" />
 
             <com.wawakaka.jst.base.view.DefaultEditText
                 android:id="@+id/tanggal_selesai_text"

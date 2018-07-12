@@ -62,12 +62,45 @@
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
+            <LinearLayout
+                android:id="@+id/total_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@color/anti_flash_white"
+                android:orientation="horizontal"
+                android:padding="@dimen/medium_margin">
+
+                <com.wawakaka.jst.base.view.DefaultTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/total_pengeluaran"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_font_size" />
+
+                <com.wawakaka.jst.base.view.DefaultTextView
+                    android:id="@+id/total_pengeluaran_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textSize="@dimen/medium_font_size"
+                    android:visibility="visible"
+                    android:text="0" />
+
+            </LinearLayout>
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/add_pengeluaran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/huger_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:textColor="@color/black"
                 app:srcCompat="@drawable/ic_add_24dp" />
 
         </FrameLayout>

@@ -16,7 +16,7 @@ data class Event(val id: Int?,
         val empty = Event(null, null, null, null, null, null)
     }
 
-    override fun isEmpty(): Boolean = id != null
+    override fun isEmpty(): Boolean = id == null
 
     override fun isNotEmpty(): Boolean = !isEmpty()
 }

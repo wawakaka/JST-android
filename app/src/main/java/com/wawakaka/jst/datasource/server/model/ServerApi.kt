@@ -52,6 +52,11 @@ interface ServerApi {
                             @Header("Content-Type") acceptFormat: String,
                             @Path("email") email: String?): Observable<ServerResponseWrapper<MutableList<Kelas>>>
 
+    @GET("kelas/event/{eventId}")
+    fun loadKelasByEventObservable(@Header("Authorization") token: String,
+                                   @Header("Content-Type") acceptFormat: String,
+                                   @Path("eventId") eventId: Int?): Observable<ServerResponseWrapper<MutableList<Kelas>>>
+
     @GET("/presensi/{id}")
     fun loadPresensiCheckedListObservable(@Header("Authorization") token: String,
                                           @Header("Content-Type") acceptFormat: String,

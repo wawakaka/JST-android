@@ -23,7 +23,7 @@
                 app:ckFacing="back"
                 app:ckFlash="off"
                 app:ckFocus="tapWithMarker"
-                app:ckJpegQuality="100"
+                app:ckJpegQuality="50"
                 app:ckMethod="standard"
                 app:ckPinchToZoom="true"
                 app:ckVideoQuality="highest"

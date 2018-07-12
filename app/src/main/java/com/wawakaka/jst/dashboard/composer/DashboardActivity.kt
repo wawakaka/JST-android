@@ -2,6 +2,7 @@ package com.wawakaka.jst.dashboard.composer
 
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.view.View
 import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
@@ -54,6 +55,7 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
     init {
         initLayout()
         initLogUser()
+        initClassEvent()
         initNetworkErrorView()
         initUnknownErrorView()
         initNavigationDrawer()
@@ -89,6 +91,25 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
     private fun isDevelopmentRelease(): Boolean =
         BuildConfig.FLAVOR == DEVELOPMENT
             && BuildConfig.BUILD_TYPE == RELEASE
+
+    private fun initClassEvent() {
+        RxNavi
+            .observe(naviComponent, Event.CREATE)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { navigation_drawer_icon.makeVisible() }
+            .filter { eventId != null }
+            .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
+            .subscribe {
+                initToolbar()
+            }
+    }
+
+    private fun initToolbar() {
+        navigation_drawer_icon.makeGone()
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar_title.text = getString(R.string.event_title)
+    }
 
     private fun initNetworkErrorView() {
         RxNavi
@@ -162,11 +183,13 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { showLoadProgress() }
             .observeOn(Schedulers.io())
-            .flatMap { dashboardPresenter.loadClassObservable() }
+            .flatMap { loadEventIfFromEvent(eventId) }
+            .filter { it.isNotEmpty() }
+            .map { filterEventIfNotFromEvent(it) }
             .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
-                createClassHolderList(it)
+                createClassHolderList(it ?: mutableListOf())
             }
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
@@ -191,9 +214,13 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             .observeOn(Schedulers.io())
             .flatMap { loadEventIfFromEvent(eventId) }
             .filter { it.isNotEmpty() }
+            .map { filterEventIfNotFromEvent(it) }
+            .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
             .doOnNext {
-                createClassHolderList(it)
+                if (it != null) {
+                    createClassHolderList(it)
+                }
             }
             .observeOn(AndroidSchedulers.mainThread())
             .takeUntil(RxNavi.observe(naviComponent, Event.DESTROY))
@@ -209,13 +236,19 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
             )
     }
 
-    private fun loadEventIfFromEvent(eventId: Int?): Observable<MutableList<Kelas>> {
-        return if (eventId == null) {
+    private fun loadEventIfFromEvent(eventId: Int?): Observable<MutableList<Kelas>> =
+        if (eventId == null) {
             dashboardPresenter.loadClassObservable()
         } else {
-            dashboardPresenter.loadEventObservable(eventId).map { it.listKelas }
+            dashboardPresenter.loadClassByEventObservable(eventId)
         }
-    }
+
+    private fun filterEventIfNotFromEvent(listKelas: MutableList<Kelas>): MutableList<Kelas> =
+        if (eventId == null) {
+            listKelas.filter { it.eventId == null }.toMutableList()
+        } else {
+            listKelas
+        }
 
     private fun onLoadLoadKelasError(throwable: Throwable) {
         hideLoadProgress()
@@ -336,6 +369,16 @@ class DashboardActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener {
         val intent = Intent(this, JadwalActivity::class.java)
         intent.putExtra(JadwalActivity.SCHEDULE_INFO, kelas)
         startActivity(intent)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+        return if (id == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 
 }

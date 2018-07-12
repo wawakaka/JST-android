@@ -57,6 +57,8 @@
     <string name="add_or_edit_bidang_hint">Bidang</string>
     <string name="add_or_edit_sekolah_hint">Sekolah</string>
     <string name="add_or_edit_tanggal_hint">Tanggal Kelas</string>
+    <string name="add_or_edit_event_start_hint">Tanggal Mulai Event</string>
+    <string name="add_or_edit_event_end_hint">Tanggal Selesai Event</string>
     <string name="add_or_edit_waktu_hint">Waktu Kelas</string>
     <string name="add_or_edit_tambah_siswa">Tambah Siswa</string>
     <string name="add_or_edit_save_button">Simpan</string>

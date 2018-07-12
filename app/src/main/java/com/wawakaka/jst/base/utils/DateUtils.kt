@@ -86,6 +86,12 @@ object DateUtils {
         return getDateFromIso8601Time(dateIso8601).toLocalDate() < LocalDate.now()
     }
 
+    fun isNowOrFuture(dateIso8601: String): Boolean {
+        if (dateIso8601.isBlank()) {
+            return false
+        }
+        return getDateFromIso8601Time(dateIso8601).toLocalDate() >= LocalDate.now()
+    }
     fun getDayName(dateIso8601: String): String = getDayOfWeek(getDateFromIso8601Time(dateIso8601).dayOfWeek)
 
     private fun getDayOfWeek(date: Int): String = when (date) {

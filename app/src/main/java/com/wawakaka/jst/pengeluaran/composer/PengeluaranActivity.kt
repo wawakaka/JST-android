@@ -2,6 +2,7 @@ package com.wawakaka.jst.pengeluaran.composer
 
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.view.View
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.view.RxView
@@ -29,6 +30,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_pengeluaran.*
+import java.text.NumberFormat
+import java.util.*
 
 class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener {
 
@@ -230,6 +233,19 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
         hideAllViews()
         list_pengeluaran_container.makeVisible()
         add_pengeluaran.makeVisible()
+        setTotalPengeluaran()
+    }
+
+    private fun setTotalPengeluaran() {
+        val localeID = Locale("in", "ID")
+        val rupiah = NumberFormat.getCurrencyInstance(localeID)
+        var total = 0
+        pengeluaranPresenter.listPengeluaran.forEach { total += it.biaya ?: 0 }
+        total_pengeluaran_text.text = rupiah.format(total)
+    }
+
+    private fun resetTotalPengeluaran() {
+
     }
 
     private fun initAddButton() {
@@ -377,4 +393,13 @@ class PengeluaranActivity : BaseActivity(), FlexibleAdapter.OnItemClickListener,
         progressDialog?.dismiss()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+        return if (id == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }
 }

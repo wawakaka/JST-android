@@ -17,22 +17,12 @@ class EventPresenter(private val serverRequestManager: ServerRequestManager,
         private val TAG = EventPresenter::class.java.simpleName
     }
 
-    var currentEvent: Event? = null
-
     fun loadAllEventObservable(): Observable<MutableList<Event>> {
         return serverRequestManager
             .loadEventObservable()
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() == true }
             .map { it.data!! }
             .doOnNext { saveEvent(it) }
-    }
-
-    fun loadEventObservable(eventId: Int?): Observable<Event> {
-        return serverRequestManager
-            .loadEventObservable(eventId ?: 0)
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
-            .map { it.data!! }
-            .doOnNext { currentEvent = it }
     }
 
     fun createEventObservable(event: EventRequestWrapper): Observable<Boolean> {

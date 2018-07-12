@@ -12,6 +12,7 @@ import com.wawakaka.jst.R
 import com.wawakaka.jst.admin.presenter.AdminPresenter
 import com.wawakaka.jst.base.JstApplication
 import com.wawakaka.jst.base.composer.BaseActivity
+import com.wawakaka.jst.base.utils.DateUtils
 import com.wawakaka.jst.base.utils.ExtraUtils.Companion.IS_EDIT
 import com.wawakaka.jst.base.utils.ExtraUtils.Companion.JADWAL_KELAS
 import com.wawakaka.jst.base.utils.LogUtils
@@ -133,6 +134,11 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
             .flatMap { adminPresenter.loadAllJadwalKelasObservable() }
             .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
+            .map {
+                it.filter {
+                    DateUtils.isNowOrFuture(it.tanggal ?: "")
+                }.toMutableList()
+            }
             .doOnNext {
                 createJadwalKelasHolderList(it)
             }
@@ -160,6 +166,11 @@ class ManageJadwalKelasActivity : BaseActivity(), FlexibleAdapter.OnItemClickLis
             .flatMap { adminPresenter.loadAllJadwalKelasObservable() }
             .filter { it.isNotEmpty() }
             .observeOn(Schedulers.computation())
+            .map {
+                it.filter {
+                    DateUtils.isNowOrFuture(it.tanggal ?: "")
+                }.toMutableList()
+            }
             .doOnNext {
                 createJadwalKelasHolderList(it)
             }

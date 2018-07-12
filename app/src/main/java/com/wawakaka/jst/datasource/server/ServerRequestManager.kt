@@ -82,6 +82,16 @@ class ServerRequestManager(private val localRequestManager: LocalRequestManager,
         )
     }
 
+    fun loadKelasByEventObservable(eventId: Int): Observable<ServerResponseWrapper<MutableList<Kelas>>> {
+        return handleServerRequestError(
+            serverApi.loadKelasByEventObservable(
+                getAccessTokenHeader(),
+                getAcceptApplicationJsonHeader(),
+                eventId
+            )
+        )
+    }
+
     fun loadPresensiCheckedListObservable(idJadwalKelas: Int?): Observable<ServerResponseWrapper<MutableList<Presensi>>> {
         return handleServerRequestError(
             serverApi.loadPresensiCheckedListObservable(

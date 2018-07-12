@@ -19,11 +19,14 @@ class PengeluaranPresenter(private val serverRequestManager: ServerRequestManage
         private val TAG = PengeluaranPresenter::class.java.simpleName
     }
 
+    var listPengeluaran: MutableList<Pengeluaran> = mutableListOf()
+
     fun loadPengeluaranEventObservable(eventId: Int?): Observable<MutableList<Pengeluaran>> {
         return serverRequestManager
             .loadPengeluaranObservable(eventId ?: 0)
             .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
             .map { it.data!! }
+            .doOnNext { listPengeluaran = it }
     }
 
     fun createPengeluaranObservable(pengeluaran: PengeluaranRequestWrapper): Observable<Boolean> {

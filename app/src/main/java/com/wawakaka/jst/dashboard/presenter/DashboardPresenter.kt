@@ -27,7 +27,15 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
     fun loadClassObservable(): Observable<MutableList<Kelas>> {
         return serverRequestManager
             .loadClassObservable(getUser())
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() == true }
+            .map { it.data?.sortedBy { it.id }?.toMutableList() ?: mutableListOf() }
+            .doOnNext { saveKelas(it) }
+    }
+
+    fun loadClassByEventObservable(eventId: Int): Observable<MutableList<Kelas>> {
+        return serverRequestManager
+            .loadKelasByEventObservable(eventId)
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() == true }
             .map { it.data?.sortedBy { it.id }?.toMutableList() ?: mutableListOf() }
             .doOnNext { saveKelas(it) }
     }
@@ -35,21 +43,9 @@ class DashboardPresenter(private val serverRequestManager: ServerRequestManager,
     fun loadSiswaObservable(): Observable<MutableList<Siswa>> {
         return serverRequestManager
             .loadAllSiswaObservable()
-            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
+            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() == true }
             .map { it.data?.sortedBy { it.id }?.toMutableList() ?: mutableListOf() }
             .doOnNext { saveSiswa(it) }
-    }
-
-//    fun loadBidangUserObservable(): Observable<MutableList<BidangUser>> {
-//        return serverRequestManager
-//            .loadBidangUserObservable(getUser().email ?: "")
-//            .toResultEmptyErrorIfEmpty { it?.data?.isEmpty() != false }
-//            .map { it.data ?: mutableListOf() }
-//    }
-
-    fun loadEventObservable(eventId: Int): Observable<Event> {
-        return eventPresenter.loadEventObservable(eventId)
-            .doOnNext { saveKelas(it.listKelas ?: listOf()) }
     }
 
     fun getEventList(): MutableList<Event> {

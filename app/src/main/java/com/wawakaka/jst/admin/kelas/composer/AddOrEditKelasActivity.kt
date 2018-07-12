@@ -290,9 +290,16 @@ class AddOrEditKelasActivity : BaseActivity() {
             email?.email,
             kelas?.jadwalKelas,
             kelas?.listSiswa,
-            listSpinnerItem.find { it.text == event_spinner.selectedItem.toString() }?.id
+            getEventId()
         )
     }
+
+    private fun getEventId() =
+        if (listSpinnerItem.find { it.text == event_spinner.selectedItem.toString() }?.id ?: 0 <= 0) {
+            null
+        } else {
+            listSpinnerItem.find { it.text == event_spinner.selectedItem.toString() }?.id
+        }
 
     private fun onSaveKelasSucceed() {
         hideProgressDialog()
