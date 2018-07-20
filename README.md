@@ -1,7 +1,10 @@
 # JST-android
-# Before you build this app
+# Before you run this app
 
-- update file `JST-android/app/gradle.properties`
+- You need to run this app https://github.com/wawakaka/jst-server
+
+- You need to edit this file `/app/gradle.properties`
+
 ```
 base_url_dev="your server url for development purpose"
 base_url_admin="your server url for development purpose"
